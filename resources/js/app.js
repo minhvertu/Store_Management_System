@@ -11,7 +11,6 @@ import { routes } from './routes';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './components/App.vue';
-import Cookies from 'js-cookie';
 
 
 /* websanova */
