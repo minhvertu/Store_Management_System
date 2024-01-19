@@ -11,6 +11,16 @@ import { routes } from './routes';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './components/App.vue';
+import Cookies from 'js-cookie';
+
+
+/* websanova */
+import {createAuth}          from '@websanova/vue-auth';
+import driverAuthBearer      from '@websanova/vue-auth/dist/drivers/auth/bearer.esm.js';
+import driverHttpAxios       from '@websanova/vue-auth/dist/drivers/http/axios.1.x.esm.js';
+import driverRouterVueRouter from '@websanova/vue-auth/dist/drivers/router/vue-router.2.x.esm.js';
+
+
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -32,7 +42,7 @@ const router = createRouter({
 //     },
 // }).use(router);
 const app = createApp(App, {user: window.__user__,}).use(router);
-
+app.use(auth);
 // app.component('example-component', ExampleComponent);
 /**
  * The following block of code may be used to automatically register your
@@ -51,5 +61,32 @@ const app = createApp(App, {user: window.__user__,}).use(router);
  * an "id" attribute of "app". This element is included with the "auth"
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
+var auth = createAuth({
+    plugins: {
+        http: axios,
+        router: router,
+    },
+    drivers: {
+        http: driverHttpAxios,
+        auth: driverAuthBearer,
+        router: driverRouterVueRouter,
+        // oauth2: {
+        //     google: driverOAuth2Google,
+        //     facebook: driverOAuth2Facebook,
+        // }
+    },
+    options: {
+        rolesKey: 'type',
+        notFoundRedirect: {name: 'home'},
+        loginData: {url: "api/auth/login", method: 'POST', redirect: '/', fetchUser: true},
+        fetchData: {url: "api/auth/user", method: 'GET', enabled: true},
+        registerData: {url: "api/auth/register", method: 'POST', redirect: '/login'},
+        logoutData: {url: "api/auth/logout", method: 'POST', redirect: '/', makeRequest: true},
+        refreshData: {url: "api/auth/refresh", method: 'POST', enabled: true, interval: 30}
+    }
+});
 
 app.mount('#app');
+
+
+

@@ -41,13 +41,11 @@ export default {
             if (data.status === 'success') {
               alert('Login Successfully');
 
-              // Set the access token in the Authorization header for future requests
-              axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;  
+                        
+              // localStorage.setItem('access_token', data.authorisation.token);
 
-              // Store the token in localStorage for persistence (optional)
-              localStorage.setItem('access_token', data.authorisation.token);
-
-              this.$router.push('/users');
+              this.$router.push('/');
             } else {
               alert('Login failed');
             }
@@ -61,5 +59,6 @@ export default {
         });
     },
   },
+
 };
 </script>
