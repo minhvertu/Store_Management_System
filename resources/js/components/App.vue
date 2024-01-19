@@ -25,14 +25,16 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
     export default {
         methods: {
             logout:function(){
-                axios.post('logout').then(response => {
-
+                axios.post('/api/logout').then(response => {
+                    this.$router.push('/login');
                 }).catch(error => {
                     if (error.status === 302 || 401) {
-                        document.location.href = '/login'
+                        // document.location.href = '/login'
+                        this.$router.push('/login');
                     }
                     else {
                         // throw error and go to catch block
