@@ -1,4 +1,5 @@
 <template>
+  <main id = "Login">
     <div class="row">
       <div class="col-sm-4">
         <h2 align="center">Login</h2>
@@ -15,6 +16,7 @@
         </form>
       </div>
     </div>
+  </main>
   </template>
 
 <script>

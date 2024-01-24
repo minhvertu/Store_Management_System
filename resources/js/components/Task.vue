@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <main id ="Task">
         <div class="error" v-if="error.message.length">
             <div class="alert alert-danger" role="alert">
                 {{ error.message }}
@@ -33,11 +33,12 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>
     export default {
+        name: "Task",
         data () {
             return {
                 tasks: [],

@@ -1,14 +1,8 @@
 <template>
-    <div class="container">
-        <div class="user-login">
-            <div class="username">
-                <!-- User: {{ $root.user.name }} -->
-            </div>
-            <!-- <div class="logout">
-                <a href="#" @click.prevent="logout">Logout</a>
-            </div> -->
-        </div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <!-- <div class="user-login">
+        </div> -->
+        <div class ="container">
+         <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Navbar</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +26,8 @@
                       <li><a class="dropdown-item"  href="#" @click.prevent="logout">Logout</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="/users">Users</a></li>
+                      <li><a class="dropdown-item" href="/sidebar">SidebarTest</a></li>
+              
                     </ul>
                   </li>
                   <li class="nav-item">
@@ -46,17 +42,45 @@
                 </form>
               </div>
             </div>
-          </nav>
+          </nav>  -->
+         
+          
+        </div> 
+      
+         
+        <router-view/>
+       
+          <Sidebar/>
+         
+            
+       
         
-        <div class="main-content">
-            <router-view></router-view>
-        </div>
-    </div>    
+         
+
+      
+     
+
+         
+ 
+
+ 
+   
+
+
 </template>
+
 
 <script>
 import { useRouter } from 'vue-router';
+import Sidebar from './Sidebar.vue';
+
+
     export default {
+      name: "App",
+       components: {
+      Sidebar,
+     },
+    
         methods: {
             logout:function(){
                 axios.post('/api/logout').then(response => {
@@ -75,7 +99,7 @@ import { useRouter } from 'vue-router';
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
     .container {
         margin-top: 50px;
         .user-login {
@@ -85,4 +109,47 @@ import { useRouter } from 'vue-router';
             margin-top: 50px;
         }
     }
-</style>
+
+  :root {
+	--primary: #4ade80;
+	--primary-alt: #22c55e;
+	--grey: #64748b;
+	--dark: #1e293b;
+	--dark-alt: #334155;
+	--light: #f1f5f9;
+	--sidebar-width: 200px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Fira sans', sans-serif;
+}
+
+body {
+	background: var(--light);
+}
+
+button {
+	cursor: pointer;
+	appearance: none;
+	border: none;
+	outline: none;
+	background: none;
+}
+
+.app {
+	display: flex;
+
+	main {
+		flex: 1 1 0;
+		padding: 2rem;
+
+		@media (max-width: 1024px) {
+			padding-left: 6rem;
+		}
+	}
+}
+
+</style> 
