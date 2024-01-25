@@ -11,6 +11,12 @@ import { routes } from './routes';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './components/App.vue';
+import store from "../js/store";
+
+import "../css/nucleo-icons.css";
+import "../css/nucleo-svg.css";
+import ArgonDashboard from "../argon-dashboard";
+
 
 
 /* websanova */
@@ -40,7 +46,7 @@ const router = createRouter({
 //         }
 //     },
 // }).use(router);
-const app = createApp(App, {user: window.__user__,}).use(router);
+const app = createApp(App, {user: window.__user__,}).use(store).use(router).use(ArgonDashboard);
 app.use(auth);
 // app.component('example-component', ExampleComponent);
 /**

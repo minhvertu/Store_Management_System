@@ -81,6 +81,7 @@ const ToggleMenu = () => {
 <script>
 
 export default {
+	name: "Sidebar",
         methods: {
             logout:function(){
                 axios.post('/api/logout').then(response => {

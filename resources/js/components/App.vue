@@ -1,7 +1,7 @@
 <template>
-        <!-- <div class="user-login">
-        </div> -->
-        <div class ="container">
+         <!-- <div class="user-login">
+        </div>  -->
+       
          <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Navbar</a>
@@ -43,24 +43,47 @@
               </div>
             </div>
           </nav>  -->
-         
-          
-        </div> 
-      
-         
-        <router-view/>
-       
-          <Sidebar/>
-         
+          <div class ="app">
             
-       
+            
+            <index
+            :custom_class="this.$store.state.mcolor"
+    :class="[
+      this.$store.state.isTransparent,
+      this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
+    ]"
+    v-if="this.$store.state.showSidenav"
+            />
         
+          <!-- <Sidebar/>   -->
+          <router-view></router-view> 
+         
+           
+         
+         </div>  
+         
+    
+            
+  
          
 
       
      
 
          
+     
+
+
+
+
+
+
+
+
+  
+  
+
+
  
 
  
@@ -72,13 +95,15 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import Sidebar from './Sidebar.vue';
-
+// import Sidebar from '../Bar/Sidebar.vue';
+ import index from "../Sidenav/index.vue";
 
     export default {
       name: "App",
        components: {
-      Sidebar,
+      //  Sidebar,
+      index,
+     
      },
     
         methods: {
@@ -95,7 +120,8 @@ import Sidebar from './Sidebar.vue';
                     }
                 })
             },
-        }
+        },
+        
     }
 </script>
 
