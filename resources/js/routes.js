@@ -4,6 +4,7 @@ import ExampleComponent from './components/ExampleComponent.vue';
 import User from './components/User.vue';
 import Task from './components/Task.vue';
 import Login from './components/Login.vue';
+import Profile from './components/Profile.vue';
 
 export const routes = [
     {
@@ -25,6 +26,11 @@ export const routes = [
         name: 'login',
         path: '/login',
         component: Login,
+    },
+    {
+        name: 'profile',
+        path: '/profile',
+        component: Profile,
     },
 
 ]

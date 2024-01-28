@@ -17,7 +17,7 @@
       </div>
     </div>
   </main>
-  </template>
+</template>
 
 <script>
 import axios from 'axios';
@@ -43,8 +43,8 @@ export default {
             if (data.status === 'success') {
               alert('Login Successfully');
 
-              axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;  
-                        
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
+
               // localStorage.setItem('access_token', data.authorisation.token);
 
               this.$router.push('/');

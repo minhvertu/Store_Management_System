@@ -11,7 +11,8 @@
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
         >
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <!-- <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i> -->
+            <span class="material-icons">home</span>
           </template>
         </sidenav-item>
       </li>
@@ -22,20 +23,20 @@
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Task'"
         >
           <template v-slot:icon>
-            <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
-            ></i>
+            <!-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> -->
+            <span class="material-icons">description</span>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/billing"
-          :class="getRoute() === 'billing' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Billing'"
+          url="/users"
+          :class="getRoute() === '/users' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'User'"
         >
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+            <!-- <i class="ni ni-credit-card text-success text-sm opacity-10"></i> -->
+            <span class="material-icons">group</span>
           </template>
         </sidenav-item>
       </li>
@@ -77,27 +78,30 @@
           :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
         >
           ACCOUNT PAGES
+          <span class="material-symbols-outlined">account_circle</span>
         </h6>
       </li>
       <li class="nav-item">
         <sidenav-item
           url="/profile"
-          :class="getRoute() === 'profile' ? 'active' : ''"
+          :class="getRoute() === '/profile' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'"
         >
           <template v-slot:icon>
-            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+            <!-- <i class="ni ni-single-02 text-dark text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">person</span>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/signin"
-          :class="getRoute() === 'signin' ? 'active' : ''"
+          url="/login"
+          :class="getRoute() === '/login' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'"
         >
           <template v-slot:icon>
-            <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
+            <!-- <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">login</span>
           </template>
         </sidenav-item>
       </li>
@@ -108,10 +112,22 @@
           :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'"
         >
           <template v-slot:icon>
-            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+            <!-- <i class="ni ni-collection text-info text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">how_to_reg</span>
           </template>
         </sidenav-item>
       </li>
+        <li class="nav-item">
+            <span class="material-symbols-outlined">arrow_drop_down_circle</span>
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item"  href="#" @click.prevent="logout">Logout</a></li>
+                <li><hr class="dropdown-divider"></li>
+            </ul>
+        </li>
     </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">
@@ -148,7 +164,20 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
-    }
+    },
+    logout:function(){
+                axios.post('/api/logout').then(response => {
+                    this.$router.push('/login');
+                }).catch(error => {
+                    if (error.status === 302 || 401) {
+                        // document.location.href = '/login'
+                        this.$router.push('/login');
+                    }
+                    else {
+                        // throw error and go to catch block
+                    }
+                })
+            },
   }
 };
 </script>

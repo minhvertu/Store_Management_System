@@ -1,7 +1,7 @@
 <template>
          <!-- <div class="user-login">
         </div>  -->
-       
+
          <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Navbar</a>
@@ -27,7 +27,7 @@
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="/users">Users</a></li>
                       <li><a class="dropdown-item" href="/sidebar">SidebarTest</a></li>
-              
+
                     </ul>
                   </li>
                   <li class="nav-item">
@@ -43,9 +43,12 @@
               </div>
             </div>
           </nav>  -->
+
           <div class ="app">
-            
-            
+            <div
+                v-show="this.$store.state.layout === 'landing'"
+                class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
+            ></div>
             <index
             :custom_class="this.$store.state.mcolor"
     :class="[
@@ -54,24 +57,14 @@
     ]"
     v-if="this.$store.state.showSidenav"
             />
-        
+
+
           <!-- <Sidebar/>   -->
-          <router-view></router-view> 
-         
-           
-         
-         </div>  
-         
-    
-            
-  
-         
+          <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+          <router-view></router-view>
+        </main>
 
-      
-     
-
-         
-     
+    </div>
 
 
 
@@ -80,14 +73,26 @@
 
 
 
-  
-  
 
 
- 
 
- 
-   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </template>
@@ -103,9 +108,9 @@ import { useRouter } from 'vue-router';
        components: {
       //  Sidebar,
       index,
-     
+
      },
-    
+
         methods: {
             logout:function(){
                 axios.post('/api/logout').then(response => {
@@ -121,7 +126,7 @@ import { useRouter } from 'vue-router';
                 })
             },
         },
-        
+
     }
 </script>
 
@@ -173,9 +178,9 @@ button {
 		padding: 2rem;
 
 		@media (max-width: 1024px) {
-			padding-left: 6rem;
+			padding-left: 20rem;
 		}
 	}
 }
 
-</style> 
+</style>
