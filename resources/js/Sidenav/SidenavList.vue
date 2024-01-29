@@ -89,7 +89,7 @@
         >
           <template v-slot:icon>
             <!-- <i class="ni ni-single-02 text-dark text-sm opacity-10"></i> -->
-            <span class="material-symbols-outlined">person</span>
+            <span class="material-symbols-outlined">shield_person</span>
           </template>
         </sidenav-item>
       </li>
@@ -142,6 +142,7 @@
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
 import User from "../components/User.vue";
+import Profile from "../components/Profile.vue";
 
 export default {
   name: "SidenavList",
@@ -159,6 +160,7 @@ export default {
     SidenavItem,
     SidenavCard,
     User,
+    Profile,
   },
   methods: {
     getRoute() {

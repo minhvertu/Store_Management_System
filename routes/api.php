@@ -27,4 +27,6 @@ Route::post('logout', [AuthController::class,'logout']);
 
 Route::resource('tasks', TaskController::class);
 
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'viewPermission']);
+
+Route::get('/profile/{user}', [UserController::class, 'show']);

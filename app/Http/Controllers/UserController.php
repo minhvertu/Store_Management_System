@@ -17,15 +17,9 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     
-    public function index(Request $request) {
-        if ($request->user()->can('view-users')) {
-            return response()->json(User::all()); 
-        } 
+    public function index() {
         
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to view users!' 
-        ], 200);
+        return response()->json(User::all());
     }
 
     /**
@@ -47,9 +41,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return $user;
     }
 
     /**
@@ -74,5 +68,16 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    
+    public function viewPermission(Request $request) {
+        if ($request->user()->can('view-users')) {
+            return response()->json(User::all()); 
+        } 
+        
+        return response([
+            'status' => false,
+            'message' => 'You don\'t have permission to view users!' 
+        ], 200);
     }
 }
