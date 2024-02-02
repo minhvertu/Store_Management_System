@@ -49,7 +49,8 @@
           "
         >
           <template v-slot:icon>
-            <i class="ni ni-app text-info text-sm opacity-10"></i>
+            <!-- <i class="ni ni-app text-info text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">bring_your_own_ip</span>
           </template>
         </sidenav-item>
       </li>
@@ -60,7 +61,8 @@
           navText="RTL"
         >
           <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            <!-- <i class="ni ni-world-2 text-danger text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">sheets_rtl</span>
           </template>
         </sidenav-item>
       </li>
@@ -142,7 +144,7 @@
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
 import User from "../components/User.vue";
-import Profile from "../components/Profile.vue";
+import Profile from "../Profile/Profile.vue";
 
 export default {
   name: "SidenavList",

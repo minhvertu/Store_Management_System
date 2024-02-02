@@ -43,7 +43,7 @@
   </aside>
 </template>
 <script>
-import SidenavList from "./SidenavList.vue";
+import SidenavList from "../Sidenav/SidenavList.vue";
 import logo from "../../assets/img/logo-ct-dark.png";
 import logoWhite from "../../assets/img/logo-ct.png";
 

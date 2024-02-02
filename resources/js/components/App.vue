@@ -1,4 +1,4 @@
-<template>
+
          <!-- <div class="user-login">
         </div>  -->
 
@@ -43,7 +43,7 @@
               </div>
             </div>
           </nav>  -->
-
+<template>
           <div class ="app">
             <div
                 v-show="this.$store.state.layout === 'landing'"
@@ -57,14 +57,12 @@
     ]"
     v-if="this.$store.state.showSidenav"
             />
-
-
-          <!-- <Sidebar/>   -->
           <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
           <router-view></router-view>
         </main>
 
     </div>
+   
 </template>
 
 
@@ -73,6 +71,7 @@ import { useRouter } from 'vue-router';
 // import Sidebar from '../Bar/Sidebar.vue';
  import index from "../Sidenav/index.vue";
 
+
     export default {
       name: "App",
        components: {
@@ -80,22 +79,16 @@ import { useRouter } from 'vue-router';
       index,
 
      },
-
-        methods: {
-            logout:function(){
-                axios.post('/api/logout').then(response => {
-                    this.$router.push('/login');
-                }).catch(error => {
-                    if (error.status === 302 || 401) {
-                        // document.location.href = '/login'
-                        this.$router.push('/login');
-                    }
-                    else {
-                        // throw error and go to catch block
-                    }
-                })
-            },
-        },
+     computed: {
+    isLoggedIn() {
+      return this.$store.getters['auth/isLoggedIn'];
+    },
+  },
+  created() {
+    if (!this.isLoggedIn) {
+      this.$router.push('/login');
+    }
+  },
 
     }
 </script>
@@ -145,7 +138,7 @@ button {
 
 	main {
 		flex: 1 1 0;
-		padding: 2rem;
+		padding: 0rem;
 
 		@media (max-width: 1024px) {
 			padding-left: 20rem;

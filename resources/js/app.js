@@ -17,8 +17,6 @@ import "../css/nucleo-icons.css";
 import "../css/nucleo-svg.css";
 import ArgonDashboard from "../argon-dashboard";
 
-
-
 /* websanova */
 import {createAuth}          from '@websanova/vue-auth';
 import driverAuthBearer      from '@websanova/vue-auth/dist/drivers/auth/bearer.esm.js';

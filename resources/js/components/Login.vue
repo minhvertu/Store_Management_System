@@ -1,5 +1,5 @@
 <template>
-  <main id = "Login">
+ <main id = "Login">
     <div class="row">
       <div class="col-sm-4">
         <h2 align="center">Login</h2>
@@ -16,16 +16,22 @@
         </form>
       </div>
     </div>
-  </main>
+  </main>  
 </template>
 
 <script>
 import axios from 'axios';
+
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 
+
+
 export default {
   name: 'Login',
+  components: {
+    
+  },
   data() {
     return {
       user: {
@@ -34,6 +40,7 @@ export default {
       },
     };
   },
+  
   methods: {
     loginUser() {
       axios.post('/api/login', this.user)
@@ -45,7 +52,7 @@ export default {
 
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
 
-              // localStorage.setItem('access_token', data.authorisation.token);
+              localStorage.setItem('id', data.user.id);
 
               this.$router.push('/');
             } else {
