@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="list-tasks">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                     <th scope="col">ID</th>
@@ -104,4 +104,5 @@
     .error {
         margin-bottom: 15px;
     }
+
 </style>

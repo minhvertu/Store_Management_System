@@ -44,7 +44,7 @@
             </div>
           </nav>  -->
 <template>
-          <div class ="app">
+          <div class ="app" >
             <div
                 v-show="this.$store.state.layout === 'landing'"
                 class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
@@ -62,14 +62,15 @@
         </main>
 
     </div>
-   
+
 </template>
 
 
 <script>
 import { useRouter } from 'vue-router';
 // import Sidebar from '../Bar/Sidebar.vue';
- import index from "../Sidenav/index.vue";
+import index from "../Sidenav/index.vue";
+import Login from './Login.vue';
 
 
     export default {
@@ -85,9 +86,10 @@ import { useRouter } from 'vue-router';
     },
   },
   created() {
-    if (!this.isLoggedIn) {
-      this.$router.push('/login');
-    }
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+  if (!isLoggedIn) {
+    this.$router.push('/login');
+  }
   },
 
     }
@@ -138,7 +140,7 @@ button {
 
 	main {
 		flex: 1 1 0;
-		padding: 0rem;
+		padding: 0.25rem;
 
 		@media (max-width: 1024px) {
 			padding-left: 20rem;

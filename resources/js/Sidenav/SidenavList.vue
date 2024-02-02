@@ -120,7 +120,6 @@
         </sidenav-item>
       </li>
         <li class="nav-item">
-            <span class="material-symbols-outlined">arrow_drop_down_circle</span>
             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
             </a>
@@ -129,6 +128,7 @@
                 <li><a class="dropdown-item"  href="#" @click.prevent="logout">Logout</a></li>
                 <li><hr class="dropdown-divider"></li>
             </ul>
+            <span class="material-symbols-outlined">arrow_drop_down_circle</span>
         </li>
     </ul>
   </div>
