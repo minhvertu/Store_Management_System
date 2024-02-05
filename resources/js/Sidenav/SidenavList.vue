@@ -107,19 +107,39 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/signup"
-          :class="getRoute() === 'signup' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'"
-        >
-          <template v-slot:icon>
-            <!-- <i class="ni ni-collection text-info text-sm opacity-10"></i> -->
-            <span class="material-symbols-outlined">how_to_reg</span>
-          </template>
-        </sidenav-item>
+      
+      <li class="nav-item ">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ this.$store.state.isRTL ? 'اشتراك' : 'Account Setting' }}
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+          <li>
+            <sidenav-item
+              url="/signup"
+              :class="getRoute() === 'signup' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'"
+            >
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">how_to_reg</span>
+              </template>
+            </sidenav-item>
+          </li>
+          <li>
+            <sidenav-item
+            url="/logout" 
+            :class="getRoute() === '/logout' ? 'active' : ''"
+            :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'"
+            @click.prevent="logout"
+            >
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">logout</span>
+              </template>
+            </sidenav-item>
+          </li>
+        </ul>
       </li>
-        <li class="nav-item">
+
+        <!-- <li class="nav-item">
             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
             </a>
@@ -129,7 +149,7 @@
                 <li><hr class="dropdown-divider"></li>
             </ul>
             <span class="material-symbols-outlined">arrow_drop_down_circle</span>
-        </li>
+        </li> -->
     </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">
@@ -185,3 +205,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>
