@@ -143,7 +143,7 @@ export default {
               alert('Login Successfully');
 
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
-
+              localStorage.setItem('authToken', data.authorisation.token);
               localStorage.setItem('id', data.user.id);
               localStorage.setItem('isLoggedIn', true);
 
@@ -161,6 +161,5 @@ export default {
         });
     },
   },
-
 };
 </script>

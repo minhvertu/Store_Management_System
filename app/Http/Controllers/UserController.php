@@ -36,6 +36,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $users = new User([
+            'name' => $request->input('name'),
+            'email' => $request->input('email')
+        ]);
+        $users->save();
+        return response()->json('Update user successfully');
     }
 
     /**
@@ -49,9 +55,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
         //
+       
     }
 
     /**
@@ -60,6 +67,12 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $users = User::find($id);
+        $users->update($request->all());
+        return response()->json([
+            'user' => $users,
+            'User updated!']);
+     
     }
 
     /**

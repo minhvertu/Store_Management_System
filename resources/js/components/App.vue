@@ -44,7 +44,7 @@
             </div>
           </nav>  -->
 <template>
-          <div class ="app" >
+          <div class ="app">
             <div
                 v-show="this.$store.state.layout === 'landing'"
                 class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
@@ -87,11 +87,20 @@ import Login from './Login.vue';
   },
   created() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-  if (!isLoggedIn) {
+    const id = localStorage.getItem('id'); 
+  if (!isLoggedIn || isLoggedIn !== 'true' || id == null ) {
     this.$router.push('/login');
   }
   },
 
+  
+  methods: {
+    checkLogin() {
+      if (isLoggedIn == true ) {
+        this.$router.push('/');
+      }
+    }
+  }
     }
 </script>
 

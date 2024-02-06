@@ -30,3 +30,5 @@ Route::resource('tasks', TaskController::class);
 Route::get('/users', [UserController::class, 'viewPermission']);
 
 Route::get('/profile/{user}', [UserController::class, 'show']);
+
+Route::resource('editProfile', UserController::class);
