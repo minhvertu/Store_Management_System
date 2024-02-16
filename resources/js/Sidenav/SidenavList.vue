@@ -63,6 +63,14 @@
             </sidenav-item>
           </li>
           <li>
+            <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'EmployeeManagement'">
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">patient_list</span>
+              </template>
+            </sidenav-item>
+          </li>
+          <li>
             <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
               :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
               <template v-slot:icon>

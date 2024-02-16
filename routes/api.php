@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,4 @@ Route::get('/users', [UserController::class, 'viewPermission']);
 Route::get('/profile/{user}', [UserController::class, 'show']);
 
 Route::resource('editProfile', UserController::class);
+Route::resource('employees', EmployeeController::class);

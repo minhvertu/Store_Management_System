@@ -7,6 +7,8 @@ import Login from './components/Login.vue';
 import Profile from './Profile/Profile.vue';
 import EditProfile from './Profile/EditProfile.vue';
 import EmployeeList from './Employee/EmployeeList.vue';
+import EmployeeManagement from './Employee/EmployeeManagement.vue';
+import EditEmployee from './Employee/EditEmployee.vue';
 import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 
@@ -45,6 +47,21 @@ export const routes = [
         name: 'employeeList',
         path: '/employeeList',
         component: EmployeeList,
+    },
+    {
+        name: 'employeeManagement',
+        path: '/employeeManagement',
+        component: EmployeeManagement,
+    },
+    { 
+        name: 'editEmployee',
+        path: '/employees/:id/edit', 
+        component: EditEmployee,
+    },
+    { 
+        name: 'createEmployee',
+        path: '/employees/create', 
+        component: EditEmployee,
     },
     {
         name: 'NotFound',
