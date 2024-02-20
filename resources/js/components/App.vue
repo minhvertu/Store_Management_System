@@ -87,21 +87,20 @@ import Login from './Login.vue';
   },
   created() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const id = localStorage.getItem('id'); 
-  if (!isLoggedIn || isLoggedIn !== 'true') {
-    this.$router.push('/login');
-  } else if ( id == null) {
-    this.$router.push('/login');
-  }
-  },
-
-  
-  methods: {
-    checkLogin() {
-      if (isLoggedIn == true ) {
-        this.$router.push('/');
-      }
+    const id = localStorage.getItem('id');
+    if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
+      this.$router.push('/login');
     }
+    window.addEventListener('beforeunload', this.clearLocalStorage);
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.clearLocalStorage);
+  },
+  methods: {
+    clearLocalStorage() {
+      localStorage.removeItem('id');
+      localStorage.removeItem('isLoggedIn');
+    },
   }
     }
 </script>
