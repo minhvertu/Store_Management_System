@@ -88,7 +88,9 @@ import Login from './Login.vue';
   created() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const id = localStorage.getItem('id'); 
-  if (!isLoggedIn || isLoggedIn !== 'true' || id == null ) {
+  if (!isLoggedIn || isLoggedIn !== 'true') {
+    this.$router.push('/login');
+  } else if ( id == null) {
     this.$router.push('/login');
   }
   },

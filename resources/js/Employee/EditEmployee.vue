@@ -85,12 +85,17 @@
       async submitForm() {
         try {
             if (this.isNewEmployee) {
+              console.log(this.employee);
             await axios.post('/api/employees', this.employee);
             alert('Add Employee Successfully');
             this.$router.push('/employeeManagement');
-          } else {
+          } else if (!this.isNewEmployee){
             await axios.put(`/api/employees/${this.$route.params.id}`, this.employee);
             alert('Update Successfully');
+            this.$router.push('/employeeManagement');
+          } else {
+            alert("You don't have permission to add employee");
+            this.$router.push('/employeeManagement');
           }
         } catch (error) {
           console.error(error);
@@ -98,14 +103,14 @@
       }
     },
 
-    async mounted() {
-    try {
-    const response = await axios.get(`/api/employees/${this.$route.params.id}`);
-    this.employee = response.data;
-    console.log(response.data)
-    } catch (error) {
-    console.error(error);
-    }
-}
+//     async mounted() {
+//     try {
+//     const response = await axios.get(`/api/employees/${this.$route.params.id}`);
+//     this.employee = response.data;
+//     console.log(response.data)
+//     } catch (error) {
+//     console.error(error);
+//     }
+// }
   }
   </script>

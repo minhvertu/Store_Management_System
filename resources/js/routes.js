@@ -11,6 +11,7 @@ import EmployeeManagement from './Employee/EmployeeManagement.vue';
 import EditEmployee from './Employee/EditEmployee.vue';
 import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
+import SignUp from './components/SignUp.vue';
 
 export const routes = [
     {
@@ -32,6 +33,11 @@ export const routes = [
         name: 'login',
         path: '/login',
         component: Login,
+    },
+    {
+        name: 'signup',
+        path: '/signup',
+        component: SignUp,
     },
     {
         name: 'profile',

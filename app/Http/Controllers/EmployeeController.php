@@ -37,7 +37,7 @@ class EmployeeController extends Controller
         if ($request->user()->can('create-employees')) {
             $employee = new Employee();
             $employee->name = $request->input('name');
-            $employee->salary_code = $request->input('salary_id');
+            $employee->salary_code = $request->input('salary_code');
             $employee->employee_code = $request->input('employee_code');
             $employee->card_id = $request->input('card_id');
             $employee->phone_number = $request->input('phone_number');

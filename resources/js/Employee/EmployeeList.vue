@@ -47,7 +47,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) in users" :key="'user-' + index">
+            <tr v-for="(employee, index) in employees" :key="'employee-' + index">
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
@@ -58,17 +58,17 @@
                     />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-sm">{{ user.name }}</h6>
-                    <p class="text-xs text-secondary mb-0">{{ user.email }}</p>
+                    <h6 class="mb-0 text-sm">{{ employee.name }}</h6>
+                    <p class="text-xs text-secondary mb-0">{{ employee.phone_number }}</p>
                   </div>
                 </div>
               </td>
-              <th scope="row">{{ user.id }}</th>
+              <th scope="row">{{ employee.id }}</th>
               <td class="align-middle text-center text-sm">
-                <span class="badge badge-sm bg-gradient-success">{{ user.name }}</span>
+                <span class="badge badge-sm bg-gradient-success">{{ employee.name }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ user.created_at }}</span>
+                <span class="text-secondary text-xs font-weight-bold">{{ employee.created_at }}</span>
               </td>
               <td class="align-middle">
                 <a
@@ -262,34 +262,53 @@
 </template>
 
 <script>
+  import axios from 'axios';
     export default {
-        name: "User",
+        name: "Employee",
         data () {
             return {
-                users: [],
+                employees: [],
+                salary_code: '',
+                name: '',
+                employee_code: '',
+                phone_number: '',
+                card_id: '',
                 error: {
                     message: ''
                 }
             }
         },
         created () {
-            this.getUsers()
+            this.getEmployees()
         },
         methods: {
-            getUsers () {
-                axios.get('api/users')
+            getEmployees () {
+                axios.get('api/employees')
+                .then(response => {
+                    this.employees = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            },
+            deleteEmployee(employee, index) {
+                axios.delete('api/employees/' + employee.id)
                 .then(response => {
                     if (response.data.status === false) {
                         this.error.message = response.data.message
+                        setTimeout(() => {
+                            this.error.message = ''
+                        }, 3000)
                     } else {
-                        this.users = response.data
+                        this.employees.splice(index, 1)
                     }
                 })
                 .catch(error => {
                     console.log(error)
                 })
             }
-        }
+        },
+
     }
 </script>
 
