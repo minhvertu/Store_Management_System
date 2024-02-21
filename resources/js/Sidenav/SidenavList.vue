@@ -164,6 +164,7 @@ export default {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('permission_id');
         this.$router.push('/login');
       }).catch(error => {
         if (error.status === 302 || 401) {

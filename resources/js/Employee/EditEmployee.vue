@@ -50,6 +50,7 @@
     },
     computed: {
       isNewEmployee() {
+        console.log(this.$route.path);
         return !this.$route.path.includes('edit');
       }
     },
@@ -59,33 +60,32 @@
         this.employee = response.data;
       }
     },
-    saveEmployee () {
-        axios.post('api/employees', {
-            salary_code: this.salary_code,
-            name: this.name,
-            card_id: this.card_id,
-            phone_number: this.phone_number,
-            employee_code: this.employee_code,
-        })
-        .then(response => {
-            if (response.data.status === false) {
-                this.error.message = response.data.message
-                setTimeout(() => {
-                    this.error.message = ''
-                }, 3000)
-            } else {
-                this.employees.push(response.data)
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    },
+    // saveEmployee () {
+    //     axios.post('api/employees', {
+    //         salary_code: this.salary_code,
+    //         name: this.name,
+    //         card_id: this.card_id,
+    //         phone_number: this.phone_number,
+    //         employee_code: this.employee_code,
+    //     })
+    //     .then(response => {
+    //         if (response.data.status === false) {
+    //             this.error.message = response.data.message
+    //             setTimeout(() => {
+    //                 this.error.message = ''
+    //             }, 3000)
+    //         } else {
+    //             this.employees.push(response.data)
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.log(error)
+    //     })
+    // },
     methods: {
       async submitForm() {
         try {
             if (this.isNewEmployee) {
-              console.log(this.employee);
             await axios.post('/api/employees', this.employee);
             alert('Add Employee Successfully');
             this.$router.push('/employeeManagement');
@@ -100,7 +100,7 @@
         } catch (error) {
           console.error(error);
         }
-      }
+      },
     },
 
 //     async mounted() {

@@ -17,7 +17,7 @@
             </div>
             <div class="col-3">
                 <div class="text-end">
-                    <router-link to="/employees/create" class="p-2 col border btn btn-success">Add Employee</router-link>
+                    <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn btn-success">Add Employee</router-link>
                     <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
                         <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
                     </button>
@@ -62,7 +62,7 @@
                 </tbody>
             </table>
             <div v-if="showPagination">
-            <ul class="pagination justify-content-center">
+                <ul class="pagination justify-content-center">
                     <li :class="{ 'disabled': currentPage === 1 }">
                         <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
                     </li>
@@ -85,8 +85,10 @@ export default {
     name: "Employee",
     data() {
         return {
+            user_permissions:{},
             employees: [],
             searchKeyword: '',
+            addPermission: true,
             listView: true,
             currentPage: 1, // Trang hiện tại
             pageSize: 5, // Số lượng nhân viên trên mỗi trang
@@ -97,6 +99,7 @@ export default {
     },
     created() {
         this.getEmployees();
+        this.blockAddPermission();
     },
     methods: {
         getEmployees() {
@@ -152,7 +155,20 @@ export default {
         },
         toggleListView() {
             this.listView = !this.listView;
-        }
+        },
+        blockAddPermission() {
+            let user_permissions = JSON.parse(localStorage.getItem('permission_id'));
+
+            for (let i=0; i < user_permissions.length; i++) {
+              
+                if (user_permissions[i].id == 5  ) {
+                    this.addPermission = true;
+                    return this.addPermission;
+                }               
+            }
+                return this.addPermission = false;
+         },
+         
 
     },
     computed: {
@@ -174,16 +190,16 @@ export default {
         totalPages() {
             return Math.ceil(this.employees.length / this.pageSize);
         },
-        showPagination () {
-            console.log(this.filteredEmployees.length);
+        showPagination() {
             if (this.filteredEmployees.length >= 4 || this.nextPage > 1) {
-               return true;
-                
-             } else if ( this.filteredEmployees.length < 5 && this.nextPage == 1) {
+                return true;
+
+            } else if (this.filteredEmployees.length < 5 && this.nextPage == 1) {
                 return false;
-             }
-             return true;
+            }
+            return true;
         },
+        
     }
 }
 </script>

@@ -49,7 +49,7 @@ class EmployeeController extends Controller
         return response([
             'status' => false,
             'message' => 'You don\'t have permission to create Employee!' 
-        ], 200);
+        ], 404);
     }
 
     /**

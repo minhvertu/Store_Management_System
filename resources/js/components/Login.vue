@@ -145,8 +145,9 @@ export default {
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
               localStorage.setItem('authToken', data.authorisation.token);
               localStorage.setItem('id', data.user.id);
+              localStorage.setItem('permission_id', JSON.stringify(data.permission_id));
               localStorage.setItem('isLoggedIn', true);
-
+              console.log(data.permission_id);
               this.$router.push('/');
             } else {
               alert('Login failed');
