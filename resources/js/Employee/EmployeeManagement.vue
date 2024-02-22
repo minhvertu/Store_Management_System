@@ -21,7 +21,8 @@
                     <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
                         <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
                     </button>
-                </div>
+                    <button class="p-2 col border btn btn-success">Export Excel</button>
+                </div>       
             </div>
         </div>
 
@@ -29,24 +30,24 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col" class="center-text">ID</th>
-                        <th scope="col" class="center-text">Name</th>
-                        <th scope="col" class="center-text">Employee Code</th>
-                        <th scope="col" class="center-text">Phone Number</th>
-                        <th scope="col" class="center-text">Salary Code</th>
-                        <th scope="col" class="center-text">CCCD</th>
-                        <th scope="col" class="center-text">Actions</th>
+                        <th scope="col" class="center-text table-primary">ID</th>
+                        <th scope="col" class="center-text table-primary">Name</th>
+                        <th scope="col" class="center-text table-primary">Employee Code</th>
+                        <th scope="col" class="center-text table-primary">Phone Number</th>
+                        <th scope="col" class="center-text table-primary">Salary Code</th>
+                        <th scope="col" class="center-text table-primary">CCCD</th>
+                        <th scope="col" class="center-text table-primary">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-                        <td class="center-text">{{ employee.id }}</td>
-                        <td class="center-text">{{ employee.name }}</td>
-                        <td class="center-text">{{ employee.employee_code }}</td>
-                        <td class="center-text">{{ employee.phone_number }}</td>
-                        <td class="center-text">{{ employee.salary_code }}</td>
-                        <td class="center-text">{{ employee.card_id }}</td>
-                        <td class="center-text">
+                        <td class="center-text table-info">{{ employee.id }}</td>
+                        <td class="center-text table-info">{{ employee.name }}</td>
+                        <td class="center-text table-info">{{ employee.employee_code }}</td>
+                        <td class="center-text table-info">{{ employee.phone_number }}</td>
+                        <td class="center-text table-info">{{ employee.salary_code }}</td>
+                        <td class="center-text table-info">{{ employee.card_id }}</td>
+                        <td class="center-text table-info">
                             <span class="material-symbols-outlined">
                                 <button @click="deleteEmployee(employee, index)"
                                     class="mx-2 p-2 col border btn btn-sm btn-outline-danger">delete_forever

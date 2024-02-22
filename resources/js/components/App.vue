@@ -33,11 +33,13 @@ export default {
     },
   },
   created() {
+    const token = localStorage.getItem('authToken');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const id = localStorage.getItem('id');
     if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
       this.$router.push('/login');
     } else {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       this.loaded = true; // Đánh dấu trang đã được load
     }
     window.addEventListener('beforeunload', this.clearLocalStorageOnClose);
