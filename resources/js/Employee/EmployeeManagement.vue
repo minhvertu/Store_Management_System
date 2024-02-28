@@ -17,12 +17,16 @@
             </div>
             <div class="col-3">
                 <div class="text-end">
-                    <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn btn-success">Add Employee</router-link>
+                    <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn btn-success">Add
+                        Employee</router-link>
                     <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
                         <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
                     </button>
-                    <button class="p-2 col border btn btn-success">Export Excel</button>
-                </div>       
+                    <!-- <button class="p-2 col border btn btn-success">Export Excel</button> -->
+                    <button class="p-2 col border btn btn-success" @click="exportEmployees" >
+                        Export Data
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -86,7 +90,7 @@ export default {
     name: "Employee",
     data() {
         return {
-            user_permissions:{},
+            user_permissions: {},
             employees: [],
             searchKeyword: '',
             addPermission: true,
@@ -160,17 +164,32 @@ export default {
         blockAddPermission() {
             let user_permissions = JSON.parse(localStorage.getItem('permission_id'));
 
-            for (let i=0; i < user_permissions.length; i++) {
-              
-                if (user_permissions[i].id == 5  ) {
+            for (let i = 0; i < user_permissions.length; i++) {
+
+                if (user_permissions[i].id == 5) {
                     this.addPermission = true;
                     return this.addPermission;
-                }               
+                }
             }
-                return this.addPermission = false;
-         },
-         
+            return this.addPermission = false;
+        },
 
+        exportEmployees() {
+            axios.get('/api/employees_export', { responseType: 'arraybuffer' })
+                .then(response => {
+                    var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileURL;
+                    fileLink.setAttribute('download', 'employees.xlsx');
+                    document.body.appendChild(fileLink);
+                    fileLink.click();
+                    alert('Data exported successfully!');
+                })
+                .catch(error => {
+                    console.error('Export failed:', error);
+                    alert('Failed to export data. Please try again later.');
+                });
+        }
     },
     computed: {
         filteredEmployees() {
@@ -200,7 +219,7 @@ export default {
             }
             return true;
         },
-        
+
     }
 }
 </script>

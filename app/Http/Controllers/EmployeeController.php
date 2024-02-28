@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Exports\EmployeeExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -100,5 +102,10 @@ class EmployeeController extends Controller
             'status' => false,
             'message' => 'You don\'t have permission to delete Employee!' 
         ], 200);
+    }
+
+    public function get_employee_data()
+    {
+        return Excel::download(new EmployeeExport, 'employees.xlsx');
     }
 }

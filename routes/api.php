@@ -34,3 +34,5 @@ Route::get('/profile/{user}', [UserController::class, 'show']);
 
 Route::resource('editProfile', UserController::class);
 Route::resource('employees', EmployeeController::class);
+
+Route::get('employees_export',[EmployeeController::class, 'get_employee_data'])->name('employee.export');
