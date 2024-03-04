@@ -50,6 +50,40 @@
       <li class="nav-item ">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
+          <span class="material-symbols-outlined">deployed_code</span>
+          {{ this.$store.state.isRTL ? 'اشتراك' : 'Products' }}
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li>
+            <sidenav-item url="/productList" :class="getRoute() === '/productList' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'ProductList'">
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">view_list</span>
+              </template>
+            </sidenav-item>
+          </li>
+          <li>
+            <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'PriceManagement'">
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">sell</span>
+              </template>
+            </sidenav-item>
+          </li>
+          <li>
+            <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
+              <template v-slot:icon>
+                <span class="material-symbols-outlined">assignment_turned_in</span>
+              </template>
+            </sidenav-item>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item ">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
           <span class="material-symbols-outlined">badge</span>
           {{ this.$store.state.isRTL ? 'اشتراك' : 'Employee' }}
         </a>

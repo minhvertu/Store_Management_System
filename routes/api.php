@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,5 +36,8 @@ Route::get('/profile/{user}', [UserController::class, 'show']);
 
 Route::resource('editProfile', UserController::class);
 Route::resource('employees', EmployeeController::class);
-
 Route::get('employees_export',[EmployeeController::class, 'get_employee_data'])->name('employee.export');
+
+Route::resource('products', ProductController::class);
+
+Route::get('products_export',[EmployeeController::class, 'get_product_data'])->name('product.export');

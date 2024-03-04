@@ -9,6 +9,8 @@ import EditProfile from './Profile/EditProfile.vue';
 import EmployeeList from './Employee/EmployeeList.vue';
 import EmployeeManagement from './Employee/EmployeeManagement.vue';
 import EditEmployee from './Employee/EditEmployee.vue';
+import ProductList from './Products/ProductList.vue';
+import EditProduct from './Products/EditProduct.vue';
 import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
@@ -68,6 +70,16 @@ export const routes = [
         name: 'createEmployee',
         path: '/employees/create', 
         component: EditEmployee,
+    },
+    {
+        name: 'productList',
+        path: '/productList',
+        component: ProductList,
+    },
+    { 
+        name: 'createProduct',
+        path: '/products/create', 
+        component: EditProduct,
     },
     {
         name: 'NotFound',
