@@ -11,9 +11,13 @@
 export default {
     created() {
     this.$store.state.showSidenav = false;
+    this.$store.state.showNavbar = false;
+    this.$store.state.showFooter = false;
   },
   beforeUnmount() {
     this.$store.state.showSidenav = true;
+    this.$store.state.showNavbar = true;
+    this.$store.state.showFooter = true;
   },
 };
 </script>
