@@ -40,4 +40,4 @@ Route::get('employees_export',[EmployeeController::class, 'get_employee_data'])-
 
 Route::resource('products', ProductController::class);
 
-Route::get('products_export',[EmployeeController::class, 'get_product_data'])->name('product.export');
+Route::get('products_export',[ProductController::class, 'get_product_data'])->name('product.export');

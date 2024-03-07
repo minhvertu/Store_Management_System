@@ -1,28 +1,27 @@
 <template>
-    <main id="Employee">
+    <div class ="container-fluid" id="Employee">
         <div class="error" v-if="error.message.length">
             <div class="alert alert-danger" role="alert">
                 {{ error.message }}
             </div>
         </div>
         <div class="row">
-            <div class="col-9">
-                <div class="input-group rounded">
+            <div class="col">
+                <!-- <div class="input-group rounded">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                         aria-describedby="search-addon" v-model="searchKeyword" @input="searchEmployees" />
                     <span class="input-group-text border" id="search-addon">
                         <span class="material-symbols-outlined">search</span>
                     </span>
-                </div>
+                </div>  -->
             </div>
-            <div class="col-3">
+            <div class="col">
                 <div class="text-end">
                     <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn btn-success">Add
                         Employee</router-link>
                     <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
                         <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
                     </button>
-                    <!-- <button class="p-2 col border btn btn-success">Export Excel</button> -->
                     <button class="p-2 col border btn btn-success" @click="exportEmployees" >
                         Export Data
                     </button>
@@ -30,7 +29,8 @@
             </div>
         </div>
 
-        <div>
+        <div class = "table-responsive">
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -80,7 +80,7 @@
                 </ul>
             </div>
         </div>
-    </main>
+    </div>
 </template>
 
 <script>

@@ -14,6 +14,7 @@ import EditProduct from './Products/EditProduct.vue';
 import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
+import Dashboard from './Home/Dashboard.vue';
 
 export const routes = [
     {
@@ -87,9 +88,14 @@ export const routes = [
         component: NotFoundPage,
     },
     {
-        name: 'app',
+        name: 'a/',
         path: '/',
-        component: App,
+        redirect: "/dashboard-default",
+    },
+    {
+        name: 'dashboard',
+        path: '/dashboard-default',
+        component: Dashboard,
     },
     
 

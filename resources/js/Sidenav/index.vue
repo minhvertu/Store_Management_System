@@ -1,15 +1,15 @@
 <template>
-  <!-- <div
+   <!-- <div
     v-show="this.$store.state.layout === 'default'"
     class="min-height-300 position-absolute w-100"
     :class="`${this.$store.state.darkMode ? 'bg-transparent' : 'bg-success'}`"
-  /> -->
+  />  -->
   <aside
-    class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+    class="overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     :class="`${
       this.$store.state.isRTL
         ? 'me-3 rotate-caret fixed-end'
-        : 'fixed-start ms-3'
+        : 'fixed-start '
     } 
     ${
       this.$store.state.layout === 'landing'
@@ -31,6 +31,8 @@
             this.$store.state.sidebarType === 'bg-default'
               ? logoWhite
               : logo
+              // ? kamui
+              // : kamui
           "
           class="navbar-brand-img h-100"
           alt="main_logo"
@@ -46,6 +48,9 @@
 import SidenavList from "../Sidenav/SidenavList.vue";
 import logo from "../../assets/img/logo-ct-dark.png";
 import logoWhite from "../../assets/img/logo-ct.png";
+import sharingan from "../../assets/img/sharingan.png";
+import kamui from "../../assets/img/kamui.gif";
+import rinnegan from "../../assets/img/rinnegan.gif";
 
 
 export default {
@@ -56,7 +61,10 @@ export default {
   data() {
     return {
        logo,
-       logoWhite
+       logoWhite,
+       sharingan,
+       kamui,
+       rinnegan,
     };
   },
   props: ["custom_class", "layout"]

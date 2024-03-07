@@ -215,7 +215,7 @@
     }
 
     &.fixed-start + .main-content {
-      margin-left: $navbar-vertical-open-width + 1.5;
+      margin-left: $navbar-vertical-open-width ;
     }
 
     &.fixed-end + .main-content {

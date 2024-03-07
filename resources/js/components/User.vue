@@ -1,5 +1,5 @@
 <template>
-     <main id="user">
+     <div class="container-fluid" id="user">
         <div class="error" v-if="error.message.length">
             <div class="alert alert-danger" role="alert">
                 {{ error.message }}
@@ -23,7 +23,7 @@
                 </tbody>
             </table>
         </div>
-    </main> 
+    </div> 
     
 </template>
 

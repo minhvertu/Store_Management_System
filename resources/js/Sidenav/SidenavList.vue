@@ -13,6 +13,7 @@
       <li class="nav-item">
         <sidenav-item url="/task" :class="getRoute() === '/task' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Task'">
+
           <template v-slot:icon>
             <!-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">description</span>
@@ -22,6 +23,7 @@
       <li class="nav-item">
         <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الفواتیر' : 'User'">
+
           <template v-slot:icon>
             <!-- <i class="ni ni-credit-card text-success text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">group</span>
@@ -32,6 +34,7 @@
       <li class="nav-item">
         <sidenav-item url="/virtual-reality" :class="getRoute() === 'virtual-reality' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'الواقع الافتراضي' : 'Virtual Reality'
           ">
+
           <template v-slot:icon>
             <!-- <i class="ni ni-app text-info text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">bring_your_own_ip</span>
@@ -40,6 +43,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item url="/rtl-page" :class="getRoute() === 'rtl-page' ? 'active' : ''" navText="RTL">
+
           <template v-slot:icon>
             <!-- <i class="ni ni-world-2 text-danger text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">sheets_rtl</span>
@@ -48,7 +52,8 @@
       </li>
 
       <li class="nav-item ">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+
+        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
           <span class="material-symbols-outlined">deployed_code</span>
           {{ this.$store.state.isRTL ? 'اشتراك' : 'Products' }}
@@ -78,92 +83,161 @@
               </template>
             </sidenav-item>
           </li>
-        </ul>
+        </ul> -->
       </li>
 
-      <li class="nav-item ">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <span class="material-symbols-outlined">badge</span>
-          {{ this.$store.state.isRTL ? 'اشتراك' : 'Employee' }}
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li>
-            <sidenav-item url="/employeeList" :class="getRoute() === '/employeeList' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'اشتراك' : 'EmployeeList'">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">patient_list</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'اشتراك' : 'EmployeeManagement'">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">patient_list</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">logout</span>
-              </template>
-            </sidenav-item>
-          </li>
-        </ul>
-      </li>
 
-      <li class="nav-item ">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <span class="material-symbols-outlined">manage_accounts</span>
-          {{ this.$store.state.isRTL ? 'اشتراك' : 'Account Setting' }}
+       <li class="nav-item">
+        <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+          aria-controls="applicationsExamples" role="button" aria-expanded="false">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+            <span class="material-symbols-outlined ">deployed_code</span>
+          </div>
+          <span class="nav-link-text ms-1">Products</span>
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li>
-            <sidenav-item url="/signup" :class="getRoute() === 'signup' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'">
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
+
+      <li>
+        <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'PriceManagement'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined fa-lg">sell</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+            <sidenav-item url="/productList" :class="getRoute() === '/productList' ? 'active' : ''"
+              :navText="this.$store.state.isRTL ? 'اشتراك' : 'ProductList'">
               <template v-slot:icon>
-                <span class="material-symbols-outlined">how_to_reg</span>
+                <span class="material-symbols-outlined fa-lg">view_list</span>
               </template>
             </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/logout" :class="getRoute() === '/logout' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">logout</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/profile" :class="getRoute() === '/profile' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
-              <template v-slot:icon>
-                <!-- <i class="ni ni-single-02 text-dark text-sm opacity-10"></i> -->
-                <span class="material-symbols-outlined">shield_person</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
-              :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'">
-              <template v-slot:icon>
-                <!-- <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i> -->
-                <span class="material-symbols-outlined">login</span>
-              </template>
-            </sidenav-item>
-          </li>
-        </ul>
+      </li>
+      <!-- <li class="nav-item ">
+        <a class="nav-link " href="../../pages/applications/wizard.html">
+          <span class="sidenav-mini-icon"> W </span>
+          <span class="sidenav-normal"> Wizard </span>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link " href="../../pages/applications/datatables.html">
+          <span class="sidenav-mini-icon"> D </span>
+          <span class="sidenav-normal"> DataTables </span>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link " href="../../pages/applications/calendar.html">
+          <span class="sidenav-mini-icon"> C </span>
+          <span class="sidenav-normal"> Calendar </span>
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link " href="../../pages/applications/analytics.html">
+          <span class="sidenav-mini-icon"> A </span>
+          <span class="sidenav-normal"> Analytics </span>
+        </a>
+      </li> -->
+
+  </div>
+  </li> 
+
+
+  <li class="nav-item ">
+    <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+          aria-controls="applicationsExamples" role="button" aria-expanded="false">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+      <span class="material-symbols-outlined">badge</span>
+      </div>
+      <span class="nav-link-text ms-1">Employees</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+        <sidenav-item url="/employeeList" :class="getRoute() === '/employeeList' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'EmployeeList'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">patient_list</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'EmployeeManagement'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">patient_list</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">logout</span>
+          </template>
+        </sidenav-item>
       </li>
     </ul>
+  </li>
+
+  <li class="nav-item ">
+    <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+          aria-controls="applicationsExamples" role="button" aria-expanded="false">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+      <span class="material-symbols-outlined">manage_accounts</span>
+      </div>
+      <span class="nav-link-text ms-1">Account Settings</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+        <sidenav-item url="/signup" :class="getRoute() === 'signup' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">how_to_reg</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/logout" :class="getRoute() === '/logout' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Log Out'" @click.prevent="logout">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">logout</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/profile" :class="getRoute() === '/profile' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
+
+          <template v-slot:icon>
+            <!-- <i class="ni ni-single-02 text-dark text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">shield_person</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'">
+
+          <template v-slot:icon>
+            <!-- <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i> -->
+            <span class="material-symbols-outlined">login</span>
+          </template>
+        </sidenav-item>
+      </li>
+    </ul>
+  </li>
+  </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">
     <sidenav-card :class="cardBg" textPrimary="Need Help?" textSecondary="Please check our docs" />
   </div>
 </template>
+
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";

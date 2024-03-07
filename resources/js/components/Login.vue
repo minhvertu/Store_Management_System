@@ -128,10 +128,12 @@ export default {
   },
   created() {
     this.$store.state.showSidenav = false;
+    this.$store.state.showNavbar = false;
   },
 
   beforeUnmount() {
     this.$store.state.showSidenav = true;
+    this.$store.state.showNavbar = true;
   },
   methods: {
     loginUser() {
@@ -148,7 +150,7 @@ export default {
               localStorage.setItem('permission_id', JSON.stringify(data.permission_id));
               localStorage.setItem('isLoggedIn', true);
               console.log(data.permission_id);
-              this.$router.push('/');
+              this.$router.push('/dashboard-default');
             } else {
               alert('Login failed');
             }

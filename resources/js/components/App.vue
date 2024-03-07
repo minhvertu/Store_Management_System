@@ -1,26 +1,54 @@
 <template>
-  <div class="app">
+  <!-- <div class="app"> -->
     <div v-show="this.$store.state.layout === 'landing'"
       class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
-    <index :custom_class="this.$store.state.mcolor" :class="[
-      this.$store.state.isTransparent,
-      this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
-    ]" v-if="this.$store.state.showSidenav" />
+    <index 
+      :custom_class="this.$store.state.mcolor" 
+      :class="[
+        this.$store.state.isTransparent,
+        this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
+      ]" 
+      v-if="this.$store.state.showSidenav" 
+    />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+      <navbar
+      :class="[navClasses]"
+      :textWhite="
+        this.$store.state.isAbsolute ? 'text-white opacity-8' : 'text-white'
+      "
+      :minNav="navbarMinimize"
+      v-if="this.$store.state.showNavbar"
+    />
       <router-view></router-view>
+      <app-footer v-show="this.$store.state.showFooter" />
+    <configurator
+      :toggle="toggleConfigurator"
+      :class="[
+        this.$store.state.showConfig ? 'show' : '',
+        this.$store.state.hideConfigButton ? 'd-none' : ''
+      ]"
+    />
     </main>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
 import index from "../Sidenav/index.vue";
 import Login from './Login.vue';
+import navbar from '../Navbars/navbar.vue';
+import AppFooter from '../Footer/Footer.vue';
+import { mapMutations } from "vuex";
+import Configurator from '../Footer/Configurator.vue';
+
 
 export default {
   name: "App",
   components: {
     index,
+    navbar,
+    AppFooter,
+    Configurator,
   },
   data() {
     return {
@@ -31,6 +59,20 @@ export default {
     isLoggedIn() {
       return this.$store.getters['auth/isLoggedIn'];
     },
+    navClasses() {
+      return {
+        "position-sticky bg-white left-auto top-2 z-index-sticky":
+          this.$store.state.isNavFixed && !this.$store.state.darkMode,
+        "position-sticky bg-default left-auto top-2 z-index-sticky":
+          this.$store.state.isNavFixed && this.$store.state.darkMode,
+        "position-absolute px-4 mx-0 w-100 z-index-2": this.$store.state
+          .isAbsolute,
+        "px-0 mx-4": !this.$store.state.isAbsolute
+      };
+    },
+    beforeMount() {
+    this.$store.state.isTransparent = "bg-transparent";
+  },
   },
   created() {
     const token = localStorage.getItem('authToken');
@@ -49,6 +91,7 @@ export default {
     window.removeEventListener('beforeunload', this.clearLocalStorageOnClose);
   },
   methods: {
+    ...mapMutations(["toggleConfigurator", "navbarMinimize"]),
     checkLogin() {
       if (this.loaded && this.isLoggedIn) {
         this.$router.push('/');
