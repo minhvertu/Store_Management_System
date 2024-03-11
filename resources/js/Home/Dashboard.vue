@@ -2,7 +2,7 @@
     <div class ="container-fluid">
         <div class="row">
             <div class="col">
-                <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+                <Bar id="my-chart-id" :options="chartOptions" :data="chartData" style="width: 70vw; height: vh;"/>
             </div>
         </div>
     </div>
@@ -30,7 +30,8 @@ export default {
                 ]
             },
             chartOptions: {
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: false,
                 
             }
         }

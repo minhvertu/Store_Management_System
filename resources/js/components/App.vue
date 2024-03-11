@@ -1,5 +1,6 @@
 <template>
   <!-- <div class="app"> -->
+    
     <div v-show="this.$store.state.layout === 'landing'"
       class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
     <index 
@@ -8,7 +9,8 @@
         this.$store.state.isTransparent,
         this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
       ]" 
-      v-if="this.$store.state.showSidenav" 
+      v-if="this.$store.state.showSidenav && this.$route.path != '/fashion'" 
+      
     />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
       <navbar
@@ -17,7 +19,7 @@
         this.$store.state.isAbsolute ? 'text-white opacity-8' : 'text-white'
       "
       :minNav="navbarMinimize"
-      v-if="this.$store.state.showNavbar"
+      v-if="this.$store.state.showNavbar "
     />
       <router-view></router-view>
       <app-footer v-show="this.$store.state.showFooter" />

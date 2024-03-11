@@ -15,6 +15,7 @@ import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
 import Dashboard from './Home/Dashboard.vue';
+import FashionMainPage from './fashion_store/FashionMainPage.vue';
 
 export const routes = [
     {
@@ -96,6 +97,11 @@ export const routes = [
         name: 'dashboard',
         path: '/dashboard-default',
         component: Dashboard,
+    },
+    {
+        name: 'fashion',
+        path: '/fashion',
+        component: FashionMainPage,
     },
     
 
