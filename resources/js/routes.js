@@ -16,6 +16,7 @@ import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
 import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
+import AllBrand from './fashion_store/AllBrand.vue';
 
 export const routes = [
     {
@@ -102,6 +103,11 @@ export const routes = [
         name: 'fashion',
         path: '/fashion',
         component: FashionMainPage,
+    },
+    {
+        name: 'allBrand',
+        path: '/allBrand',
+        component: AllBrand,
     },
     
 

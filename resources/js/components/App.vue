@@ -9,7 +9,7 @@
         this.$store.state.isTransparent,
         this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
       ]" 
-      v-if="this.$store.state.showSidenav && this.$route.path != '/fashion'" 
+      v-if="this.$store.state.showSidenav && this.$route.path != '/fashion' && this.$route.path != '/allBrand'" 
       
     />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -19,14 +19,14 @@
         this.$store.state.isAbsolute ? 'text-white opacity-8' : 'text-white'
       "
       :minNav="navbarMinimize"
-      v-if="this.$store.state.showNavbar "
+      v-if="this.$store.state.showNavbar && this.$route.path != '/fashion' && this.$route.path != '/allBrand'"
     />
       <router-view></router-view>
-      <app-footer v-show="this.$store.state.showFooter" />
+      <app-footer v-show="this.$store.state.showFooter && this.$route.path != '/fashion' && this.$route.path != '/allBrand'" />
     <configurator
       :toggle="toggleConfigurator"
       :class="[
-        this.$store.state.showConfig ? 'show' : '',
+        this.$store.state.showConfig  ? 'show' : '',
         this.$store.state.hideConfigButton ? 'd-none' : ''
       ]"
     />
