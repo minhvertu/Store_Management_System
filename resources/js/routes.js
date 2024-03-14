@@ -16,7 +16,7 @@ import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
 import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
-import AllBrand from './fashion_store/AllBrand.vue';
+import AllBrand from './fashion_store/Shopping/AllBrand.vue';
 
 export const routes = [
     {

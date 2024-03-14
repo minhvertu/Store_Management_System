@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="index.html">
                 <img src="../fashion_store/images/Vertu-logo.jpg" alt="site icon" style="height:  20px;">
-                <span class="text-uppercase fw-lighter ms-2">Vertu Phan</span>
+                <span class="text-uppercase fw-lighter ms-2 ">Vertu Phan</span>
             </a>
 
             <div class="order-lg-2 nav-btns">
@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse order-lg-1" id="navMenu">
                 <ul class="navbar-nav mx-auto text-center">
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="#header">home</a>
+                        <a class=" nav-link text-uppercase text-dark" href="/fashion">home</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="#collection">collection</a>
@@ -44,10 +44,6 @@
                     </li>
                     <li class="nav-item px-2 py-2 border-0">
                         <a class="nav-link text-uppercase text-dark" href="#popular">popular</a>
-                    </li>
-                    <li class="nav-item px-2 py-2 border-0">
-                        <a class="nav-link text-uppercase text-dark" href="/allBrand">All Brands</a>
-
                     </li>
                 </ul>
             </div>

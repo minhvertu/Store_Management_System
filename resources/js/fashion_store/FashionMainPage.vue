@@ -1,5 +1,5 @@
 <template>
-    
+    <div class ="FashionMainPage">
     <!-- navbar -->
     <navbar_fashion></navbar_fashion>
     <!-- end of navbar -->
@@ -12,10 +12,71 @@
     <section id="collection" class="py-5">
         <div class="container">
             <div class="title text-center">
-                <h2 class="position-relative d-inline-block">New Collection</h2>
+                <h2 class="brand-font position-relative d-inline-block">BRANDS</h2>
             </div>
 
             <div class="row g-0">
+                
+                <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/lv.png" class="w-100">
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
+                        <a href="/fashion">
+                            <div class="collection-img position-relative">
+                                <img src="../fashion_store/images/ysl.png" class="w-100">
+                            </div>
+                        </a>
+                       
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/gucci2.jpg" class="w-100">
+                        </div>
+                      
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/chanel.jpg" class="w-100">
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/zara.png" class="w-100">
+                            
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/dolce.jpg" class="w-100">
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/pra.png" class="w-100">
+                            
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <div class="collection-img position-relative">
+                            <img src="../fashion_store/images/calvin.png" class="w-100">
+                            
+                        </div>
+                        
+                    </div>
                 <div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
                     <button type="button" class="btn m-2 text-dark active-filter-btn" data-filter="*">All</button>
                     <button type="button" class="btn m-2 text-dark" data-filter=".best">Best Sellers</button>
@@ -459,7 +520,7 @@
     <!-- footer -->
     <footer_fashion></footer_fashion>
     <!-- end of footer -->
-
+</div>
 
 </template>
 
@@ -479,13 +540,19 @@ export default {
 }
 </script>
 
-<style >
+<style>
 
+@font-face {
+    font-family: "cloister";
+    src: url('../../assets/word_font/CloisterBlack.ttf');
+}
 :root {
     --lg-font: 'Kaisei Tokumin', serif;
     --sm-font: 'Poppins', sans-serif;
     --pink: #e5345b;
 }
+.FashionMainPage {
+    
 
 body {
     font-family: var(--sm-font);
@@ -568,6 +635,7 @@ body {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    
 }
 
 /* collection */
@@ -627,6 +695,7 @@ body {
 .offers-content h2 {
     font-size: 60px;
     font-family: var(--lg-font);
+  
 }
 
 .offers-content .btn {
@@ -688,6 +757,14 @@ footer a:hover {
     .nav-item {
         border-bottom: none;
     }
+}
+
+.brand-font {
+    font-family: "cloister" !important;
+    color: #000;
+    font-size: 50px;
+
+}
 }
 
 </style>
