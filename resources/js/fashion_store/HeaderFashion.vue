@@ -5,7 +5,7 @@
         <div class = "text-center carousel-item active">
             <h2 class = "text-capitalize text-white">best collection</h2>
             <h1 class = "text-uppercase py-2 fw-bold text-white">new arrivals</h1>
-            <a href = "/allBrand" class = "btn mt-3 text-uppercase">shop now</a>
+            <router-link to = "/allBrand" class = "btn mt-3 text-uppercase">shop now</router-link>
         </div>
         <div class = "text-center carousel-item">
             <h2 class = "text-capitalize text-white">best price & offer</h2>
@@ -29,4 +29,5 @@ export default {
     name: "header_fashion",
  }
 </script>
+
 

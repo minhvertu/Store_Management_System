@@ -17,6 +17,7 @@ import SignUp from './components/SignUp.vue';
 import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
 import AllBrand from './fashion_store/Shopping/AllBrand.vue';
+import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
 
 export const routes = [
     {
@@ -108,6 +109,12 @@ export const routes = [
         name: 'allBrand',
         path: '/allBrand',
         component: AllBrand,
+    },
+
+    {
+        name: 'yslMainPage',
+        path: '/yslMainPage',
+        component: YSLMainpage,
     },
     
 

@@ -34,6 +34,12 @@ import driverRouterVueRouter from '@websanova/vue-auth/dist/drivers/router/vue-r
 const router = createRouter({
     history: createWebHistory(import.meta.env.APP_URL), 
     routes: routes,
+    scrollBehavior (to, from, savedPosition) {
+        // ...
+        return savedPosition || new Promise((resolve, reject) => {
+            setTimeout(()=> resolve({top:0, behavior:'smooth'}),300);
+        });
+    }
 })
 
 // const app = createApp({

@@ -49,7 +49,8 @@ export default createStore({
   actions: {
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
-    }
+    },
+    
   },
   getters: {}
 });

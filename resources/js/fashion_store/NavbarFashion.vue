@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse order-lg-1" id="navMenu">
                 <ul class="navbar-nav mx-auto text-center">
                     <li class="nav-item px-2 py-2">
-                        <a class=" nav-link text-uppercase text-dark" href="/fashion">home</a>
+                        <router-link to ="/fashion" class=" nav-link text-uppercase text-dark" href>home</router-link>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="#collection">collection</a>
