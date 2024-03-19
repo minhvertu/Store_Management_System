@@ -1,6 +1,6 @@
 <template>
     
-    <header id = "header" class = "vh-100 carousel slide" data-bs-ride = "carousel" style = "padding-top: 104px;">
+    <header id = "headerYSL" class = "vh-100 carousel slide" data-bs-ride = "carousel" style = "padding-top: 104px;">
         <div class = "container h-100 d-flex align-items-center carousel-inner">
             <div class = "text-center carousel-item active">
                 <h2 class = "text-capitalize text-white">best collection</h2>
@@ -28,11 +28,29 @@
     export default {
         name: "header_ysl",
      }
+     
     </script>
 
     <style>
 
 
+/* header */
+#headerYSL {
+    background: url(../../fashion_store/images/ysl_bg2.jpg) top/cover no-repeat;
+}
+
+.carousel-inner h1 {
+    font-size: 60px;
+    font-family: var(--lg-font);
+}
+
+.carousel-item .btn {
+    border-color: #fff !important;
+}
+
+.carousel-item .btn:hover {
+    border-color: var(--pink) !important;
+}
 
 </style>
     

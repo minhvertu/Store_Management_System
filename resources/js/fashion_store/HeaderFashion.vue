@@ -5,7 +5,7 @@
         <div class = "text-center carousel-item active">
             <h2 class = "text-capitalize text-white">best collection</h2>
             <h1 class = "text-uppercase py-2 fw-bold text-white">new arrivals</h1>
-            <router-link to = "/allBrand" class = "btn mt-3 text-uppercase">shop now</router-link>
+            <a href= "#collection" class = "btn mt-3 text-uppercase">shop now</a>
         </div>
         <div class = "text-center carousel-item">
             <h2 class = "text-capitalize text-white">best price & offer</h2>
@@ -29,5 +29,26 @@ export default {
     name: "header_fashion",
  }
 </script>
+
+<style>
+
+/* header */
+    #header {
+        background: url(../fashion_store/images/chaubui2.jpg) top/cover no-repeat;
+    }
+
+    .carousel-inner h1 {
+        font-size: 60px;
+        font-family: var(--lg-font);
+    }
+
+    .carousel-item .btn {
+        border-color: #fff !important;
+    }
+
+    .carousel-item .btn:hover {
+        border-color: var(--pink) !important;
+    }
+</style>
 
 

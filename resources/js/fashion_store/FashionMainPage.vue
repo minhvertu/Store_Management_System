@@ -548,6 +548,7 @@ export default {
         header_fashion,
         footer_fashion,
     },
+    
 }
 </script>
 
@@ -617,23 +618,7 @@ export default {
         border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
     }
 
-    /* header */
-    #header {
-        background: url(../fashion_store/images/chaubui2.jpg) top/cover no-repeat;
-    }
-
-    .carousel-inner h1 {
-        font-size: 60px;
-        font-family: var(--lg-font);
-    }
-
-    .carousel-item .btn {
-        border-color: #fff !important;
-    }
-
-    .carousel-item .btn:hover {
-        border-color: var(--pink) !important;
-    }
+    
 
     /* title */
     .title h2::before {
@@ -689,6 +674,24 @@ export default {
         -webkit-transform: scale(1.2);
         -ms-transform: scale(1.2);
         transform: scale(1.2);
+    }
+
+    /* header */
+    #header {
+        background: url(../fashion_store/images/chaubui2.jpg) top/cover no-repeat;
+    }
+
+    .carousel-inner h1 {
+        font-size: 60px;
+        font-family: var(--lg-font);
+    }
+
+    .carousel-item .btn {
+        border-color: #fff !important;
+    }
+
+    .carousel-item .btn:hover {
+        border-color: var(--pink) !important;
     }
 
     /* offers */

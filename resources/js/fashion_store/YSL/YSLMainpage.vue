@@ -26,7 +26,7 @@
                     <button type = "button" class = "btn m-2 text-dark" data-filter = ".new">New Arrival</button>
                 </div>
 
-                <div class = "collection-list mt-4 row gx-0 gy-3">
+                <div class = "collection-list mt-4 row gx-0 gy-3" >
                     <div class = "col-md-6 col-lg-4 col-xl-3 p-2 best">
                         <div class = "collection-img position-relative">
                             <img src = "../../fashion_store/images/c_formal_gray_shirt.png" class = "w-100">
@@ -192,6 +192,9 @@ export default {
         header_ysl,
         footer_fashion,
     },
+    myStyle:{
+            backgroundColor:"#16a085" 
+            }
 
 }
 </script>
@@ -261,23 +264,6 @@ body {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
 }
 
-/* header */
-#header {
-    background: url(../../fashion_store/images/ysl_bg2.jpg) top/cover no-repeat;
-}
-
-.carousel-inner h1 {
-    font-size: 60px;
-    font-family: var(--lg-font);
-}
-
-.carousel-item .btn {
-    border-color: #fff !important;
-}
-
-.carousel-item .btn:hover {
-    border-color: var(--pink) !important;
-}
 
 /* title */
 .title h2::before {
