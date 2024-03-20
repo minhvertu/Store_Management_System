@@ -16,10 +16,14 @@ return new class extends Migration
             $table->string('price');
             $table->string('amount');
             $table->string('product_detail');
-            $table->bigInteger('shop_id')->unsigned();
-            $table->bigInteger('client_id')->unsigned();
-            $table->bigInteger('products_id')->unsigned();
+            $table->bigInteger('shop_id')->unsigned()->nullable();
+            $table->bigInteger('client_id')->unsigned()->nullable();
+            $table->bigInteger('products_id')->unsigned()->nullable();
             $table->timestamps();
+
+             //FOREIGN KEY CONSTRAINTS
+             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+             $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

@@ -20,6 +20,10 @@ return new class extends Migration
             $table->bigInteger('supplier_id')->unsigned();
             $table->bigInteger('products_id')->unsigned();
             $table->timestamps();
+
+             //FOREIGN KEY CONSTRAINTS
+             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+             $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

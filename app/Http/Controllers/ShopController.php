@@ -10,10 +10,17 @@ class ShopController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+    }
+
     public function index()
     {
         //
+        return response()->json(Shop::all());
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -29,6 +36,20 @@ class ShopController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->user()->can('create-shops')) {
+            $shop = new Shop();
+            $shop->name = $request->input('name');
+            $shop->phone_number = $request->input('phone_number');
+            $shop->address = $request->input('address');
+            $shop->save();
+    
+            return response()->json($shop);
+        }
+    
+        return response([
+            'status' => false,
+            'message' => 'You don\'t have permission to create shop!' 
+        ], 404);
     }
 
     /**
@@ -37,29 +58,48 @@ class ShopController extends Controller
     public function show(Shop $shop)
     {
         //
+        return $shop;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Shop $shop)
+    public function edit(Shop $shop, string $id)
     {
         //
+        $shop = Shop::find($id);
+        return response()->json($shop);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shop $shop)
+    public function update(Request $request, string $id)
     {
         //
+        $shop = Shop::find($id);
+        $shop->update($request->all());
+
+        return response()->json('Shop successfully updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shop $shop)
+    public function destroy(Request $request, $id)
     {
         //
+        if ($request->user()->can('delete-shops')) {
+            $shop = Shop::find($id);
+            $shop->delete();
+            return response([
+                'status' => true,
+            ], 200);
+        }
+    
+        return response([
+            'status' => false,
+            'message' => 'You don\'t have permission to delete shop!' 
+        ], 200);
     }
 }

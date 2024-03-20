@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('storages_check', function (Blueprint $table) {
             $table->id();
             $table->string('amount');
-            $table->bigInteger('storage_id')->unsigned();
-            $table->bigInteger('products_id')->unsigned();
+            $table->bigInteger('storage_id')->unsigned()->nullable();
+            $table->bigInteger('products_id')->unsigned()->nullable();
             $table->timestamps();
+
+             //FOREIGN KEY CONSTRAINTS
+             $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
+             $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
+
+            
         });
     }
 

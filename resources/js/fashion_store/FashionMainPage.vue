@@ -18,17 +18,19 @@
                 <div class="row g-0">
 
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <router-link to="/lvMainPage">
+                            <transition name="fade" mode="out-in">
                         <div class="collection-img position-relative">
                             <img src="../fashion_store/images/lv.png" class="w-100">
                         </div>
+                    </transition>
+                        </router-link>
 
                     </div>
 
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
                         <router-link to="/yslMainPage">
                             <transition name="fade" mode="out-in">
-
-
                                 <div class="collection-img position-relative">
                                     <img src="../fashion_store/images/ysl.png" class="w-100">
                                 </div>

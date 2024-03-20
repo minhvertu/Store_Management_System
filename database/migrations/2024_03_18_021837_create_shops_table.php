@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('shop_id')->unsigned();
+            $table->string('phone_number');
+            $table->string('address');
             $table->timestamps();
         });
     }
