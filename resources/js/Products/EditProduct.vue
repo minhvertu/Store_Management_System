@@ -9,11 +9,11 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Amount</label>
-                <input class="form-control" id="product_code" v-model="product.amount" />
+                <input class="form-control" id="amount" v-model="product.amount" />
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Sales</label>
-                <input class="form-control" id="product_code" v-model="product.sales" />
+                <label for="description" class="form-label">Product Type</label>
+                <input class="form-control" id="product_type" v-model="product.product_type" />
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Product Code</label>
@@ -21,19 +21,19 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Import Price</label>
-                <input class="form-control" id="product_code" v-model="product.import_price" />
+                <input class="form-control" id="import_price" v-model="product.import_price" />
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Sell Price</label>
-                <input class="form-control" id="product_code" v-model="product.sell_price" />
+                <input class="form-control" id="sell_price" v-model="product.sell_price" />
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Gender</label>
-                <input class="form-control" id="product_code" v-model="product.gender_item_code" />
+                <input class="form-control" id="gender_item_code" v-model="product.gender_item_code" />
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Product ID</label>
-                <input class="form-control" id="product_code" v-model="product.product_id" />
+                <label for="description" class="form-label">Size</label>
+                <input class="form-control" id="size" v-model="product.size" />
             </div>
             <div>
                 <button type="submit" v-if="isNewProduct" class="btn btn-primary">Add Product</button>
@@ -55,11 +55,11 @@
           name: '',
           amount: '',
           product_code: '',
-          sales: '',
+          product_type: '',
           import_price: '',
           sell_price: '',
           gender_item_code: '',
-          product_id: '',
+          size: '',
         }
       };
     },

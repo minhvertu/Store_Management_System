@@ -20,7 +20,9 @@ class ProductController extends Controller
     public function index()
     {
         //
-        return response()->json(Product::all());
+        $product = Product::with ([ 'brand'
+        ])->get();
+        return response()->json($product);
     }
 
     /**
@@ -42,11 +44,12 @@ class ProductController extends Controller
             $product->name = $request->input('name');
             $product->product_code = $request->input('product_code');
             $product->amount = $request->input('amount');
-            $product->sales = $request->input('sales');
+            $product->gender_item_code = $request->input('gender_item_code');
             $product->import_price = $request->input('import_price');
             $product->sell_price = $request->input('sell_price');
-            $product->gender_item_code = $request->input('gender_item_code');
-            $product->product_id = $request->input('product_id');
+            $product->size = $request->input('size');
+            $product->brand_id = $request->input('brand_id');
+            $product->category_id = $request->input('category_id');
             $product->save();
     
             return response()->json($product);

@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('storages_check', function (Blueprint $table) {
+        Schema::create('order_products', function (Blueprint $table) {
             $table->id();
             $table->string('amount');
-            $table->bigInteger('storage_id')->unsigned()->nullable();
             $table->bigInteger('products_id')->unsigned()->nullable();
+            $table->bigInteger('order_id')->unsigned()->nullable();
             $table->timestamps();
 
-             //FOREIGN KEY CONSTRAINTS
-             $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
-             $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
-
-            
+            //FOREIGN KEY CONSTRAINTS
+            $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('storages_check');
+        Schema::dropIfExists('order_products');
     }
 };

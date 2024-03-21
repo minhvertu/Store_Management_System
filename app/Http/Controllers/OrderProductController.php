@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SupplierTransaction;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
-class SupplierTransactionController extends Controller
+class OrderProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SupplierTransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SupplierTransaction $supplierTransaction)
+    public function show(OrderProduct $orderProduct)
     {
         //
     }
@@ -42,7 +42,7 @@ class SupplierTransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SupplierTransaction $supplierTransaction)
+    public function edit(OrderProduct $orderProduct)
     {
         //
     }
@@ -50,7 +50,7 @@ class SupplierTransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SupplierTransaction $supplierTransaction)
+    public function update(Request $request, OrderProduct $orderProduct)
     {
         //
     }
@@ -58,7 +58,7 @@ class SupplierTransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SupplierTransaction $supplierTransaction)
+    public function destroy(OrderProduct $orderProduct)
     {
         //
     }
