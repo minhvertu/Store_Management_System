@@ -17,12 +17,12 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn btn-success">Add
+                    <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn ">Add
                         Employee</router-link>
-                    <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
+                    <!-- <button class="p-2 col border btn " style="height: 39px;" @click="toggleListView">
                         <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
-                    </button>
-                    <button class="p-2 col border btn btn-success" @click="exportEmployees" >
+                    </button> -->
+                    <button class="p-2 col border btn " @click="exportEmployees" >
                         Export Data
                     </button>
                 </div>
@@ -30,26 +30,29 @@
         </div>
 
         <div class = "table-responsive">
-            <table class="table table-bordered">
+            <DataTable :data="employees" :columns="columns" class="table table-bordered table-striped data-table1">
                 <thead>
                     <tr>
-                        <th scope="col" class="center-text table-primary">ID</th>
-                        <th scope="col" class="center-text table-primary">Name</th>
-                        <th scope="col" class="center-text table-primary">Employee Code</th>
-                        <th scope="col" class="center-text table-primary">Phone Number</th>
-                        <th scope="col" class="center-text table-primary">Salary Code</th>
-                        <th scope="col" class="center-text table-primary">CCCD</th>
-                        <th scope="col" class="center-text table-primary">Actions</th>
+                        <th scope="col" class=" center-text">ID</th>
+                        <th scope="col" class="center-text ">Name</th>
+                        <th scope="col" class=" center-text">Employee Code</th>
+                        <th scope="col" class="center-text">Phone Number</th>
+                        <th scope="col" class="center-text ">Salary Code</th>
+                        <th scope="col" class="center-text">CCCD</th>
+                       
+                        <th scope="col" class="center-text ">Actions</th> 
                     </tr>
                 </thead>
-                <tbody>
+               
+                
+                 <!-- <tbody>
                     <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-                        <td class="center-text ">{{ employee.id }}</td>
+                         <td class="center-text ">{{ employee.id }}</td>
                         <td class="center-text ">{{ employee.name }}</td>
                         <td class="center-text ">{{ employee.employee_code }}</td>
                         <td class="center-text ">{{ employee.phone_number }}</td>
                         <td class="center-text ">{{ employee.salary_code }}</td>
-                        <td class="center-text ">{{ employee.card_id }}</td>
+                        <td class="center-text ">{{ employee.card_id }}</td> 
                         <td class="center-text ">
                             <span class="material-symbols-outlined">
                                 <button @click="deleteEmployee(employee, index)"
@@ -58,14 +61,16 @@
                             </span>
                             <span class="material-symbols-outlined">
                                 <router-link :to="`/employees/${employee.id}/edit`"
-                                    class="mx-2 p-2 col border btn btn-success">edit
+                                    class="mx-2 p-2 col border btn ">edit
                                 </router-link>
                             </span>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <div v-if="showPagination">
+                </tbody> -->
+                
+                
+            </DataTable>
+            <!-- <div v-if="showPagination">
                 <ul class="pagination justify-content-center">
                     <li :class="{ 'disabled': currentPage === 1 }">
                         <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
@@ -77,39 +82,74 @@
                         <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import DataTable from 'datatables.net-vue3';
+import DataTablesCore from 'datatables.net';
+
+import DataTableLib from 'datatables.net-bs5';
+import 'datatables.net-responsive-bs5';
+
+
+
+DataTable.use(DataTableLib);
+
+DataTable.use(DataTablesCore);
 
 export default {
+    components: {
+        DataTable,
+       
+    },
+    
     name: "Employee",
     data() {
         return {
             user_permissions: {},
-            employees: [],
+            employees: null,
+            columns: [
+    { data: 'id'},
+    { data: 'name', title: 'Name' },
+    { data: 'employee_code',  },
+    { data: 'phone_number', },
+    { data: 'salary_code',  },
+    { data: 'card_id'},
+    { 
+        data: 'id',
+        
+    },
+   
+],
             searchKeyword: '',
             addPermission: true,
             listView: true,
             currentPage: 1, // Trang hiện tại
-            pageSize: 5, // Số lượng nhân viên trên mỗi trang
+            pageSize: 10, // Số lượng nhân viên trên mỗi trang
             error: {
                 message: ''
             }
         }
     },
-    created() {
+ 
+    mounted () {
         this.getEmployees();
+    },
+    created() {
+      
         this.blockAddPermission();
     },
     methods: {
+      
         getEmployees() {
             axios.get('api/employees')
                 .then(response => {
                     this.employees = response.data;
+                  
                 })
                 .catch(error => {
                     console.log(error);
@@ -189,41 +229,45 @@ export default {
                     alert('Failed to export data. Please try again later.');
                 });
         }
+
+        
     },
-    computed: {
-        filteredEmployees() {
-            const startIndex = (this.currentPage - 1) * this.pageSize;
-            const endIndex = startIndex + this.pageSize;
-            const keyword = this.searchKeyword.toLowerCase();
-            const filteredEmployees = this.employees.filter(employee => {
-                return (
-                    employee.name.toLowerCase().includes(keyword) ||
-                    employee.employee_code.toLowerCase().includes(keyword) ||
-                    employee.phone_number.includes(keyword) ||
-                    employee.salary_code.toLowerCase().includes(keyword) ||
-                    employee.card_id.toLowerCase().includes(keyword)
-                );
-            });
-            return filteredEmployees.slice(startIndex, endIndex);
-        },
-        totalPages() {
-            return Math.ceil(this.employees.length / this.pageSize);
-        },
-        showPagination() {
-            if (this.filteredEmployees.length >= 4 || this.nextPage > 1) {
-                return true;
+    // computed: {
+    //     filteredEmployees() {
+    //         const startIndex = (this.currentPage - 1) * this.pageSize;
+    //         const endIndex = startIndex + this.pageSize;
+    //         const keyword = this.searchKeyword.toLowerCase();
+    //         const filteredEmployees = this.employees.filter(employee => {
+    //             return (
+    //                 employee.name.toLowerCase().includes(keyword) ||
+    //                 employee.employee_code.toLowerCase().includes(keyword) ||
+    //                 employee.phone_number.includes(keyword) ||
+    //                 employee.salary_code.toLowerCase().includes(keyword) ||
+    //                 employee.card_id.toLowerCase().includes(keyword)
+    //             );
+    //         });
+    //         return filteredEmployees.slice(startIndex, endIndex);
+    //     },
+    //     totalPages() {
+    //         return Math.ceil(this.employees.length / this.pageSize);
+    //     },
+    //     showPagination() {
+    //         if (this.filteredEmployees.length >= 4 || this.nextPage > 1) {
+    //             return true;
 
-            } else if (this.filteredEmployees.length < 5 && this.nextPage == 1) {
-                return false;
-            }
-            return true;
-        },
+    //         } else if (this.filteredEmployees.length < 5 && this.nextPage == 1) {
+    //             return false;
+    //         }
+    //         return true;
+    //     },
 
-    }
+    // }
 }
 </script>
 
 <style lang="scss" scoped>
+
+
 .error {
     margin-bottom: 15px;
 }
@@ -237,4 +281,5 @@ export default {
     padding: 8px;
     text-align: center;
 }
+
 </style>
