@@ -12,10 +12,16 @@ class Product extends Model
         'name',
         'product_code',
         'amount',
-        'sales',
+        'gender_item_code',
         'import_price',
         'sell_price',
-        'gender_item_code',
-        'product_id',
+        'size',
+        'brand_id',
+        'category_id',
     ]; 
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClienTransaction;
+use App\Models\StorageCheck;
 use Illuminate\Http\Request;
 
-class ClientTransactionController extends Controller
+class StorageCheckController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class ClientTransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClienTransaction $clienTransaction)
+    public function show(StorageCheck $storageCheck)
     {
         //
     }
@@ -42,7 +42,7 @@ class ClientTransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ClienTransaction $clienTransaction)
+    public function edit(StorageCheck $storageCheck)
     {
         //
     }
@@ -50,7 +50,7 @@ class ClientTransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClienTransaction $clienTransaction)
+    public function update(Request $request, StorageCheck $storageCheck)
     {
         //
     }
@@ -58,7 +58,7 @@ class ClientTransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClienTransaction $clienTransaction)
+    public function destroy(StorageCheck $storageCheck)
     {
         //
     }

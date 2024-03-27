@@ -37,10 +37,12 @@
                         <th scope="col" class="center-text table-primary">Name</th>
                         <th scope="col" class="center-text table-primary">Product Code</th>
                         <th scope="col" class="center-text table-primary">Amount</th>
-                        <th scope="col" class="center-text table-primary">Sales</th>
+                        <th scope="col" class="center-text table-primary">Product Type</th>
                         <th scope="col" class="center-text table-primary">Import Price</th>
                         <th scope="col" class="center-text table-primary">Sell Price</th>
                         <th scope="col" class="center-text table-primary">Gender</th>
+                        <th scope="col" class="center-text table-primary">Size</th>
+                        <th scope="col" class="center-text table-primary">Brand</th>
                         <th scope="col" class="center-text table-primary">Actions</th>
                     </tr>
                 </thead>
@@ -50,10 +52,12 @@
                         <td class="center-text table-info">{{ product.name }}</td>
                         <td class="center-text table-info">{{ product.product_code }}</td>
                         <td class="center-text table-info">{{ product.amount }}</td>
-                        <td class="center-text table-info">{{ product.sales }}</td>
+                        <td class="center-text table-info">{{ product.product_type }}</td>
                         <td class="center-text table-info">{{ product.import_price }}</td>
                         <td class="center-text table-info">{{ product.sell_price }}</td>
                         <td class="center-text table-info">{{ product.gender_item_code }}</td>
+                        <td class="center-text table-info">{{ product.size }}</td>
+                        <td class="center-text table-info">{{ product.brand.name }}</td>
                         <td class="center-text table-info">
                             <span class="material-symbols-outlined">
                                 <button @click="deleteProduct(product, index)"

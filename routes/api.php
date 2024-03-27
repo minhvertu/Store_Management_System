@@ -12,6 +12,8 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 
 
 /*
@@ -39,12 +41,16 @@ Route::post('logout', [AuthController::class,'logout']);
 //Tasks
 Route::resource('tasks', TaskController::class);
 
+//* Users */
+
 //View Users
 Route::get('/users', [UserController::class, 'viewPermission']);
 
 //Profile
 Route::get('/profile/{user}', [UserController::class, 'show']);
 Route::resource('editProfile', UserController::class);
+
+//Upload Users Image 
 
 //Employees
 Route::resource('employees', EmployeeController::class);
@@ -68,3 +74,9 @@ Route::resource('suppliers', SupplierController::class);
 
 //Storages
 Route::resource('storages', StorageController::class);
+
+//Categories
+Route::resource('categories', CategoryController::class);
+
+//Orders
+Route::resource('orders', OrderController::class);
