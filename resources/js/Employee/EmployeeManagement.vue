@@ -44,13 +44,13 @@
                 </thead>
                 <tbody>
                     <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-                        <td class="center-text table-info">{{ employee.id }}</td>
-                        <td class="center-text table-info">{{ employee.name }}</td>
-                        <td class="center-text table-info">{{ employee.employee_code }}</td>
-                        <td class="center-text table-info">{{ employee.phone_number }}</td>
-                        <td class="center-text table-info">{{ employee.salary_code }}</td>
-                        <td class="center-text table-info">{{ employee.card_id }}</td>
-                        <td class="center-text table-info">
+                        <td class="center-text ">{{ employee.id }}</td>
+                        <td class="center-text ">{{ employee.name }}</td>
+                        <td class="center-text ">{{ employee.employee_code }}</td>
+                        <td class="center-text ">{{ employee.phone_number }}</td>
+                        <td class="center-text ">{{ employee.salary_code }}</td>
+                        <td class="center-text ">{{ employee.card_id }}</td>
+                        <td class="center-text ">
                             <span class="material-symbols-outlined">
                                 <button @click="deleteEmployee(employee, index)"
                                     class="mx-2 p-2 col border btn btn-sm btn-outline-danger">delete_forever
