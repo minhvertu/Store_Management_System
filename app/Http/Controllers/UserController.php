@@ -94,4 +94,23 @@ class UserController extends Controller
             'message' => 'You don\'t have permission to view users!' 
         ], 200);
     }
+    public function uploadImage(Request $request)
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($request->file('image')) {
+        $image = $request->file('image');
+        $file_name = time() . '_' . $image->getClientOriginalName();
+        $path = $request->file('image')->storeAs('images', $file_name, 'public');
+
+        // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
+        auth()->user()->update(['image' => $path]);
+
+        return response()->json(['image' => $path]);
+    }
+
+    return response()->json(['error' => 'Failed to upload image.']);
+}
 }

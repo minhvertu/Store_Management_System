@@ -46,6 +46,8 @@ Route::resource('tasks', TaskController::class);
 //View Users
 Route::get('/users', [UserController::class, 'viewPermission']);
 
+Route::post('/upload-image', [UserController::class, 'uploadImage']);
+
 //Profile
 Route::get('/profile/{user}', [UserController::class, 'show']);
 Route::resource('editProfile', UserController::class);

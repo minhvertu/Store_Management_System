@@ -1,11 +1,4 @@
 <template>
-    <!-- <div>
-        <h5 id="associating-form-text-with-form-controls">Name:</h5>
-        <h6>{{ user.name }}</h6>
-        <h5 id="associating-form-text-with-form-controls">Email:</h5>
-        <p>{{ user.email}}</p>
-        <router-link :to="`/users/${user.id}/edit`" class="btn btn-primary">Edit</router-link>
-    </div> -->
     <main>
     <div class="container-fluid">
       <div
@@ -24,7 +17,7 @@
             <div class="col-auto">
               <div class="avatar avatar-xl position-relative">
                 <img
-                  src="../../assets/img/team-1.jpg"
+                :src="'storage/'+imageUrl"
                   alt="profile_image"
                   class="shadow-sm w-100 border-radius-lg"
                 />
@@ -32,7 +25,7 @@
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <h5 class="mb-1">Sayo Kravits</h5>
+                <h5 class="mb-1" >{{ users.name }}</h5>
                 <p class="mb-0 font-weight-bold text-sm">Public Relations</p>
               </div>
             </div>
@@ -215,7 +208,7 @@
                   >Settings</argon-button
                 >
               </div>
-              <router-link :to="`/users/${user.id}/edit`" class="btn btn-primary">Edit</router-link>
+              <router-link :to="`/users/${users.id}/edit`" class="btn btn-primary">Edit</router-link>
             </div>
             <div class="card-body">
               <p class="text-uppercase text-sm">User Information</p>
@@ -224,19 +217,19 @@
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <input class="form-control" type="text"  id="name" v-model="user.name" />
+                  <input class="form-control" type="text"  id="name" v-model="users.name" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Email address</label
                   >
-                  <input class="form-control" type="text"  id="email" v-model="user.email" />
+                  <input class="form-control" type="text"  id="email" v-model="users.email" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >ID</label
                   >
-                  <input class="form-control" type="text"  id="id" v-model="user.id" />
+                  <input class="form-control" type="text"  id="id" v-model="users.id" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
@@ -244,6 +237,9 @@
                   >
                   <argon-input type="text" value="Lucky" />
                 </div>  
+                <div class="col-md-6">
+                  <!-- <img :src="'storage/'+imageUrl" alt="Uploaded Image"> -->
+                </div>
               </div>
               <hr class="horizontal dark" />
               <p class="text-uppercase text-sm">Contact Information</p>
@@ -315,8 +311,8 @@ export default {
     name: "Profile",
 data() {
     return {
-    user: {}
-   
+    users: [],
+    imageUrl: null
     };
 },
 components: { ProfileCard, ArgonInput, ArgonButton },
@@ -347,7 +343,8 @@ async mounted() {
     console.log(id);
 
     const response = await axios.get(`/api/profile/${id}`);
-    this.user = response.data;
+    this.users = response.data;
+    this.imageUrl = response.data.image;
     console.log(response.data)
     } catch (error) {
     console.error(error);

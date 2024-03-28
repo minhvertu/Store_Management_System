@@ -69,7 +69,7 @@ export default {
           this.$store.state.isNavFixed && this.$store.state.darkMode,
         "position-absolute px-4 mx-0 w-100 z-index-2": this.$store.state
           .isAbsolute,
-        "px-0 mx-4": !this.$store.state.isAbsolute
+        "px-0 ": !this.$store.state.isAbsolute
       };
     },
     beforeMount() {

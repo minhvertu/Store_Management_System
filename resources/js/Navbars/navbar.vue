@@ -1,6 +1,6 @@
 <template>
     <nav
-      class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+      class="navbar navbar-main navbar-expand-lg px-0 mx-2 shadow-none border-radius-xl"
       :class="
         this.$store.state.isRTL ? 'top-0 position-sticky z-index-sticky' : ''
       "
@@ -10,7 +10,7 @@
     >
       <div class="px-3 py-1 container-fluid">
       
-        <breadcrumbs :currentPage="currentRouteName" textWhite="text-white" />
+        <breadcrumbs :currentPage="currentRouteName" />
   
         <div
           class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
@@ -28,14 +28,14 @@
               <!-- <i class="input-group-text border" id="search-addon" >
                         <span class="material-symbols-outlined" >search</span>
               </i> -->
-               <input
+               <!-- <input
                 type="text"
                 class="form-control"
                 :placeholder="
                 this.$store.state.isRTL ? 'أكتب هنا...' : 'Type here...'
               "
               /> 
-             
+              -->
             </div>
           </div>
           <ul class="navbar-nav justify-content-end">

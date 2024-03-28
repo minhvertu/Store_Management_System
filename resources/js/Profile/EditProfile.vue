@@ -249,7 +249,9 @@
                     </div>  
                 </div>
                     <button type="submit" class="btn btn-primary">Update User</button>
+                    <input type="file" ref="fileInput" @change="uploadImage">
                 </form>
+               
               <hr class="horizontal dark" />
               <p class="text-uppercase text-sm">Contact Information</p>
               <div class="row">
@@ -321,7 +323,8 @@ data() {
     user: {
         name: '',
         email: '',
-    }
+    },
+    imageUrl: null
    
     };
 },
@@ -336,7 +339,29 @@ data() {
         } catch (error) {
           console.error(error);
         }
-      }
+      },
+      uploadImage() {
+        const formData = new FormData();
+        formData.append('image', this.$refs.fileInput.files[0]);
+
+        axios.post('/api/upload-image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            const imagePath = response.data.image_path;
+            this.imageUrl = response.data.image_url;
+            console.log('Image uploaded successfully:', imagePath);
+
+            // Hiển thị hình ảnh trên giao diện người dùng
+            this.imageUrl = imagePath; // Giả sử imageUrl là biến trong data của Vue component
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
+    }
+
     },
 components: { ProfileCard, ArgonInput, ArgonButton },
 
