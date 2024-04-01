@@ -40,11 +40,13 @@
           </div>
           <ul class="navbar-nav justify-content-end">
             <li class="nav-item d-flex align-items-center">
+              <router-link to="/profile">
               <i class="cursor-pointer fa-solid fa-user" style="color: #e83dff;"></i>
                 <span v-if="this.$store.state.isRTL" class="d-sm-inline d-none"
                   >يسجل دخول</span
                 >
                 <span v-else class="d-sm-inline d-none"></span>
+              </router-link>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a

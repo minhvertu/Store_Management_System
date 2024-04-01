@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('import_price');
             $table->string('sell_price');
             $table->string('gender_item_code');
-            $table->string('product_type');
             $table->string('size');
             $table->timestamps();
         });

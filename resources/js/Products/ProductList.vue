@@ -17,12 +17,10 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn btn-success">Add
-                        Product</router-link>
-                    <button class="p-2 col border btn btn-success" style="height: 39px;" @click="toggleListView">
-                        <span class="material-symbols-outlined">{{ listView ? 'format_list_bulleted' : 'grid_on' }}</span>
-                    </button>
-                    <button class="p-2 col border btn btn-success" @click="exportProducts" >
+                    <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn ">
+                        Add Product
+                    </router-link>
+                    <button class="p-2 col border btn " @click="exportProducts" >
                         Export Data
                     </button>
                 </div>
@@ -30,35 +28,35 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table ">
+            <table class="table table-bordered ">
                 <thead>
                     <tr>
-                        <th scope="col" class="center-text table-primary">ID</th>
-                        <th scope="col" class="center-text table-primary">Name</th>
-                        <th scope="col" class="center-text table-primary">Product Code</th>
-                        <th scope="col" class="center-text table-primary">Amount</th>
-                        <th scope="col" class="center-text table-primary">Product Type</th>
-                        <th scope="col" class="center-text table-primary">Import Price</th>
-                        <th scope="col" class="center-text table-primary">Sell Price</th>
-                        <th scope="col" class="center-text table-primary">Gender</th>
-                        <th scope="col" class="center-text table-primary">Size</th>
-                        <th scope="col" class="center-text table-primary">Brand</th>
-                        <th scope="col" class="center-text table-primary">Actions</th>
+                        <th scope="col" class="center-text ">ID</th>
+                        <th scope="col" class="center-text ">Name</th>
+                        <th scope="col" class="center-text ">Product Code</th>
+                        <th scope="col" class="center-text ">Amount</th>
+                        <th scope="col" class="center-text ">Product Type</th>
+                        <th scope="col" class="center-text ">Import Price</th>
+                        <th scope="col" class="center-text ">Sell Price</th>
+                        <th scope="col" class="center-text ">Gender</th>
+                        <th scope="col" class="center-text ">Size</th>
+                        <th scope="col" class="center-text ">Brand</th>
+                        <th scope="col" class="center-text ">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(product, index) in filteredProducts" :key="product.id">
-                        <td class="center-text table-info">{{ product.id }}</td>
-                        <td class="center-text table-info">{{ product.name }}</td>
-                        <td class="center-text table-info">{{ product.product_code }}</td>
-                        <td class="center-text table-info">{{ product.amount }}</td>
-                        <td class="center-text table-info">{{ product.product_type }}</td>
-                        <td class="center-text table-info">{{ product.import_price }}</td>
-                        <td class="center-text table-info">{{ product.sell_price }}</td>
-                        <td class="center-text table-info">{{ product.gender_item_code }}</td>
-                        <td class="center-text table-info">{{ product.size }}</td>
-                        <td class="center-text table-info">{{ product.brand.name }}</td>
-                        <td class="center-text table-info">
+                        <td class="center-text ">{{ product.id }}</td>
+                        <td class="center-text ">{{ product.name }}</td>
+                        <td class="center-text ">{{ product.product_code }}</td>
+                        <td class="center-text ">{{ product.amount }}</td>
+                        <td class="center-text ">{{ product.category.name }}</td>
+                        <td class="center-text ">{{ product.import_price }}</td>
+                        <td class="center-text ">{{ product.sell_price }}</td>
+                        <td class="center-text ">{{ product.gender_item_code }}</td>
+                        <td class="center-text ">{{ product.size }}</td>
+                        <td class="center-text ">{{ product.brand.name }}</td>
+                        <td class="center-text ">
                             <span class="material-symbols-outlined">
                                 <button @click="deleteProduct(product, index)"
                                     class="mx-2 p-2 col border btn btn-sm btn-outline-danger">delete_forever
@@ -118,6 +116,7 @@ export default {
             axios.get('api/products')
                 .then(response => {
                     this.products = response.data;
+                    console.log(this.products);
                 })
                 .catch(error => {
                     console.log(error);

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             //
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            $table->bigInteger('brand_id')->unsigned()->nullable();
+
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
          
         });
     }

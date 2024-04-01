@@ -24,9 +24,12 @@
       </div>
   
       <div class="table-responsive">
-        <table class="table table-bordered table-striped data-table">
+        <table class="table table-bordered table-striped">
           <thead>
             <tr>
+              <th scope="col" class="center-text">
+                
+              </th>
               <th scope="col" class="center-text" @click="sortBy('id')">
                 ID
                 <span class="arrow" :class="sortOrders['id'] > 0 ? 'asc' : 'dsc'"></span>
@@ -56,7 +59,8 @@
           </thead>
           <tbody>
             <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-              <td class="center-text">{{ employee.id }}</td>
+              <td> <input type="checkbox" v-model="selectedEmployees[index]"></td>
+              <td class="center-text">{{ employee.id }}  </td>
               <td class="center-text">{{ employee.name }}</td>
               <td class="center-text">{{ employee.employee_code }}</td>
               <td class="center-text">{{ employee.phone_number }}</td>
@@ -112,7 +116,8 @@
           message: ''
         },
         sortKey: "", // Cột hiện tại được sắp xếp
-        sortOrders: {} // Hướng sắp xếp của các cột
+        sortOrders: {}, // Hướng sắp xếp của các cột
+        selectedEmployees: [],
       }
     },
   
@@ -277,6 +282,7 @@
     padding: 8px;
     text-align: center;
   }
+  
   
   .pagination li a,
   .pagination li span {

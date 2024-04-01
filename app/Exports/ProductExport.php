@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
@@ -21,11 +22,12 @@ class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'Name',
             'Product_code',
             'Amount',
-            'Sales',
             'Import Price',
             'Sell Price',
             'Gender Item Code',
-            'Product ID',
+            'Brands',
+            'Category',
+            'Size',
             'Created_at',
             'Updated_at'
         ];
@@ -67,6 +69,9 @@ class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                     // Đảo màu để xen kẽ
                     $color = ($color == 'CCEEFF') ? 'FFFFCC' : 'CCEEFF';
                 }
+
+                // Canh trái nội dung trong bảng
+                $event->sheet->getStyle('A1:' . $highestColumn . $highestRow)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             },
         ];
     }
