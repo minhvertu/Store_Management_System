@@ -41,14 +41,16 @@ class ClientController extends Controller
             $client->email= $request->input('email');
             $client->detail = $request->input('detail');
             $client->phone_number = $request->input('phone_number');
+            $client->address = $request->input('address');
+            $client->gender_type = $request->input('gender_type');
             $client->save();
-    
+
             return response()->json($client);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create client!' 
+            'message' => 'You don\'t have permission to create client!'
         ], 404);
     }
 
@@ -96,10 +98,10 @@ class ClientController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete client!' 
+            'message' => 'You don\'t have permission to delete client!'
         ], 200);
     }
 }
