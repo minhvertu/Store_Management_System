@@ -19,6 +19,7 @@ import FashionMainPage from './fashion_store/FashionMainPage.vue';
 import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
 import LVMainPage from './fashion_store/LV/LVMainPage.vue';
 import DataTablesTest from './components/DataTablesTest.vue';
+import Orders from './Transactions/Orders.vue';
 
 export const routes = [
     {
@@ -123,6 +124,12 @@ export const routes = [
         name: 'dataTablesTest',
         path: '/dataTablesTest',
         component: DataTablesTest,
+    },
+
+    {
+        name: 'orders',
+        path: '/orders',
+        component: Orders,
     },
     
 

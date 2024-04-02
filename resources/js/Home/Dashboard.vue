@@ -48,6 +48,9 @@
                             directionReverse
                         ></card>
                     </div>
+                    <div class="row" >
+                        <p class="h3">Doanh thu</p>
+                    </div>
                     <div class="col">
                         <Bar
                             id="my-chart-id"
@@ -64,28 +67,12 @@
 
 <script>
 import { Bar } from "vue-chartjs";
-import {
-    Chart as ChartJS,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale,
-} from "chart.js";
-
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, } from "chart.js";
 import Card from "../Cards/Card.vue";
 import Carousel from "../components/Carousel.vue";
 import CategoriesCard from "../Cards/CategoriesCard.vue";
 
-ChartJS.register(
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale
-);
+ChartJS.register( Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale );
 
 export default {
     name: "dashboard",

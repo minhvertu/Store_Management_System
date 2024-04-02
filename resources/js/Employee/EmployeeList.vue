@@ -1,29 +1,4 @@
 <template>
-    <!-- <main id="user">
-        <div class="error" v-if="error.message.length">
-            <div class="alert alert-danger" role="alert">
-                {{ error.message }}
-            </div>
-        </div>
-        <div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">User name</th>
-                    <th scope="col">Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(user, index) in users" :key="'user-' + index">
-                        <th scope="row">{{ user.id }}</th>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.email }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main> -->
     <div class="card">
     <div class="card-header pb-0">
       <h6>Employees Table</h6>

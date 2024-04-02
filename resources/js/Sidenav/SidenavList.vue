@@ -5,7 +5,6 @@
         <sidenav-item url="/dashboard-default" :class="getRoute() === 'dashboard-default' ? 'active' : ''"
           :navText="'Dashboard'">
           <template v-slot:icon>
-            <!-- <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">home</span>
           </template>
         </sidenav-item>
@@ -14,7 +13,6 @@
         <sidenav-item url="/task" :class="getRoute() === '/task' ? 'active' : ''" :navText="'Task'">
 
           <template v-slot:icon>
-            <!-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">description</span>
           </template>
         </sidenav-item>
@@ -23,7 +21,6 @@
         <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''" :navText="'User'">
 
           <template v-slot:icon>
-            <!-- <i class="ni ni-credit-card text-success text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">group</span>
           </template>
         </sidenav-item>
@@ -33,46 +30,10 @@
         <sidenav-item url="/virtual-reality" :class="getRoute() === 'virtual-reality' ? 'active' : ''"
           :navText="'Virtual Reality'">
           <template v-slot:icon>
-            <!-- <i class="ni ni-app text-info text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">bring_your_own_ip</span>
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item ">
-
-        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <span class="material-symbols-outlined">deployed_code</span>
-          {{ 'Products' }}
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li>
-            <sidenav-item url="/productList" :class="getRoute() === '/productList' ? 'active' : ''"
-              :navText="'ProductList'">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">view_list</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
-              :navText="'PriceManagement'">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">sell</span>
-              </template>
-            </sidenav-item>
-          </li>
-          <li>
-            <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
-              :navText="'Log Out'" @click.prevent="logout">
-              <template v-slot:icon>
-                <span class="material-symbols-outlined">assignment_turned_in</span>
-              </template>
-            </sidenav-item>
-          </li>
-        </ul> -->
-      </li>
-
 
       <li class="nav-item">
         <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
@@ -82,6 +43,7 @@
           </div>
           <span class="nav-link-text ms-1">Products</span>
         </a>
+
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
 
       <li>
@@ -102,34 +64,8 @@
           </template>
         </sidenav-item>
       </li>
-      <!-- <li class="nav-item ">
-        <a class="nav-link " href="../../pages/applications/wizard.html">
-          <span class="sidenav-mini-icon"> W </span>
-          <span class="sidenav-normal"> Wizard </span>
-        </a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link " href="../../pages/applications/datatables.html">
-          <span class="sidenav-mini-icon"> D </span>
-          <span class="sidenav-normal"> DataTables </span>
-        </a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link " href="../../pages/applications/calendar.html">
-          <span class="sidenav-mini-icon"> C </span>
-          <span class="sidenav-normal"> Calendar </span>
-        </a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link " href="../../pages/applications/analytics.html">
-          <span class="sidenav-mini-icon"> A </span>
-          <span class="sidenav-normal"> Analytics </span>
-        </a>
-      </li> -->
-
   </div>
   </li>
-
 
   <li class="nav-item ">
     <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
@@ -159,8 +95,7 @@
         </sidenav-item>
       </li>
       <li>
-        <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''"
-          :navText="'Log Out'" @click.prevent="logout">
+        <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''" :navText="'Log Out'" @click.prevent="logout">
 
           <template v-slot:icon>
             <span class="material-symbols-outlined">logout</span>
@@ -178,10 +113,10 @@
       </div>
       <span class="nav-link-text ms-1">Account Settings</span>
     </a>
+
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
       <li>
-        <sidenav-item url="/signup" :class="getRoute() === 'signup' ? 'active' : ''"
-          :navText="'Sign Up'">
+        <sidenav-item url="/signup" :class="getRoute() === 'signup' ? 'active' : ''" :navText="'Sign Up'">
 
           <template v-slot:icon>
             <span class="material-symbols-outlined">how_to_reg</span>
@@ -189,8 +124,8 @@
         </sidenav-item>
       </li>
       <li>
-        <sidenav-item url="/logout" :class="getRoute() === '/logout' ? 'active' : ''"
-          :navText="'Log Out'" @click.prevent="logout">
+        <sidenav-item url="/logout" :class="getRoute() === '/logout' ? 'active' : ''" :navText="'Log Out'"
+          @click.prevent="logout">
 
           <template v-slot:icon>
             <span class="material-symbols-outlined">logout</span>
@@ -202,7 +137,6 @@
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
 
           <template v-slot:icon>
-            <!-- <i class="ni ni-single-02 text-dark text-sm opacity-10"></i> -->
             <span class="material-symbols-outlined">shield_person</span>
           </template>
         </sidenav-item>
@@ -212,13 +146,44 @@
           :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'">
 
           <template v-slot:icon>
-            <!-- <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i> -->
+
             <span class="material-symbols-outlined">login</span>
           </template>
         </sidenav-item>
       </li>
     </ul>
   </li>
+
+  <li class="nav-item ">
+    <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+      aria-controls="applicationsExamples" role="button" aria-expanded="false">
+      <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+        <span class="material-symbols-outlined">contract</span>
+      </div>
+      <span class="nav-link-text ms-1">Transactions</span>
+    </a>
+    
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+        <sidenav-item url="/orders" :class="getRoute() === '/orders' ? 'active' : ''"
+          :navText="'Orders'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">orders</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
+          :navText="'Sign In'">
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">login</span>
+          </template>
+        </sidenav-item>
+      </li>
+    </ul>
+  </li>
+  
   </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">

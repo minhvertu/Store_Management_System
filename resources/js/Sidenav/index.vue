@@ -31,13 +31,11 @@
             this.$store.state.sidebarType === 'bg-default'
               ? logoWhite
               : logo
-              // ? kamui
-              // : kamui
           "
           class="navbar-brand-img h-100"
           alt="main_logo"
         />
-        <span class="ms-2 font-weight-bold me-2">Kiot Viet </span>
+        <span class="ms-2 font-weight-bold me-2">Thoi Trang Viet </span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />
