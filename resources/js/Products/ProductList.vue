@@ -17,13 +17,41 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn ">
+                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Products</button>
+                    <!-- <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn ">
                         Add Product
-                    </router-link>
+                    </router-link> -->
                     <button class="p-2 col border btn " @click="exportProducts" >
                         Export Data
                     </button>
                 </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Create Products Form</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Amount</label>
+                                            <input class="form-control" type="text" id="name" v-model="products.amount" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                   <button type="submit"  class="btn btn-primary">Add Product</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
 
@@ -31,7 +59,7 @@
             <table class="table border ">
                 <thead>
                     <tr>
-                        <th scope="col" class="center-text ">ID</th>
+                        <th scope="col" class="center-text ">Product Code</th>
                         <th scope="col" class="center-text ">Name</th>
                         <th scope="col" class="center-text ">Product Code</th>
                         <th scope="col" class="center-text ">Amount</th>
@@ -46,9 +74,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="(product, index) in filteredProducts" :key="product.id">
-                        <td class="center-text ">{{ product.id }}</td>
-                        <td class="center-text ">{{ product.name }}</td>
                         <td class="center-text ">{{ product.product_code }}</td>
+                        <td class="center-text ">{{ product.name }}</td>
                         <td class="center-text ">{{ product.amount }}</td>
                         <td class="center-text ">{{ product.category.name }}</td>
                         <td class="center-text ">{{ product.import_price }}</td>
