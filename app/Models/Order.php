@@ -16,6 +16,7 @@ class Order extends Model
         'order_code',
         'client_id',
         'user_id',
+        'status',
     ]; 
 
     public function client()

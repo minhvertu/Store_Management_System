@@ -225,7 +225,7 @@ import ArgonInput from "../Profile/ArgonInput.vue";
 import ArgonButton from "../Profile/ArgonButton.vue";
 import ProfileCard from "../Profile/ProfileCard.vue";
 import setNavPills from "../../assets/js/nav-pills";
-import setTooltip from "../../assets/js/tooltip";
+
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -283,7 +283,6 @@ export default {
   mounted() {
     this.$store.state.isAbsolute = true;
     setNavPills();
-    setTooltip();
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";

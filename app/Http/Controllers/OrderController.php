@@ -47,6 +47,7 @@ class OrderController extends Controller
             $order->order_code = $request->input('order_code');
             $order->client_id = $request->input('client_id');
             $order->user_id = $request->input('user_id');
+            $order->status = $request->input('status');
             $order->save();
             return response()->json($order);
         }

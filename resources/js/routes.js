@@ -87,6 +87,11 @@ export const routes = [
         path: '/products/create', 
         component: EditProduct,
     },
+    { 
+        name: 'editProduct',
+        path: '/products/:id/edit', 
+        component: EditProduct,
+    },
     {
         name: 'NotFound',
         path: '/:pathMatch(.*)*',

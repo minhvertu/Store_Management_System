@@ -42,7 +42,7 @@ class ProductController extends Controller
         if ($request->user()->can('create-products')) {
             $product = new Product();
             $product->name = $request->input('name');
-            $product->product_code = $request->input('product_code');
+            $product->product_code = $this->generateProductCode();
             $product->amount = $request->input('amount');
             $product->gender_item_code = $request->input('gender_item_code');
             $product->import_price = $request->input('import_price');
@@ -116,4 +116,41 @@ class ProductController extends Controller
     {
         return Excel::download(new ProductExport, 'products.xlsx');
     }
+
+    public function uploadImage(Request $request)
+    {
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($request->file('image')) {
+        $image = $request->file('image');
+        $file_name = time() . '_' . $image->getClientOriginalName();
+        $path = $request->file('image')->storeAs('images', $file_name, 'public');
+
+        // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
+        auth()->user()->update(['image' => $path]);
+
+        return response()->json(['image' => $path]);
+    }
+
+    return response()->json(['error' => 'Failed to upload image.']);
+}
+public function generateProductCode() {
+    $digits = 4; // Số lượng chữ số
+    $letters = 2; // Số lượng chữ cái
+
+    $numbers = '';
+    for ($i = 0; $i < $digits; $i++) {
+        $numbers .= mt_rand(0, 9); // Tạo ngẫu nhiên chữ số từ 0 đến 9
+    }
+
+    $characters = '';
+    $lettersRange = range('A', 'Z'); // Mảng chứa các chữ cái từ A đến Z
+    for ($i = 0; $i < $letters; $i++) {
+        $characters .= $lettersRange[array_rand($lettersRange)]; // Chọn ngẫu nhiên một chữ cái từ mảng
+    }
+
+    return 'PROD' . $numbers . $characters;
+}
 }

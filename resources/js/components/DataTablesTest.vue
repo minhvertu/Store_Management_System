@@ -1,11 +1,3 @@
-<!-- <script setup>
-import DataTable from 'datatables.net-vue3';
-import DataTablesCore from 'datatables.net';
- 
-DataTable.use(DataTablesCore);
- 
-const 
-</script> -->
 
 <template>
     <DataTable :data="employees" :columns="columns" class="table table-bordered table-striped data-table1 display">

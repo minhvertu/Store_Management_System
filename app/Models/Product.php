@@ -18,6 +18,7 @@ class Product extends Model
         'size',
         'brand_id',
         'category_id',
+        'image',
     ]; 
 
     public function brand()

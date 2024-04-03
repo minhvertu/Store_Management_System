@@ -7,13 +7,13 @@
         </div>
         <div class="row">
             <div class="col">
-                <!-- <div class="input-group rounded">
+                <div class="input-group rounded">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                         aria-describedby="search-addon" v-model="searchKeyword" @input="searchProducts" />
                     <span class="input-group-text border" id="search-addon">
                         <span class="material-symbols-outlined">search</span>
                     </span>
-                </div> -->
+                </div>
             </div>
             <div class="col">
                 <div class="text-end">
@@ -28,7 +28,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered ">
+            <table class="table border ">
                 <thead>
                     <tr>
                         <th scope="col" class="center-text ">ID</th>
