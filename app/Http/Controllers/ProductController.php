@@ -22,6 +22,21 @@ class ProductController extends Controller
         //
         $product = Product::with ([ 'brand','category',
         ])->get();
+        // return response()->json([
+        //     "id" => $product->id,
+        //     "name" => $product->name,
+        //     "product_code" => $product->product_code,
+        //     "amount" => $product->amount,
+        //     "import_price" => $product->import_price,
+        //     "sell_price" => $product->sell_price,
+        //     "gender_item_code" => $product->gender_item_code,
+        //     "brand_id" => $product->brand_id,
+        //     "brand_name" => $product->brand->name,
+        //     "category_id" => $product->category_id,
+        //     "category_name" => $product->category->name,
+        //     "image" => $product->image,
+        //     "size" => $product->size,
+        // ]);
         return response()->json($product);
     }
 
@@ -37,29 +52,48 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-        if ($request->user()->can('create-products')) {
-            $product = new Product();
-            $product->name = $request->input('name');
-            $product->product_code = $this->generateProductCode();
-            $product->amount = $request->input('amount');
-            $product->gender_item_code = $request->input('gender_item_code');
-            $product->import_price = $request->input('import_price');
-            $product->sell_price = $request->input('sell_price');
-            $product->size = $request->input('size');
-            $product->brand_id = $request->input('brand_id');
-            $product->category_id = $request->input('category_id');
-            $product->save();
-    
-            return response()->json($product);
-        }
-    
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to create Product!' 
-        ], 404);
+{
+    if ($request->user()->can('create-products')) {
+        // Kiểm tra và xác nhận hình ảnh được gửi lên
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required',
+            'amount' => 'required',
+            'gender_item_code' => 'required',
+            'import_price' => 'required',
+            'sell_price' => 'required',
+            'size' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        // Xử lý tải lên ảnh và lưu đường dẫn vào biến $path
+        $image = $request->file('image');
+        $file_name = time() . '_' . $image->getClientOriginalName();
+        $path = $request->file('image')->storeAs('products', $file_name, 'public');
+
+        // Tạo mới sản phẩm và gán đường dẫn ảnh
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->product_code = $this->generateProductCode();
+        $product->amount = $request->input('amount');
+        $product->gender_item_code = $request->input('gender_item_code');
+        $product->import_price = $request->input('import_price');
+        $product->sell_price = $request->input('sell_price');
+        $product->size = $request->input('size');
+        $product->brand_id = $request->input('brand_id');
+        $product->category_id = $request->input('category_id');
+        $product->image = $path; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
+        $product->save();
+
+        return response()->json($product);
     }
+
+    return response([
+        'status' => false,
+        'message' => 'You don\'t have permission to create Product!' 
+    ], 404);
+}
 
     /**
      * Display the specified resource.
@@ -117,7 +151,7 @@ class ProductController extends Controller
         return Excel::download(new ProductExport, 'products.xlsx');
     }
 
-    public function uploadImage(Request $request)
+    public function uploadProductImage(Request $request, Product $product)
     {
     $request->validate([
         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -126,10 +160,10 @@ class ProductController extends Controller
     if ($request->file('image')) {
         $image = $request->file('image');
         $file_name = time() . '_' . $image->getClientOriginalName();
-        $path = $request->file('image')->storeAs('images', $file_name, 'public');
+        $path = $request->file('image')->storeAs('products', $file_name, 'public');
 
         // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
-        auth()->user()->update(['image' => $path]);
+        $product->update(['image' => $path]);
 
         return response()->json(['image' => $path]);
     }

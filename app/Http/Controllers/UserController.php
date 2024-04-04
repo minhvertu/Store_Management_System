@@ -103,7 +103,7 @@ class UserController extends Controller
     if ($request->file('image')) {
         $image = $request->file('image');
         $file_name = time() . '_' . $image->getClientOriginalName();
-        $path = $request->file('image')->storeAs('images', $file_name, 'public');
+        $path = $request->file('image')->storeAs('profiles', $file_name, 'public');
 
         // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
         auth()->user()->update(['image' => $path]);

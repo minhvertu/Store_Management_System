@@ -82,7 +82,7 @@
           </tbody>
         </table>
         <div v-if="showPagination">
-          <ul class="pagination justify-content-end">
+          <ul class="pagination justify-content-end" style="font-size: 80%">
             <li :class="{ 'disabled': currentPage === 1 }">
               <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
             </li>
