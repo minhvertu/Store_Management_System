@@ -54,6 +54,9 @@ export default {
   },
   data() {
     return {
+     
+        products:[],
+      
       loaded: false, // Biến đánh dấu trang đã được load
     };
   },

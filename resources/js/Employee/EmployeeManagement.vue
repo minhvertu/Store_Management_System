@@ -7,7 +7,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="input-group rounded">
+          <div class="input-group rounded" style="width: 55%;">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
               aria-describedby="search-addon" v-model="searchKeyword" @input="searchEmployees" />
           </div>

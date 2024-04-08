@@ -1,5 +1,6 @@
 <template>
     
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top"> -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="index.html">

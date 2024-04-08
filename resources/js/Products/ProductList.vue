@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="input-group rounded">
+                <div class="input-group rounded " style="width: 55%;">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                         aria-describedby="search-addon" v-model="searchKeyword" @input="searchProducts" />
                 </div>
@@ -15,7 +15,8 @@
             <div class="col">
                 <div class="text-end">
                     <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Products</button>
+                        data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Create
+                        Products</button>
                     <!-- <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn ">
                         Add Product
                     </router-link> -->
@@ -28,7 +29,7 @@
                 <form @submit.prevent="submitForm">
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Create Products Form</h5>
@@ -91,6 +92,83 @@
                         </div>
                     </div>
                 </form>
+
+                <form @submit.prevent="updateProduct">
+                    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="updateModalLabel">Update Product</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <!-- Hiển thị dữ liệu sản phẩm hiện tại -->
+                                    <div class="mb-3">
+                                        <label for="updateName" class="form-label">Name</label>
+                                        <input class="form-control" type="text" id="updateName"
+                                            v-model="editedProduct.name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateAmount" class="form-label">Amount</label>
+                                        <input class="form-control" type="text" id="updateAmount"
+                                            v-model="editedProduct.amount" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateImportPrice" class="form-label">Import Price</label>
+                                        <input class="form-control" type="text" id="updateImportPrice"
+                                            v-model="editedProduct.import_price" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateSellPrice" class="form-label">Sell Price</label>
+                                        <input class="form-control" type="text" id="updateSellPrice"
+                                            v-model="editedProduct.sell_price" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateSize" class="form-label">Size</label>
+                                        <input class="form-control" type="text" id="updateSize"
+                                            v-model="editedProduct.size" />
+                                    </div>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedProduct.gender_item_code">
+                                        <option disabled value="">Select Gender</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                    </select>
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedProduct.brand_id">
+                                        <option disabled value="">Select Brand</option>
+                                        <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name
+                                            }}</option>
+                                    </select>
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedProduct.category_id">
+                                        <option disabled value="">Select Category</option>
+                                        <option v-for="category in categories" :key="category.id" :value="category.id">
+                                            {{ category.name }}</option>
+                                    </select>
+                                    <div class="mb-3">
+                                        <input type="file" id="updateImage" @change="onUpdateImageChange" />
+                                    </div>
+                                    <!-- Các trường thông tin khác -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update Product</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
             </div>
         </div>
 
@@ -99,15 +177,42 @@
                 <thead>
                     <tr>
                         <td></td>
-                        <th scope="col" class="center-text ">Product Code</th>
-                        <th scope="col" class="center-text ">Name</th>
-                        <th scope="col" class="center-text ">Amount</th>
-                        <th scope="col" class="center-text ">Product Type</th>
-                        <th scope="col" class="center-text ">Import Price</th>
-                        <th scope="col" class="center-text ">Sell Price</th>
-                        <th scope="col" class="center-text ">Gender</th>
-                        <th scope="col" class="center-text ">Size</th>
-                        <th scope="col" class="center-text ">Brand</th>
+                        <th scope="col" class="center-text" @click="sortBy('product_code')">
+                            Product Code
+                            <span class="arrow" :class="sortOrders['product_code'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('name')">
+                            Name
+                            <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('amount')">
+                            Amount
+                            <span class="arrow" :class="sortOrders['amount'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('category.name')">
+                            Product Type
+                            <span class="arrow" :class="sortOrders['category.name'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('import_price')">
+                            Import Price
+                            <span class="arrow" :class="sortOrders['import_price'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('sell_price')">
+                            Sell Price
+                            <span class="arrow" :class="sortOrders['sell_price'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <th scope="col" class="center-text" @click="sortBy('gender_item_code')">
+                            Gender
+                            <span class="arrow" :class="sortOrders['gender_item_code'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
+                        <!-- <th scope="col" class="center-text" @click="sortBy('size')">
+                            Size
+                            <span class="arrow" :class="sortOrders['size'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th> -->
+                        <th scope="col" class="center-text" @click="sortBy('brand.name')">
+                            Brand
+                            <span class="arrow" :class="sortOrders['brand.name'] > 0 ? 'asc' : 'dsc'"></span>
+                        </th>
                         <th scope="col" class="center-text ">Actions</th>
                     </tr>
                 </thead>
@@ -129,7 +234,7 @@
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
                             <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td>
-                            <td class="center-text">{{ product.size }}</td>
+                            <!-- <td class="center-text">{{ product.size }}</td> -->
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined">
@@ -138,7 +243,8 @@
                                 </span>
                                 <span class="material-symbols-outlined">
                                     <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">edit</button>
+                                        data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                        @click="openUpdateModal(product)">edit</button>
                                 </span>
                             </td>
                         </tr>
@@ -194,8 +300,25 @@ export default {
                 category_id: '',
                 image: '',
             },
+
+            editedProduct: {
+                id: '',
+                name: '',
+                amount: '',
+                import_price: '',
+                sell_price: '',
+                gender_item_code: '',
+                size: '',
+                brand_id: '',
+                category_id: '',
+                image: '',
+            },
+
             isNewProduct: true,
             imageUrl: null,
+
+            sortKey: "", // Cột hiện tại được sắp xếp
+            sortOrders: {}, // Hướng sắp xếp của các cột
 
             brands: [],
             categories: [],
@@ -203,7 +326,7 @@ export default {
             addPermission: true,
             listView: true,
             currentPage: 1, // Trang hiện tại
-            pageSize: 5, // Số lượng nhân viên trên mỗi trang
+            pageSize: 10, // Số lượng nhân viên trên mỗi trang
             error: {
                 message: ''
             }
@@ -217,6 +340,64 @@ export default {
         this.blockAddPermission();
     },
     methods: {
+
+        onUpdateImageChange(event) {
+            // Lấy file ảnh từ sự kiện change
+            const file = event.target.files[0];
+            // Kiểm tra nếu có file ảnh được chọn
+            if (file) {
+                // Cập nhật ảnh trong biến editedProduct
+                this.editedProduct.image = file;
+            }
+        },
+        openUpdateModal(product) {
+            // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
+            this.editedProduct = {
+                id: product.id,
+                name: product.name,
+                amount: product.amount,
+                import_price: product.import_price,
+                sell_price: product.sell_price,
+                gender_item_code: product.gender_item_code,
+                size: product.size,
+                brand_id: product.brand_id,
+                category_id: product.category_id,
+                image: product.image,
+            };
+            // Mở modal cập nhật sản phẩm
+            $('#updateModal').modal('show');
+        },
+
+        async updateProduct() {
+            try {
+                await axios.put(`/api/products/${this.editedProduct.id}`, this.editedProduct);
+                alert('Updated Product Successfully');
+                window.location.href = '/productList';
+            } catch (error) {
+                console.error(error);
+
+            }
+        },
+
+        sortBy(key) {
+            // Kiểm tra xem cột hiện tại có phải là cột đang được sắp xếp không
+            if (this.sortKey === key) {
+                // Đảo hướng sắp xếp
+                this.sortOrders[key] = this.sortOrders[key] * -1;
+            } else {
+                // Nếu không phải, đặt cột hiện tại và hướng sắp xếp mới
+                this.sortKey = key;
+                this.sortOrders[key] = 1;
+            }
+
+            // Sắp xếp dữ liệu
+            this.filteredProducts.sort((a, b) => {
+                let modifier = this.sortOrders[key];
+                if (a[key] < b[key]) return -1 * modifier;
+                if (a[key] > b[key]) return 1 * modifier;
+                return 0;
+            });
+        },
         onFileChange(event) {
             this.product.image = event.target.files[0];
         },
@@ -423,5 +604,29 @@ export default {
 .pagination li span {
     border-radius: 20px;
     padding: 8px 16px;
+}
+
+
+/* CSS cho hình mũi tên chỉ ra hướng sắp xếp */
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.25em;
+    vertical-align: middle;
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: none;
+    border-left: 0.3em solid transparent;
+}
+
+.asc {
+    border-top: none;
+    border-bottom: 0.3em solid;
+}
+
+.dsc {
+    border-top: 0.3em solid;
+    border-bottom: none;
 }
 </style>

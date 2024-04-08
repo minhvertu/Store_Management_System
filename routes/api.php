@@ -64,6 +64,7 @@ Route::get('products_export',[ProductController::class, 'get_product_data'])->na
 Route::post('/upload-product-image', [ProductController::class, 'uploadProductImage']);
 
 
+
 //Clients
 Route::resource('clients', ClientController::class);
 

@@ -20,6 +20,7 @@ import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
 import LVMainPage from './fashion_store/LV/LVMainPage.vue';
 import DataTablesTest from './components/DataTablesTest.vue';
 import Orders from './Transactions/Orders.vue';
+import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
 
 export const routes = [
     {
@@ -135,6 +136,12 @@ export const routes = [
         name: 'orders',
         path: '/orders',
         component: Orders,
+    },
+
+    {
+        name: 'shoppingCart',
+        path: '/products/shoppingCart/:id/',
+        component: ShoppingCart,
     },
     
 
