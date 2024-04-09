@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('product_code');
-            $table->string('amount');
             $table->string('import_price');
             $table->string('sell_price');
             $table->string('gender_item_code');

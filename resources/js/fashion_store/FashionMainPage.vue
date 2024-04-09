@@ -598,7 +598,7 @@ export default {
     }
 
     /* navbar */
-    .navbar {
+    /* .navbar {
         -webkit-box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
         box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
     }
@@ -618,7 +618,7 @@ export default {
 
     .nav-item {
         border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
-    }
+    } */
 
     
 
@@ -656,6 +656,18 @@ export default {
         border-radius: 50%;
     }
 
+    .collection-img img {
+        -webkit-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .collection-img:hover img {
+        -webkit-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
     /* special */
     .special-img span {
         top: 20px;
@@ -679,7 +691,7 @@ export default {
     }
 
     /* header */
-    #header {
+    /* #header {
         background: url(../fashion_store/images/chaubui2.jpg) top/cover no-repeat;
     }
 
@@ -694,11 +706,12 @@ export default {
 
     .carousel-item .btn:hover {
         border-color: var(--pink) !important;
-    }
+    } */
 
     /* offers */
     #offers {
         background: url(../fashion_store/images/offer_img.jpg) center/cover no-repeat;
+        
     }
 
     #offers .row {

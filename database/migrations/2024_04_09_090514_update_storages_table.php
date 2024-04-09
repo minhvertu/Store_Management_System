@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('storages', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('storages', function (Blueprint $table) {
+            //
+            $table->string('amount');
+
         });
     }
 
@@ -22,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('storages');
+        Schema::table('storages', function (Blueprint $table) {
+            //
+        });
     }
 };

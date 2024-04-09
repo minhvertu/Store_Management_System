@@ -183,6 +183,38 @@
       </li>
     </ul>
   </li>
+
+
+  <li class="nav-item ">
+    <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+      aria-controls="applicationsExamples" role="button" aria-expanded="false">
+      <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+        <span class="material-symbols-outlined">store</span>
+      </div>
+      <span class="nav-link-text ms-1">Stores</span>
+    </a>
+    
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+        <sidenav-item url="/shopManagement" :class="getRoute() === '/shopManagement' ? 'active' : ''"
+          :navText="'Stock Check'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">storefront</span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
+          :navText="'Sign In'">
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">login</span>
+          </template>
+        </sidenav-item>
+      </li>
+    </ul>
+  </li>
+  
   
   </ul>
   </div>

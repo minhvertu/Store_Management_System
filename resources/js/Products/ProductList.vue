@@ -42,10 +42,6 @@
                                         <input class="form-control" type="text" id="name" v-model="product.name" />
                                     </div>
                                     <div class="mb-3">
-                                        <label for="amount" class="form-label">Amount</label>
-                                        <input class="form-control" type="text" id="amount" v-model="product.amount" />
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="import_price" class="form-label">Import Price</label>
                                         <input class="form-control" type="text" id="import_price"
                                             v-model="product.import_price" />
@@ -110,11 +106,6 @@
                                         <label for="updateName" class="form-label">Name</label>
                                         <input class="form-control" type="text" id="updateName"
                                             v-model="editedProduct.name" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="updateAmount" class="form-label">Amount</label>
-                                        <input class="form-control" type="text" id="updateAmount"
-                                            v-model="editedProduct.amount" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="updateImportPrice" class="form-label">Import Price</label>
@@ -185,10 +176,6 @@
                             Name
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('amount')">
-                            Amount
-                            <span class="arrow" :class="sortOrders['amount'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
                         <th scope="col" class="center-text" @click="sortBy('category.name')">
                             Product Type
                             <span class="arrow" :class="sortOrders['category.name'] > 0 ? 'asc' : 'dsc'"></span>
@@ -229,7 +216,6 @@
                             </td>
                             <td class="center-text">{{ product.product_code }}</td>
                             <td class="center-text">{{ product.name }}</td>
-                            <td class="center-text">{{ product.amount }}</td>
                             <td class="center-text">{{ product.category.name }}</td>
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
@@ -290,7 +276,6 @@ export default {
             product: {
                 id: '',
                 name: '',
-                amount: '',
                 product_type: '',
                 import_price: '',
                 sell_price: '',
@@ -304,7 +289,6 @@ export default {
             editedProduct: {
                 id: '',
                 name: '',
-                amount: '',
                 import_price: '',
                 sell_price: '',
                 gender_item_code: '',
@@ -355,7 +339,6 @@ export default {
             this.editedProduct = {
                 id: product.id,
                 name: product.name,
-                amount: product.amount,
                 import_price: product.import_price,
                 sell_price: product.sell_price,
                 gender_item_code: product.gender_item_code,
@@ -406,7 +389,6 @@ export default {
                 const formData = new FormData();
                 formData.append('image', this.product.image);
                 formData.append('name', this.product.name);
-                formData.append('amount', this.product.amount);
                 formData.append('import_price', this.product.import_price);
                 formData.append('sell_price', this.product.sell_price);
                 formData.append('size', this.product.size);
@@ -505,7 +487,6 @@ export default {
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
                     product.sell_price.toLowerCase().includes(keyword) ||
-                    product.amount.toLowerCase().includes(keyword) ||
                     product.gender_item_code.toLowerCase().includes(keyword)
                 );
             });
@@ -554,7 +535,6 @@ export default {
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
                     product.sell_price.toLowerCase().includes(keyword) ||
-                    product.amount.toLowerCase().includes(keyword) ||
                     product.gender_item_code.toLowerCase().includes(keyword)
                 );
             });

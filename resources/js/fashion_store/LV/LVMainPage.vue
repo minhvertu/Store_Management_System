@@ -352,6 +352,19 @@ export default {
         border-radius: 50%;
     }
 
+
+    .collection-img img {
+        -webkit-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .collection-img:hover img {
+        -webkit-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
     /* special */
     .special-img span {
         top: 20px;

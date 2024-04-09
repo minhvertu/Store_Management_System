@@ -6,7 +6,7 @@
 
         <section id="collection" class="py-5">
 
-            <div class="container ">
+            <div class="container">
              
                 <div class="row">
                     <div class="col-md-5">
@@ -108,7 +108,7 @@
                 </div>
             </div>
 
-
+     
 
             <div class="container similar-products my-4">
                 <hr>
@@ -147,6 +147,42 @@
 
             </div>
         </section>
+
+           <!-- blogs -->
+           <section id="offers" class="py-5">
+                <div class="container">
+                    <div
+                        class="row d-flex align-items-center justify-content-center text-center justify-content-lg-start text-lg-start">
+                        <div class="offers-content">
+                            <span class="text-white">Discount Up To 40%</span>
+                            <h2 class="mt-2 mb-4 text-white">Grand Sale Offer!</h2>
+                            <a href="#" class="btn">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        <!-- end of blogs -->
+
+          <!-- newsletter -->
+          <section id="newsletter" class="py-5">
+            <div class="container">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="title text-center pt-3 pb-5">
+                        <h2 class="position-relative d-inline-block ms-4">Newsletter Subscription</h2>
+                    </div>
+
+                    <p class="text-center text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+                        rem
+                        officia accusantium maiores quisquam dolorum?</p>
+                    <!-- <div class = "input-group mb-3 mt-3">
+                    <input type = "text" class = "form-control" placeholder="Enter Your Email ...">
+                    <button class = "btn btn-primary" type = "submit">Subscribe</button>
+                </div> -->
+                </div>
+            </div>
+        </section>
+        <!-- end of newsletter -->
+
         <footer_fashion></footer_fashion>
     </div>
 
@@ -169,6 +205,7 @@ export default {
     components: {
         navbar_fashion,
         index,
+        footer_fashion,
     },
 
     created () {
@@ -231,9 +268,10 @@ text-color {
     width: 100%;
 }
 
+
 /* Preview images */
 .previews img {
-    width: 100%;
+    width: 80%;
     height: 140px;
 }
 
@@ -341,6 +379,7 @@ text-color {
         color: var(--pink) !important;
     }
     
+    
     /* media queries */
     @media(min-width: 992px) {
         .nav-item {
@@ -358,6 +397,73 @@ text-color {
     .bg-dark {
         background-color: #212529 !important;
     }
+
+    /* button */
+    .bg-primary {
+        background-color: var(--pink) !important;
+    }
+
+    .btn:not(.nav-btns button) {
+        background-color: #fff;
+        color: rgb(85, 85, 85);
+        padding: 10px 28px;
+        border-radius: 25px;
+        border: 1px solid rgb(85, 85, 85);
+    }
+
+     /* offers */
+     #offers {
+        background: url(../../fashion_store/images/lv_blog.jpg) center/cover no-repeat;
+        
+    }
+
+    #offers .row {
+        min-height: 60vh;
+    }
+
+    .offers-content span {
+        font-size: 28px;
+    }
+
+    .offers-content h2 {
+        font-size: 60px;
+        font-family: var(--lg-font);
+
+    }
+
+    .offers-content .btn {
+        border-color: transparent !important;
+    }
+
+    /* newsletter */
+    #newsletter {
+        background-color: rgba(179, 179, 179, 0.05);
+    }
+
+    #newsletter p {
+        max-width: 600px;
+    }
+
+    #newsletter .input-group {
+        max-width: 500px;
+    }
+
+    #newsletter .form-control {
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+    }
+
+    #newsletter .btn {
+        background-color: var(--pink);
+        color: #fff;
+        border-color: var(--pink);
+    }
+
+    #newsletter .btn:hover {
+        background-color: #000;
+        border-color: #000;
+    }
+
 
 }
 </style>

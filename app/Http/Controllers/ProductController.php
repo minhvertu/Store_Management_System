@@ -26,7 +26,6 @@ class ProductController extends Controller
         //     "id" => $product->id,
         //     "name" => $product->name,
         //     "product_code" => $product->product_code,
-        //     "amount" => $product->amount,
         //     "import_price" => $product->import_price,
         //     "sell_price" => $product->sell_price,
         //     "gender_item_code" => $product->gender_item_code,
@@ -58,7 +57,6 @@ class ProductController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required',
-            'amount' => 'required',
             'gender_item_code' => 'required',
             'import_price' => 'required',
             'sell_price' => 'required',
@@ -76,7 +74,6 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = $request->input('name');
         $product->product_code = $this->generateProductCode();
-        $product->amount = $request->input('amount');
         $product->gender_item_code = $request->input('gender_item_code');
         $product->import_price = $request->input('import_price');
         $product->sell_price = $request->input('sell_price');

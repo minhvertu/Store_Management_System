@@ -21,6 +21,7 @@ import LVMainPage from './fashion_store/LV/LVMainPage.vue';
 import DataTablesTest from './components/DataTablesTest.vue';
 import Orders from './Transactions/Orders.vue';
 import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
+import ShopManagement from './ManagerStore/ShopManagement.vue';
 
 export const routes = [
     {
@@ -142,6 +143,12 @@ export const routes = [
         name: 'shoppingCart',
         path: '/products/shoppingCart/:id/',
         component: ShoppingCart,
+    },
+
+    {
+        name: 'shopManagement',
+        path: '/shopManagement',
+        component: ShopManagement,
     },
     
 

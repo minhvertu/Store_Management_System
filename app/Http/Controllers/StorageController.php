@@ -36,18 +36,24 @@ class StorageController extends Controller
     {
         //
         if ($request->user()->can('create-storages')) {
+            $request->validate([
+                'amount' => 'required',
+                'shop_id' => 'required',
+                'product_id' => 'required',
+            ]);
+
             $storage = new Storage();
-            $storage->name = $request->input('name');
-            $storage->phone_number = $request->input('phone_number');
-            $storage->address = $request->input('address');
+            $storage->amount= $request->input('amount');
+            $storage->shop_id = $request->input('shop_id');
+            $storage->product_id = $request->input('product_id');
             $storage->save();
-    
+
             return response()->json($storage);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create storage!' 
+            'message' => 'You don\'t have permission to create storage!'
         ], 404);
     }
 
@@ -63,7 +69,7 @@ class StorageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Storage $storage,string $id)
+    public function edit(Storage $storage, string $id)
     {
         //
         $storage = Storage::find($id);
@@ -95,10 +101,10 @@ class StorageController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete storage!' 
+            'message' => 'You don\'t have permission to delete storage!'
         ], 200);
     }
 }
