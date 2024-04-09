@@ -550,7 +550,7 @@ export default {
         header_fashion,
         footer_fashion,
     },
-    
+
 }
 </script>
 
@@ -620,7 +620,7 @@ export default {
         border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
     } */
 
-    
+
 
     /* title */
     .title h2::before {
@@ -710,8 +710,8 @@ export default {
 
     /* offers */
     #offers {
-        background: url(../fashion_store/images/offer_img.jpg) center/cover no-repeat;
-        
+        background: url(../fashion_store/images/tou.jpg) center/cover no-repeat;
+
     }
 
     #offers .row {
