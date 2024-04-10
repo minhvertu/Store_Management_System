@@ -62,4 +62,13 @@ class StorageCheckController extends Controller
     {
         //
     }
+
+    public function getProductAmount($shop_id, $product_id)
+    {
+        $amount = StorageCheck::where('store_id', $shop_id)
+            ->where('product_id', $product_id)
+            ->sum('amount');
+
+        return response()->json(['amount' => $amount]);
+    }
 }

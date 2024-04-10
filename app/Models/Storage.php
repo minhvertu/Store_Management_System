@@ -13,4 +13,13 @@ class Storage extends Model
         'product_id',
         'amount',
     ]; 
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

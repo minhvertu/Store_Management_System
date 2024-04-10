@@ -8,9 +8,12 @@
 
         <div class="row">
             <div class="col">
-                <div class="input-group rounded " style="width: 55%;">
+                <div class="input-group rounded" style="width: 55%;">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                         aria-describedby="search-addon" v-model="searchKeyword" @input="searchShops" />
+                    <span class="input-group-text bg-dark text-light" id="search-addon">
+                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                    </span>
                 </div>
             </div>
             <div class="col">
@@ -20,7 +23,7 @@
                         Shops</button>
 
                     <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                        data-bs-target="#" data-bs-whatever="@mdo" >Storage Check</button>
+                        data-bs-target="#productCheckModal" data-bs-whatever="@mdo">Storage Check</button>
                     <!-- <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
                     </button> -->
@@ -65,7 +68,7 @@
                                         <option v-for="category in categories" :key="category.id" :value="category.id">
                                             {{ category.name }}</option>
                                     </select> -->
-                                   
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -89,7 +92,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                   
+
                                     <div class="mb-3">
                                         <label for="updateName" class="form-label">Name</label>
                                         <input class="form-control" type="text" id="updateName"
@@ -105,7 +108,7 @@
                                         <input class="form-control" type="text" id="updatePhoneNumber"
                                             v-model="editedShop.phone_number" />
                                     </div>
-                                    
+
 
                                     <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="editedShop.brand_id">
@@ -127,27 +130,67 @@
                 </form>
 
 
+                <div class="modal fade" id="productCheckModal" tabindex="-1" aria-labelledby="productCheckModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="productCheckModalLabel">Product Check</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered ">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th scope="col" class="center-text">Shop Address</th>
+                                                <th scope="col" class="center-text">Product</th>
+                                                <th scope="col" class="center-text">Amount</th>
+                                                <th scope="col" class="center-text">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(storage, index) in storages" :key="'storage-' + index">
+                                                <td class="center-text">{{ storage.shop.name }}</td>
+                                                <td class="center-text">{{ storage.product.name }}</td>
+                                                <td class="center-text">{{ storage.amount }}</td>
+                                                <td class="center-text">
+                                                    <!-- Add actions here if needed -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="table border ">
-                <thead>
+            <table class="table border">
+                <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="center-text" @click="sortBy('name')">
+                        <th scope="col" class="text-center" @click="sortBy('name')">
                             Name
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('address')">
+                        <th scope="col" class="text-center" @click="sortBy('address')">
                             Address
                             <span class="arrow" :class="sortOrders['address'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('phone_number')">
+                        <th scope="col" class="text-center" @click="sortBy('phone_number')">
                             Phone Number
                             <span class="arrow" :class="sortOrders['phone_number'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text ">Actions</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -182,6 +225,9 @@
                     </template>
                 </tbody>
             </table>
+
+            
+
             <div v-if="showPagination">
                 <ul class="pagination justify-content-end" style="font-size: 80%;">
                     <li :class="{ 'disabled': currentPage === 1 }">
@@ -197,8 +243,12 @@
             </div>
         </div>
 
+        
 
-    </div> 
+
+    </div>
+
+    
 
 </template>
 
@@ -224,7 +274,15 @@ export default {
                 name: '',
                 address: '',
                 phone_number: '',
-            
+
+            },
+            storages: [],
+            storage: {
+                id: '',
+                shop_id: '',
+                product_id: '',
+                amount: '',
+
             },
 
             isNewStore: true,
@@ -245,10 +303,37 @@ export default {
     },
     created() {
         this.getShops();
+        this.getProducts();
+        this.getStorages();
         this.blockAddPermission();
     },
 
     methods: {
+
+        openProductCheckModal(storage) {
+            // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
+            this.storage = {
+                id: storage.id,
+                shop_id: storage.shop_id,
+                product_id: storage.product_id,
+                amount: storage.amount,
+            };
+            // Mở modal cập nhật sản phẩm
+            $('#productCheckModal').modal('show');
+        },
+
+
+        getStorages() {
+            axios.get('api/storages')
+                .then(response => {
+                    this.storages = response.data;
+                    console.log(this.storages);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
 
         openUpdateModal(shop) {
             // Điền dữ liệu sản phẩm hiện tại vào biến editedShop
@@ -257,7 +342,7 @@ export default {
                 name: shop.name,
                 address: shop.address,
                 phone_number: shop.phone_number,
-                
+
             };
             // Mở modal cập nhật sản phẩm
             $('#updateModal').modal('show');
@@ -274,11 +359,23 @@ export default {
             }
         },
 
-         getShops() {
+        getShops() {
             axios.get('api/shops')
                 .then(response => {
                     this.shops = response.data;
-                    console.log(this.stores);
+                    console.log(this.shops);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getProducts() {
+            axios.get('api/products')
+                .then(response => {
+                    this.products = response.data;
+                    console.log(this.products);
 
                 })
                 .catch(error => {
@@ -309,11 +406,11 @@ export default {
         async submitForm() {
             try {
                 const formData = new FormData();
-                
+
                 formData.append('name', this.shop.name);
                 formData.append('address', this.shop.address);
                 formData.append('phone_number', this.shop.phone_number);
-              
+
 
                 await axios.post('/api/shops', formData, {
                     header: {
@@ -396,10 +493,10 @@ export default {
                 return (
                     shop.name.toLowerCase().includes(keyword) ||
                     shop.phone_number.toLowerCase().includes(keyword) ||
-                    shop.address.includes(keyword) 
+                    shop.address.includes(keyword)
                 );
             });
-            return  filteredShops.slice(startIndex, endIndex);
+            return filteredShops.slice(startIndex, endIndex);
         },
         totalPages() {
             return Math.ceil(this.shops.length / this.pageSize);

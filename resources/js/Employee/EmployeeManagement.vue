@@ -10,6 +10,9 @@
           <div class="input-group rounded" style="width: 55%;">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
               aria-describedby="search-addon" v-model="searchKeyword" @input="searchEmployees" />
+              <span class="input-group-text bg-dark text-light" id="search-addon">
+                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+              </span>
           </div>
         </div>
         <div class="col">

@@ -23,39 +23,41 @@
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Order Information</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Amount</label>
-                                            <input class="form-control" type="text" id="name" v-model="orders.amount" />
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Send message</button>
+                    <form @submit.prevent="createOrder">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Order Information</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="order_detail" class="form-label">Detail</label>
+                                                <input class="form-control" type="text" id="detail" v-model="order.detail" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0 table-sm ">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-xxs font-weight-bolder opacity-7">No</th>
-                            <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
+                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                                ID</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
                                 Amount</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
@@ -77,22 +79,16 @@
                         <template v-for="(order, index) in orders" :key="'order-' + index">
                             <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index"
                                 aria-expanded="false" aria-controls="collapseExample">
-                                <td>
+                                <!-- <td>
                                     <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1" />
-                                        </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="mb-0 text-sm">{{ order.id }}</h6>
-                                            <!-- <p class="text-xs text-secondary mb-0">{{ order.amount }}</p> -->
+                                            <p class="text-xs text-secondary mb-0">{{ order.amount }}</p>
                                         </div>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td class="align-middle text-center text-sm">
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.id }}</span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.amount }}</span>
                                 </td>
                                 <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.price }}</span>
@@ -145,12 +141,49 @@ export default {
     data() {
         return {
             orders: [],
+            order: {
+                id: '',
+                price:'',
+                detail:'',
+                client_id:'',
+                user_id:'',
+                status: '',
+             
+            },
+            
+            products: [{ id: '', amount: '' }],
+            users:[],
+            clients:[],
         }
     },
     created() {
         this.getOrders();
+        this.getUsers();
+        this.getClients();
+        
     },
     methods: {
+
+        createOrder() {
+      // Gửi request POST đến backend để tạo đơn hàng và thêm sản phẩm
+      axios.post('/api/orders', {
+        amount: this.order.amount,
+        price: this.order.price,
+        detail: this.order.detail,
+        client_id: this.order.client_id,
+        user_id: this.order.user_id,
+        status: this.order.status,
+        products: this.products // Truyền mảng sản phẩm vào request
+      })
+      .then(response => {
+        // Xử lý khi tạo đơn hàng thành công
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Xử lý khi có lỗi xảy ra
+        console.error(error);
+      });
+    },
         getOrders() {
             axios.get('api/orders')
                 .then(response => {
@@ -161,6 +194,28 @@ export default {
                     console.log(error);
                 });
         },
+        getUsers() {
+            axios.get('api/users')
+                .then(response => {
+                    this.users = response.data;
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        getClients() {
+            axios.get('api/clients')
+                .then(response => {
+                    this.clients = response.data;
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        
 
         deleteOrders(order, index) {
             axios.delete('api/orders/' + order.id)

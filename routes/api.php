@@ -14,6 +14,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
 
 
 /*
@@ -85,3 +86,7 @@ Route::resource('categories', CategoryController::class);
 
 //Orders
 Route::resource('orders', OrderController::class);
+
+//Order Product
+Route::resource('orderProduct', OrderProductController::class);
+

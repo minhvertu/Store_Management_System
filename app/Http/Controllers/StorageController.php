@@ -18,7 +18,9 @@ class StorageController extends Controller
     public function index()
     {
         //
-        return response()->json(Storage::all());
+        $storage = Storage::with ([ 'shop','product',
+        ])->get();
+        return response()->json($storage);
     }
 
     /**
@@ -107,4 +109,13 @@ class StorageController extends Controller
             'message' => 'You don\'t have permission to delete storage!'
         ], 200);
     }
+
+    // public function getProductAmount($shop_id, $product_id)
+    // {
+    //     $amount = Storage::where('store_id', $shop_id)
+    //         ->where('product_id', $product_id)
+    //         ->sum('amount');
+
+    //     return response()->json(['amount' => $amount]);
+    // }
 }

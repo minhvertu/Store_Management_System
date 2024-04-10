@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -41,14 +42,21 @@ class OrderController extends Controller
         //
         if ($request->user()->can('create-orders')) {
             $order = new Order();
-            $order->amount = $request->input('amount');
             $order->price = $request->input('price');
             $order->detail = $request->input('detail');
-            $order->order_code = $request->input('order_code');
+            $order->order_code = $this->generateOrderCode();
             $order->client_id = $request->input('client_id');
             $order->user_id = $request->input('user_id');
             $order->status = $request->input('status');
             $order->save();
+            
+            foreach ($request->input('products') as $product) {
+                $orderProduct = new OrderProduct();
+                $orderProduct->order_id = $order->id;
+                $orderProduct->product_id = $product['id'];
+                $orderProduct->amount = $product['amount'];
+                $orderProduct->save();
+            }
             return response()->json($order);
         }
         return response([
@@ -95,7 +103,7 @@ class OrderController extends Controller
     {
         //
         if ($request->user()->can('delete-orders')) {
-            $order = order::find($id);
+            $order = Order::find($id);
             $order->delete();
             return response([
                 'status' => true,
@@ -106,5 +114,23 @@ class OrderController extends Controller
             'status' => false,
             'message' => 'You don\'t have permission to delete order!' 
         ], 200);
+    }
+
+    public function generateOrderCode() {
+        $digits = 3; // Số lượng chữ số
+        $letters = 2; // Số lượng chữ cái
+    
+        $numbers = '';
+        for ($i = 0; $i < $digits; $i++) {
+            $numbers .= mt_rand(0, 9); // Tạo ngẫu nhiên chữ số từ 0 đến 9
+        }
+    
+        $characters = '';
+        $lettersRange = range('A', 'Z'); // Mảng chứa các chữ cái từ A đến Z
+        for ($i = 0; $i < $letters; $i++) {
+            $characters .= $lettersRange[array_rand($lettersRange)]; // Chọn ngẫu nhiên một chữ cái từ mảng
+        }
+    
+        return 'ORD' . $numbers . $characters;
     }
 }
