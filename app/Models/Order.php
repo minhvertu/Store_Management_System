@@ -27,6 +27,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function order_product()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }
 
 

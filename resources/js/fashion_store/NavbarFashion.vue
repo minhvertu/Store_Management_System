@@ -9,10 +9,12 @@
             </a>
 
             <div class="order-lg-2 nav-btns">
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
-                </button>
+                <router-link to="/shoppingCart">
+                    <button type="button" class="btn position-relative">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                    </button>
+                 </router-link>
                 <button type="button" class="btn position-relative">
                     <i class="fa fa-heart"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">2</span>

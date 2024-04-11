@@ -98,7 +98,18 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
-        return $product;
+        $product->load('category', 'brand');
+
+    // Trả về product kèm theo thông tin category.name và brand.name
+    return response()->json([
+        'product' => $product,
+        'id'=>$product->id,
+        'image'=>$product->image,
+        'name' =>$product->name,
+        'sell_price' =>$product->sell_price,
+        'category_name' => $product->category->name, // Lấy tên của danh mục
+        'brand_name' => $product->brand->name, // Lấy tên của thương hiệu
+    ]);
     }
 
     /**

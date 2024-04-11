@@ -20,8 +20,9 @@ import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
 import LVMainPage from './fashion_store/LV/LVMainPage.vue';
 import DataTablesTest from './components/DataTablesTest.vue';
 import Orders from './Transactions/Orders.vue';
-import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
+import ProductDetail from './fashion_store/Cart/ProductDetail.vue';
 import ShopManagement from './ManagerStore/ShopManagement.vue';
+import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
 
 export const routes = [
     {
@@ -140,15 +141,21 @@ export const routes = [
     },
 
     {
-        name: 'shoppingCart',
-        path: '/products/shoppingCart/:id/',
-        component: ShoppingCart,
+        name: 'productDetail',
+        path: '/products/productDetail/:id/',
+        component: ProductDetail,
     },
 
     {
         name: 'shopManagement',
         path: '/shopManagement',
         component: ShopManagement,
+    },
+
+    {
+        name: 'shoppingCart',
+        path: '/shoppingCart',
+        component: ShoppingCart,
     },
     
 

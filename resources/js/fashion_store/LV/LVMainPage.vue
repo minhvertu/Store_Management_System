@@ -48,7 +48,7 @@
 
 
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" v-for="(product, index) in products" :key="'product-' + index">
-                            <router-link :to="`/products/shoppingCart/${product.id}`">
+                            <router-link :to="`/products/productDetail/${product.id}`">
                                 <div class="collection-img position-relative">
                                     <img :src="'/storage/' + product.image" class="w-100">
                                     <span

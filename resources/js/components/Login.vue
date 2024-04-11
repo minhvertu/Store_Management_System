@@ -1,23 +1,6 @@
 <template>
- <!-- <main id = "Login">
-    <div class="row">
-      <div class="col-sm-4">
-        <h2 align="center">Login</h2>
-        <form @submit.prevent="loginUser">
-          <div class="form-group" align="left">
-            <label>Email</label>
-            <input type="email" v-model="user.email" class="form-control" placeholder="Email" required>
-          </div>
-          <div class="form-group" align="left">
-            <label>Password</label>
-            <input type="password" v-model="user.password" class="form-control" placeholder="Password" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-      </div>
-    </div>
-  </main> -->
-  <div class="container top-0 position-sticky z-index-sticky">
+ 
+  <!-- <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
         <navbar
@@ -27,7 +10,7 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
   <main class="mt-0 main-content">
     <section>
       <div class="page-header min-vh-100">
@@ -147,10 +130,15 @@ export default {
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
               localStorage.setItem('authToken', data.authorisation.token);
               localStorage.setItem('id', data.user.id);
+              localStorage.setItem('role_id', data.user.role_id);
               localStorage.setItem('permission_id', JSON.stringify(data.permission_id));
               localStorage.setItem('isLoggedIn', true);
               console.log(data.permission_id);
+              if (data.user.role_id == 3) {
+                this.$router.push('/fashion');
+              } else if (data.user.role_id !== 3) {
               this.$router.push('/dashboard-default');
+              }
             } else {
               alert('Login failed');
             }

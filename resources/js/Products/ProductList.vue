@@ -20,9 +20,6 @@
                     <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
                         data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Create
                         Products</button>
-                    <!-- <router-link to="/products/create" v-if="addPermission" class="p-2 col border btn ">
-                        Add Product
-                    </router-link> -->
                     <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
                     </button>
@@ -405,7 +402,6 @@ export default {
                     }
                 });
                 alert('Add Product Successfully');
-                // this.$router.push('/productList');
                 window.location.href = '/productList';
             } catch (error) {
                 console.error(error);
