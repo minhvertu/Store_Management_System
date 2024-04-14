@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('price');
-            $table->string('detail');
+            $table->string('detail')->nullable();
             $table->string('order_code');
-            $table->bigInteger('client_id')->unsigned()->nullable();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->timestamps();
 
-            //FOREIGN KEY CONSTRAINTS 
+            //FOREIGN KEY CONSTRAINTS
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -48,7 +48,7 @@ class OrderProductController extends Controller
         }
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create Order!' 
+            'message' => 'You don\'t have permission to create Order!'
         ], 404);
     }
 
@@ -96,11 +96,13 @@ class OrderProductController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete order_product!' 
+            'message' => 'You don\'t have permission to delete order_product!'
         ], 200);
     }
+
+    
 
 }

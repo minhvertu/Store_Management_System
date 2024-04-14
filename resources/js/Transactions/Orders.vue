@@ -59,7 +59,7 @@
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
                                 ID</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
-                                Amount</th>
+                                Order Code</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
                                 Price</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
@@ -67,9 +67,7 @@
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
                                 Client</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
-                                User</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
-                                Order Code</th>
+                                Status</th>
                             <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
                                 Actions</th>
                         </tr>
@@ -91,20 +89,21 @@
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.id }}</span>
                                 </td>
                                 <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">{{ order.order_code }}</span>
+                                </td>
+                                <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.price }}</span>
                                 </td>
                                 <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.detail }}</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.client.name }}</span>
-                                </td>
-                                <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ order.user.name }}</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.order_code }}</span>
+                                    <span class="text-secondary text-xs font-weight-bold">{{ order.status }}</span>
                                 </td>
+
                                 <td class="align-middle text-center">
                                     <span class="material-symbols-outlined">
                                         <button @click="deleteOrders(order, index)"
@@ -148,9 +147,9 @@ export default {
                 client_id:'',
                 user_id:'',
                 status: '',
-             
+
             },
-            
+
             products: [{ id: '', amount: '' }],
             users:[],
             clients:[],
@@ -160,7 +159,7 @@ export default {
         this.getOrders();
         this.getUsers();
         this.getClients();
-        
+
     },
     methods: {
 
@@ -215,7 +214,7 @@ export default {
                 });
         },
 
-        
+
 
         deleteOrders(order, index) {
             axios.delete('api/orders/' + order.id)

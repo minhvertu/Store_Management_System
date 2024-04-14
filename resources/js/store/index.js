@@ -16,9 +16,20 @@ export default createStore({
     showNavbar: true,
     showFooter: true,
     showMain: true,
+    cart: [],
     layout: "default"
   },
   mutations: {
+    addToCart(state, product) {
+        state.cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(state.cart));
+
+    },
+    removeFromCart(state, index) {
+        state.cart.splice(index, 1); // Xóa sản phẩm khỏi giỏ hàng bằng cách sử dụng splice
+      },
+
+
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
@@ -50,7 +61,17 @@ export default createStore({
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },
-    
+    addToCart({ commit }, product) {
+        commit('addToCart', product);
+      },
+      removeFromCart({ commit }, index) {
+        commit("removeFromCart", index); // Gọi mutation để xóa sản phẩm khỏi giỏ hàng
+      },
+
   },
-  getters: {}
+  getters: {
+    cartItems(state) {
+        return state.cart;
+      },
+  }
 });

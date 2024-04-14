@@ -15,6 +15,7 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\CartController;
 
 
 /*
@@ -53,7 +54,7 @@ Route::post('/upload-image', [UserController::class, 'uploadImage']);
 Route::get('/profile/{user}', [UserController::class, 'show']);
 Route::resource('editProfile', UserController::class);
 
-//Upload Users Image 
+//Upload Users Image
 
 //Employees
 Route::resource('employees', EmployeeController::class);
@@ -89,4 +90,11 @@ Route::resource('orders', OrderController::class);
 
 //Order Product
 Route::resource('orderProduct', OrderProductController::class);
+
+
+//Orders
+Route::resource('carts', CartController::class);
+
+Route::post('/cart/add{ product }', [CartController::class, ' addToCart']);
+
 
