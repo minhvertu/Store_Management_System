@@ -4,8 +4,8 @@
             <div class="row text-white g-4">
                 <div class="col-md-6 col-lg-3">
                     <a class="text-uppercase text-decoration-none brand text-white" href="index.html">Vertu Phan</a>
-                    <p class="text-white text-muted mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Nostrum mollitia quisquam veniam odit cupiditate, ullam aut voluptas velit dolor ipsam?</p>
+                    <p class="text-white text-muted mt-3">Tạo dấu ấn cá nhân với phong cách thời trang độc đáo và tinh tế, khám phá các bộ sưu tập đa dạng. 
+                        Nâng tầm phong cách với những lựa chọn đẳng cấp và đưa bạn vào một hành trình khám phá góc nhìn mới, độc đáo về thế giới thời trang.</p>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
@@ -41,7 +41,13 @@
                             <i class="fas fa-map-marked-alt"></i>
                         </span>
                         <span class="fw-light">
-                            Albert Street, New York, AS 756, United States of America
+                           D4 Hoang Cau, Dong Da, Ha Noi
+                        </span>
+                        <span class="me-3">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </span>
+                        <span class="fw-light">
+                            135 Ngo 337 Dinh Cong, Hoang Mai, Ha Noi
                         </span>
                     </div>
                     <div class="d-flex justify-content-start align-items-start my-2 text-muted">
@@ -49,7 +55,7 @@
                             <i class="fas fa-envelope"></i>
                         </span>
                         <span class="fw-light">
-                            attire.support@gmail.com
+                            Vertu.support@gmail.com
                         </span>
                     </div>
                     <div class="d-flex justify-content-start align-items-start my-2 text-muted">
@@ -97,6 +103,28 @@
 <script>
 export default {
     name: "footer_fashion",
+    data () {
+        return {
+
+        }
+    },
+    mounted() {
+       this.getShops(); 
+    },
+   methods: {
+
+    getShops() {
+        axios.get('api/shops')
+          .then(response => {
+            this.shops = response.data;
+  
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+   },
+
  }
 </script>
 

@@ -17,22 +17,27 @@
                                             <hr class="my-4">
 
                                             <!-- Hiển thị danh sách sản phẩm trong giỏ hàng -->
-                                            <div v-for="(item, index) in cartItems" :key="index" class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div v-for="(item, index) in cartItems" :key="index"
+                                                class="row mb-4 d-flex justify-content-between align-items-center">
                                                 <div class="col-md-2 col-lg-2 col-xl-2">
-                                                    <img :src="'/storage/' + item.image" class="img-fluid rounded-3" :alt="item.name">
+                                                    <img :src="'/storage/' + item.image" class="img-fluid rounded-3"
+                                                        :alt="item.name">
                                                 </div>
                                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                                     <h6 class="text-muted">Shirt</h6>
                                                     <h6 class="text-black mb-0">{{ item.name }}</h6>
                                                 </div>
                                                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" @click="decreaseQuantity(item)">
+                                                    <button data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn-link px-2" @click="decreaseQuantity(item)">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
 
-                                                    <input type="number" class="form-control form-control-sm" v-model="item.quantity">
+                                                    <input type="" class="form-control form-control-sm text-center"
+                                                        v-model="item.quantity">
 
-                                                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" @click="increaseQuantity(item)">
+                                                    <button data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn-link px-2" @click="increaseQuantity(item)">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -40,15 +45,21 @@
                                                     <h6 class="mb-0">{{ item.price }}</h6>
                                                 </div>
                                                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                    <button class="text-muted" @click="removeFromCart(index)"><i class="fas fa-times"></i></button>
+                                                    <button class="text-muted" @click="removeFromCart(index)"><i
+                                                            class="fas fa-times"></i></button>
                                                 </div>
                                             </div>
 
                                             <hr class="my-4">
 
                                             <div class="pt-5">
+                                                <div v-if="cartItems.length === 0" class="text-center my-4">
+                                                    <p class="text-muted">No product in cart</p>
+                                                </div>
                                                 <router-link to="/fashion">
-                                                    <h6 class="mb-0"><a href="#!" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
+                                                    <h6 class="mb-0"><a href="#!" class="text-body"><i
+                                                                class="fas fa-long-arrow-alt-left me-2"></i>Back to
+                                                            shop</a>
                                                     </h6>
                                                 </router-link>
                                             </div>
@@ -60,8 +71,8 @@
                                             <hr class="my-4">
 
                                             <div class="d-flex justify-content-between mb-4">
-                                                <h5 class="text-uppercase">items {{ cartItems.length }}</h5>
-                                                <h5>{{ getTotalPrice() }}</h5>
+                                                <h5 class="text-uppercase">items </h5>
+                                                <h5>{{ cartItems.length }}</h5>
                                             </div>
 
                                             <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -79,8 +90,10 @@
 
                                             <div class="mb-5">
                                                 <div data-mdb-input-init class="form-outline">
-                                                    <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                                                    <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                                    <input type="text" id="form3Examplea2"
+                                                        class="form-control form-control-lg" />
+                                                    <label class="form-label" for="form3Examplea2">Enter your
+                                                        code</label>
                                                 </div>
                                             </div>
 
@@ -91,7 +104,9 @@
                                                 <h5>{{ getTotalPrice() }}</h5>
                                             </div>
 
-                                            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark" @click="submitOrder">Register</button>
+                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark"
+                                                @click="submitOrder">Register</button>
 
                                         </div>
                                     </div>
@@ -116,27 +131,27 @@ export default {
     name: "shoppingCart",
 
     data() {
-    return {
-        products: [],
-        orders:[],
-        order_product: {
-            id: "",
-            amount: "",
-            order_id: "",
-            product_id: "",
-        },
-        order: {
+        return {
+            products: [],
+            orders: [],
+            order_product: {
+                id: "",
+                amount: "",
+                order_id: "",
+                product_id: "",
+            },
+            order: {
                 id: '',
-                price:'',
-                detail:'',
-                client_id:'',
-                user_id:'',
+                price: '',
+                detail: '',
+                client_id: '',
+                user_id: '',
                 status: '',
                 products: [], // Mảng sản phẩm trong đơn hàng
 
             },
-    }
-},
+        }
+    },
     computed: {
         cartItems() {
             return this.$store.getters.cartItems;
@@ -159,31 +174,31 @@ export default {
             return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
         },
         submitOrder() {
-    // Cập nhật các trường của đơn hàng
-    this.order.price = this.getTotalPrice();
-    this.order.detail = ''; // Cập nhật chi tiết đơn hàng nếu cần
+            // Cập nhật các trường của đơn hàng
+            this.order.price = this.getTotalPrice();
+            this.order.detail = ''; // Cập nhật chi tiết đơn hàng nếu cần
 
-    // Tạo mảng sản phẩm trong đơn hàng từ giỏ hàng
-    this.order.products = this.cartItems.map(item => ({
-        id: item.id,
-        amount: item.quantity
-    }));
+            // Tạo mảng sản phẩm trong đơn hàng từ giỏ hàng
+            this.order.products = this.cartItems.map(item => ({
+                id: item.id,
+                amount: item.quantity
+            }));
 
-    // Gửi đơn hàng lên server
-    axios.post('/api/orders', this.order)
-        .then(response => {
-            // Xử lý khi đơn hàng được gửi thành công
-            console.log('Order submitted successfully:', response.data);
-            // Xóa giỏ hàng sau khi gửi đơn hàng thành công
-            this.$store.commit('clearCart');
-            // Sau khi xử lý xong đơn hàng, bạn có thể chuyển người dùng đến trang khác hoặc thực hiện các hành động khác
-            window.location.href = '/fashion';
-        })
-        .catch(error => {
-            // Xử lý khi gặp lỗi khi gửi đơn hàng
-            console.error('Error submitting order:', error);
-        });
-}
+            // Gửi đơn hàng lên server
+            axios.post('/api/orders', this.order)
+                .then(response => {
+
+                    console.log('Order submitted successfully:', response.data);
+
+                    this.$store.commit('removeAllFromCart');
+                    alert("Order created successfully");
+                    window.location.href = '/fashion';
+                })
+                .catch(error => {
+
+                    console.error('Error submitting order:', error);
+                });
+        }
     },
 
     components: {
@@ -194,9 +209,9 @@ export default {
 
     created() {
         const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-        this.$store.state.cart = JSON.parse(savedCart); // Khôi phục giỏ hàng từ Local Storage
-    }
+        if (savedCart) {
+            this.$store.state.cart = JSON.parse(savedCart); // Khôi phục giỏ hàng từ Local Storage
+        }
 
         this.$store.state.showSidenav = false;
     },
@@ -207,38 +222,37 @@ export default {
 
 <style>
 @media (min-width: 1025px) {
-.h-custom {
-height: 100vh !important;
-}
+    .h-custom {
+        height: 100vh !important;
+    }
 }
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
-font-size: 1rem;
-line-height: 2.15;
-padding-left: .75em;
-padding-right: .75em;
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
 }
 
 .card-registration .select-arrow {
-top: 13px;
+    top: 13px;
 }
 
 .bg-grey {
-background-color: #eae8e8;
+    background-color: #eae8e8;
 }
 
 @media (min-width: 992px) {
-.card-registration-2 .bg-grey {
-border-top-right-radius: 16px;
-border-bottom-right-radius: 16px;
-}
+    .card-registration-2 .bg-grey {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
 }
 
 @media (max-width: 991px) {
-.card-registration-2 .bg-grey {
-border-bottom-left-radius: 16px;
-border-bottom-right-radius: 16px;
+    .card-registration-2 .bg-grey {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
 }
-}
-
 </style>

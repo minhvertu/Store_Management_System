@@ -17,10 +17,10 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
                         data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Create
                         Products</button>
-                    <button class="p-2 col border btn " @click="exportProducts">
+                    <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" @click="exportProducts">
                         Export Data
                     </button>
                 </div>
@@ -223,12 +223,12 @@
                             <!-- <td class="center-text">{{ product.size }}</td> -->
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
-                                <span class="material-symbols-outlined">
+                                <span class="material-symbols-outlined me-2">
                                     <button @click="deleteProduct(product, index)"
-                                        class="mx-2 p-2 col border btn btn-lg btn-outline-danger">delete_forever</button>
+                                        type="button" class="btn btn-danger " data-mdb-ripple-init>delete_forever</button>
                                 </span>
                                 <span class="material-symbols-outlined">
-                                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
                                         data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(product)">edit</button>
                                 </span>
@@ -453,6 +453,7 @@ export default {
                 .then(response => {
                     if (response.data.status === false) {
                         this.error.message = response.data.message;
+                        
                         setTimeout(() => {
                             this.error.message = '';
                         }, 3000);

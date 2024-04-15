@@ -17,9 +17,9 @@
         </div>
         <div class="col">
           <div class="text-end">
-            <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn ">Add
+            <router-link to="/employees/create" v-if="addPermission" class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark">Add
               Employee</router-link>
-            <button class="p-2 col border btn " @click="exportEmployees">
+            <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" @click="exportEmployees">
               Export Data
             </button>
           </div>

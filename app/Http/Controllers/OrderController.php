@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::with(['user', 'client', 'order_product.product'])->get();
+        $orders = Order::with(['user', 'order_product.product'])->get();
         foreach ($orders as $order) {
             foreach ($order->order_product as $orderProduct) {
                 $product = $orderProduct->product;
@@ -44,45 +44,52 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $user = $request->user();
-        if ($request->user()->can('create-orders')) {
-            $order = new Order();
-            $order->order_code = $this->generateOrderCode();
-            $order->user_id = $user->id;
-            $order->status = 'pending';
-            $order->save();
+{
+    $user = $request->user();
+    if ($request->user()->can('create-orders')) {
+        $order = new Order();
+        $order->order_code = $this->generateOrderCode();
+        $order->user_id = $user->id;
 
-            $totalPrice = 0;
+        // Mảng chứa các trạng thái có thể
+        $statuses = ['pending', 'paid', 'sending'];
 
-            foreach ($request->input('products') as $product) {
-                $orderProduct = new OrderProduct();
+        // Chọn ngẫu nhiên một trạng thái từ mảng
+        $randomStatus = $statuses[array_rand($statuses)];
 
-                $orderProduct->order_id = $order->id;
-                $orderProduct->product_id = $product['id'];
-                $orderProduct->amount = $product['amount'];
+        $order->status = $randomStatus;
+        $order->save();
+        
+        $totalPrice = 0;
 
+        foreach ($request->input('products') as $product) {
+            $orderProduct = new OrderProduct();
 
-                $productSellPrice = Product::find($product['id'])->sell_price;
+            $orderProduct->order_id = $order->id;
+            $orderProduct->product_id = $product['id'];
+            $orderProduct->amount = $product['amount'];
 
-                $productTotalPrice = $productSellPrice * $orderProduct->amount;
-                $totalPrice += $productTotalPrice;
-                $order->order_product()->save($orderProduct);
-            }
-            $order->price = $totalPrice;
-            if ($order->order_product()->exists()) {
-                $order->status = 'paid';
-            }
-            $order->detail = $request->input('detail');
-            $order->save();
-            return response()->json($order);
+            $productSellPrice = Product::find($product['id'])->sell_price;
+
+            $productTotalPrice = $productSellPrice * $orderProduct->amount;
+            $totalPrice += $productTotalPrice;
+            $order->order_product()->save($orderProduct);
         }
+        $order->price = $totalPrice;
 
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to create Order!'
-        ], 404);
+        // if ($order->order_product()->exists()) {
+        //     $order->status = 'paid';
+        // }
+        $order->detail = $request->input('detail');
+        $order->save();
+        return response()->json($order);
     }
+
+    return response([
+        'status' => false,
+        'message' => 'You don\'t have permission to create Order!'
+    ], 404);
+}
 
 
 

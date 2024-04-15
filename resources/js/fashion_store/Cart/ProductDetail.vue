@@ -290,39 +290,9 @@ export default {
 
     // Gọi action addToCart để thêm sản phẩm vào giỏ hàng
     this.$store.dispatch('addToCart', productToAdd);
+    alert('Product Added To Cart Succesfully');
     console.log(productToAdd);
   },
-
-//         addToCart() {
-
-//     if (this.order.products.length === 0) {
-
-//         const newOrder = {
-//             user_id: '', // ID của người dùng
-//             status: "pending",
-//             products: []
-//         };
-//         this.order = newOrder; // Gán order mới cho biến order
-//     }
-
-
-//     const newOrderProduct = {
-//         id: this.products.id, // ID của sản phẩm
-//         amount: 1 // Số lượng mặc định là 1, bạn có thể thay đổi nếu cần
-//     };
-
-
-//     this.order.products.push(newOrderProduct);
-// },
-
-//         async submitForm() {
-//             try {
-//                 await axios.post("/api/orders", this.order);
-//                 alert("Add to Orders Successfully");
-//             } catch (error) {
-//                 console.error(error);
-//             }
-//         },
     },
 };
 </script>

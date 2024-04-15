@@ -15,9 +15,9 @@
                     <div class="text-end">
                         <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn ">Add
                             Employee</router-link>
-                        <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Order</button>
-                        <button class="p-2 col border btn " @click="exportEmployees">
+                        <!-- <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Order</button> -->
+                        <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" @click="exportEmployees">
                             Export Data
                         </button>
                     </div>
@@ -37,7 +37,8 @@
                                         <form>
                                             <div class="mb-3">
                                                 <label for="order_detail" class="form-label">Detail</label>
-                                                <input class="form-control" type="text" id="detail" v-model="order.detail" />
+                                                <input class="form-control" type="text" id="detail"
+                                                    v-model="order.detail" />
                                             </div>
                                         </form>
                                     </div>
@@ -56,19 +57,15 @@
                 <table class="table align-items-center mb-0 table-sm ">
                     <thead>
                         <tr>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                            <th class="text-center ">
                                 ID</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                            <th class="text-center ">
                                 Order Code</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
-                                Price</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
-                                Detail</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                            <th class="text-center ">
                                 Client</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                            <th class="text-center ">
                                 Status</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">
+                            <th class="text-center ">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -77,52 +74,60 @@
                         <template v-for="(order, index) in orders" :key="'order-' + index">
                             <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index"
                                 aria-expanded="false" aria-controls="collapseExample">
-                                <!-- <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">{{ order.id }}</h6>
-                                            <p class="text-xs text-secondary mb-0">{{ order.amount }}</p>
-                                        </div>
-                                    </div>
-                                </td> -->
                                 <td class="align-middle text-center text-sm">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.id }}</span>
+                                    <span class="text-secondary ">{{ order.id }}</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.order_code }}</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.price }}</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.detail }}</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.user.name }}</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{ order.status }}</span>
+                                    <span class="text-secondary ">{{ order.order_code }}</span>
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    <span class="material-symbols-outlined">
-                                        <button @click="deleteOrders(order, index)"
-                                            class="mx-2 p-2 col border btn btn-lg btn-outline-danger">delete_forever
+                                    <span class="text-secondary ">{{ order.user.name }}</span>
+                                </td>
+
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary ">{{ order.status }}</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="material-symbols-outlined me-2">
+                                        <button   @click="deleteOrders(order, index)"
+                                            type="button" class="btn btn-danger " data-mdb-ripple-init>delete_forever
                                         </button>
                                     </span>
                                     <span class="material-symbols-outlined">
-                                        <button class="mx-2 p-2 col border btn btn-lg">print
-                                        </button>
+                                        <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
+                                        data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                        @click="openUpdateModal(order)">edit</button>
                                     </span>
                                 </td>
                             </tr>
                             <td colspan="12">
-                                <div class="collapse" :id="'collapseorder-' + index">
-                                    <div class="card card-body">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ order.order_code
-                                            }}</span>
-                                        What is Lorem Ipsum?
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                <div v-for="(order_products, index2) in order.order_product" :key="index2">
+                                    <div class="collapse" :id="'collapseorder-' + index">
+                                        <div class="card card-body">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <th class="align-middle text-lg" scope="col">Information</th>
+                                                    <th class="align-middle text-lg" scope="col">Details</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle text-lg">Amount</td>
+                                                    <td>{{ order_products.amount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle text-lg">Product</td>
+                                                    <td>{{ order_products.product.name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle text-lg">Detail</td>
+                                                    <td>{{ order.detail }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle text-lg">Price</td>
+                                                    <td>{{ order.price }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -139,20 +144,28 @@ export default {
     name: "orders",
     data() {
         return {
-            orders: [],
+            orders: [
+                {
+                    order_product: [{
+
+                    }],
+                }
+            ],
             order: {
                 id: '',
-                price:'',
-                detail:'',
-                client_id:'',
-                user_id:'',
+                price: '',
+                detail: '',
+                client_id: '',
+                user_id: '',
                 status: '',
 
             },
-
             products: [{ id: '', amount: '' }],
-            users:[],
-            clients:[],
+
+
+            users: [],
+            clients: [],
+           
         }
     },
     created() {
@@ -164,25 +177,25 @@ export default {
     methods: {
 
         createOrder() {
-      // Gửi request POST đến backend để tạo đơn hàng và thêm sản phẩm
-      axios.post('/api/orders', {
-        amount: this.order.amount,
-        price: this.order.price,
-        detail: this.order.detail,
-        client_id: this.order.client_id,
-        user_id: this.order.user_id,
-        status: this.order.status,
-        products: this.products // Truyền mảng sản phẩm vào request
-      })
-      .then(response => {
-        // Xử lý khi tạo đơn hàng thành công
-        console.log(response.data);
-      })
-      .catch(error => {
-        // Xử lý khi có lỗi xảy ra
-        console.error(error);
-      });
-    },
+            // Gửi request POST đến backend để tạo đơn hàng và thêm sản phẩm
+            axios.post('/api/orders', {
+                amount: this.order.amount,
+                price: this.order.price,
+                detail: this.order.detail,
+                client_id: this.order.client_id,
+                user_id: this.order.user_id,
+                status: this.order.status,
+                products: this.products // Truyền mảng sản phẩm vào request
+            })
+                .then(response => {
+                    // Xử lý khi tạo đơn hàng thành công
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    // Xử lý khi có lỗi xảy ra
+                    console.error(error);
+                });
+        },
         getOrders() {
             axios.get('api/orders')
                 .then(response => {

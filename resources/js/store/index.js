@@ -25,8 +25,15 @@ export default createStore({
         localStorage.setItem('cart', JSON.stringify(state.cart));
 
     },
+
+    removeAllFromCart(state) {
+      state.cart = []; // Thiết lập lại giỏ hàng thành một mảng rỗng
+      localStorage.removeItem('cart'); // Xóa giỏ hàng khỏi Local Storage
+    },
+    
     removeFromCart(state, index) {
         state.cart.splice(index, 1); // Xóa sản phẩm khỏi giỏ hàng bằng cách sử dụng splice
+        localStorage.setItem('cart', JSON.stringify(state.cart));
       },
 
 
