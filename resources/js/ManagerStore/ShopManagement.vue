@@ -156,7 +156,7 @@
                                                 <td class="center-text">{{ storage.product.name }}</td>
                                                 <td class="center-text">{{ storage.amount }}</td>
                                                 <td class="center-text">
-                                                    <!-- Add actions here if needed -->
+                                               
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -226,7 +226,7 @@
                 </tbody>
             </table>
 
-            
+
 
             <div v-if="showPagination">
                 <ul class="pagination justify-content-end" style="font-size: 80%;">
@@ -243,12 +243,12 @@
             </div>
         </div>
 
-        
+
 
 
     </div>
 
-    
+
 
 </template>
 

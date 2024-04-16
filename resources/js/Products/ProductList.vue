@@ -76,7 +76,7 @@
                                             {{ category.name }}</option>
                                     </select>
                                     <div>
-                                        <input type="file" ref="fileInput" @change="onFileChange">
+                                        <input type="file" ref="fileInput" multiple @change="onFileChange">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -453,7 +453,7 @@ export default {
                 .then(response => {
                     if (response.data.status === false) {
                         this.error.message = response.data.message;
-                        
+
                         setTimeout(() => {
                             this.error.message = '';
                         }, 3000);
