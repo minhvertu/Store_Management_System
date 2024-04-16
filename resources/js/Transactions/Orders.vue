@@ -123,7 +123,7 @@
                                                     <td>{{ order.detail }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="align-middle text-lg">Price</td>
+                                                    <td class="align-middle text-lg">Total Cost</td>
                                                     <td>{{ order.price }}</td>
                                                 </tr>
                                             </table>

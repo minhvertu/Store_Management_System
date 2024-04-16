@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Storage;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
@@ -44,52 +45,75 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $user = $request->user();
-    if ($request->user()->can('create-orders')) {
-        $order = new Order();
-        $order->order_code = $this->generateOrderCode();
-        $order->user_id = $user->id;
+    {
+        $user = $request->user();
+        if ($request->user()->can('create-orders')) {
+            $order = new Order();
+            $order->order_code = $this->generateOrderCode();
+            $order->user_id = $user->id;
 
-        // Mảng chứa các trạng thái có thể
-        $statuses = ['pending', 'paid', 'sending'];
+            // Mảng chứa các trạng thái có thể
+            $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
 
-        // Chọn ngẫu nhiên một trạng thái từ mảng
-        $randomStatus = $statuses[array_rand($statuses)];
+            // Chọn ngẫu nhiên một trạng thái từ mảng
+            $randomStatus = $statuses[array_rand($statuses)];
 
-        $order->status = $randomStatus;
-        $order->save();
-        
-        $totalPrice = 0;
+            $order->status = $randomStatus;
+            $order->save();
 
-        foreach ($request->input('products') as $product) {
-            $orderProduct = new OrderProduct();
+            $totalPrice = 0;
 
-            $orderProduct->order_id = $order->id;
-            $orderProduct->product_id = $product['id'];
-            $orderProduct->amount = $product['amount'];
+            foreach ($request->input('products') as $product) {
+                $orderProduct = new OrderProduct();
 
-            $productSellPrice = Product::find($product['id'])->sell_price;
+                $orderProduct->order_id = $order->id;
+                $orderProduct->product_id = $product['id'];
+                $orderProduct->amount = $product['amount'];
 
-            $productTotalPrice = $productSellPrice * $orderProduct->amount;
-            $totalPrice += $productTotalPrice;
-            $order->order_product()->save($orderProduct);
+                $productSellPrice = Product::find($product['id'])->sell_price;
+
+                $productTotalPrice = $productSellPrice * $orderProduct->amount;
+                $totalPrice += $productTotalPrice;
+                $order->order_product()->save($orderProduct);
+
+                // Giảm số lượng sản phẩm trong kho
+                if ($order->status === 'paid'  || $order->status === 'shipping') {
+                    $storageItem = Storage::where('product_id', $product['id'])->first();
+                    if ($storageItem) {
+                        $storageItem->amount -= $product['amount'];
+                        $storageItem->save();
+                    }
+                }
+            }
+            $order->price = $totalPrice;
+            $order->detail = $request->input('detail');
+            $order->save();
+
+            return response()->json($order);
         }
-        $order->price = $totalPrice;
 
-        // if ($order->order_product()->exists()) {
-        //     $order->status = 'paid';
-        // }
-        $order->detail = $request->input('detail');
-        $order->save();
-        return response()->json($order);
+        return response([
+            'status' => false,
+            'message' => 'You don\'t have permission to create Order!'
+        ], 404);
+    }
+    public function getTotalOrderPrice()
+    {
+
+        $totalOrderPrice = Order::where('status', 'paid')->sum('price');
+
+        return response()->json(['totalOrderPrice' => $totalOrderPrice]);
     }
 
-    return response([
-        'status' => false,
-        'message' => 'You don\'t have permission to create Order!'
-    ], 404);
+    public function getTotalOrdersCount()
+{
+    
+    $totalOrdersCount = Order::whereIn('status', ['paid', 'shipping'])->count();
+
+   
+    return response()->json(['totalOrdersCount' => $totalOrdersCount]);
 }
+
 
 
 

@@ -11,11 +11,11 @@
                                     <div class="col-lg-8">
                                         <div class="p-5">
                                             <div class="d-flex justify-content-between align-items-center mb-5">
-                                                <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                                <h2 class="fw-bold mb-0 text-black">Shopping Cart</h2>
                                                 <h6 class="mb-0 text-muted">{{ cartItems.length }} items</h6>
                                             </div>
                                             <hr class="my-4">
-
+                                            
                                             <!-- Hiển thị danh sách sản phẩm trong giỏ hàng -->
                                             <div v-for="(item, index) in cartItems" :key="index"
                                                 class="row mb-4 d-flex justify-content-between align-items-center">
@@ -50,66 +50,66 @@
                                                 </div>
                                             </div>
 
-                                            <hr class="my-4">
+                                            <!-- <hr class="my-4"> -->
 
                                             <div class="pt-5">
                                                 <div v-if="cartItems.length === 0" class="text-center my-4">
                                                     <p class="text-muted">No product in cart</p>
                                                 </div>
-                                                <router-link to="/fashion">
-                                                    <h6 class="mb-0"><a href="#!" class="text-body"><i
+                                                <button type="button" class="btn btn-outline-info btn-rounded"
+                                                    data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <router-link to="/fashion">
+                                                        <h6 class="mb-0"><i
                                                                 class="fas fa-long-arrow-alt-left me-2"></i>Back to
-                                                            shop</a>
-                                                    </h6>
-                                                </router-link>
+                                                            Shopping
+                                                        </h6>
+                                                    </router-link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 bg-grey">
                                         <div class="p-5">
-                                            <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                            <h3 class="fw-bold mb-5 mt-2 pt-1">Invoice</h3>
                                             <hr class="my-4">
 
+                                            <!-- Number of items -->
                                             <div class="d-flex justify-content-between mb-4">
-                                                <h5 class="text-uppercase">items </h5>
+                                                <h5 class="text-uppercase">Items</h5>
                                                 <h5>{{ cartItems.length }}</h5>
                                             </div>
 
+                                            <!-- Shipping options -->
                                             <h5 class="text-uppercase mb-3">Shipping</h5>
-
                                             <div class="mb-4 pb-2">
-                                                <select class="select">
-                                                    <option value="1">Standard-Delivery- €5.00</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                    <option value="4">Four</option>
+                                                <select class="form-select form-select-lg">
+                                                    <option value="1">Standard Delivery - $5.00</option>
+                                                    <option value="2">Fast Delivery - $7.00</option>
+                                                    <option value="3">Extreme Fast Delivery - $10.00</option>
                                                 </select>
                                             </div>
 
-                                            <h5 class="text-uppercase mb-3">Give code</h5>
-
-                                            <div class="mb-5">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <input type="text" id="form3Examplea2"
-                                                        class="form-control form-control-lg" />
-                                                    <label class="form-label" for="form3Examplea2">Enter your
-                                                        code</label>
-                                                </div>
+                                            <!-- Enter details -->
+                                            <h5 class="text-uppercase mb-3">Enter Details</h5>
+                                            <div class="mb-4 pb-2">
+                                                <input type="text" id="detail" v-model="orderDetail"
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Enter your details">
                                             </div>
 
+                                            <!-- Total price -->
                                             <hr class="my-4">
-
                                             <div class="d-flex justify-content-between mb-5">
-                                                <h5 class="text-uppercase">Total price</h5>
-                                                <h5>{{ getTotalPrice() }}</h5>
+                                                <h5 class="text-uppercase">Total Price</h5>
+                                                <h5>${{ getTotalPrice() }}</h5>
                                             </div>
 
-                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                                class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark"
+                                            <!-- Register button -->
+                                            <button type="button" class="btn btn-dark btn-block btn-lg"
                                                 @click="submitOrder">Register</button>
-
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -147,9 +147,11 @@ export default {
                 client_id: '',
                 user_id: '',
                 status: '',
-                products: [], // Mảng sản phẩm trong đơn hàng
+                products: [],
 
             },
+            orderDetail: '',
+
         }
     },
     computed: {
@@ -174,11 +176,11 @@ export default {
             return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
         },
         submitOrder() {
-            // Cập nhật các trường của đơn hàng
-            this.order.price = this.getTotalPrice();
-            this.order.detail = ''; // Cập nhật chi tiết đơn hàng nếu cần
 
-            // Tạo mảng sản phẩm trong đơn hàng từ giỏ hàng
+            this.order.price = this.getTotalPrice();
+            this.order.detail = this.orderDetail; // 
+
+
             this.order.products = this.cartItems.map(item => ({
                 id: item.id,
                 amount: item.quantity
@@ -221,38 +223,58 @@ export default {
 
 
 <style>
-@media (min-width: 1025px) {
-    .h-custom {
-        height: 100vh !important;
+.shoppingCart {
+    @media (min-width: 1025px) {
+        .h-custom {
+            height: 100vh !important;
+        }
     }
-}
 
-.card-registration .select-input.form-control[readonly]:not([disabled]) {
-    font-size: 1rem;
-    line-height: 2.15;
-    padding-left: .75em;
-    padding-right: .75em;
-}
-
-.card-registration .select-arrow {
-    top: 13px;
-}
-
-.bg-grey {
-    background-color: #eae8e8;
-}
-
-@media (min-width: 992px) {
-    .card-registration-2 .bg-grey {
-        border-top-right-radius: 16px;
-        border-bottom-right-radius: 16px;
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
     }
-}
 
-@media (max-width: 991px) {
-    .card-registration-2 .bg-grey {
-        border-bottom-left-radius: 16px;
-        border-bottom-right-radius: 16px;
+    .card-registration .select-arrow {
+        top: 13px;
+    }
+
+    .bg-grey {
+        background-color: #eae8e8;
+    }
+
+    .bg-dark {
+        background-color: #212529 !important;
+    }
+
+    /* button */
+    .bg-primary {
+        background-color: var(--pink) !important;
+    }
+
+    /* .btn:not(.nav-btns button) {
+        background-color: #fff;
+        color: rgb(85, 85, 85);
+        padding: 10px 28px;
+        border-radius: 25px;
+        border: 1px solid rgb(85, 85, 85);
+    } */
+
+
+    @media (min-width: 992px) {
+        .card-registration-2 .bg-grey {
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .card-registration-2 .bg-grey {
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
     }
 }
 </style>

@@ -10,15 +10,16 @@ class UserController extends Controller
 {
     public function __construct()
     {
-       $this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
-    
-    public function index() {
-        
+
+    public function index()
+    {
+
         return response()->json(User::all());
     }
 
@@ -40,7 +41,7 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email')
         ]);
-        
+
         $users->save();
         return response()->json('Update user successfully');
     }
@@ -59,7 +60,7 @@ class UserController extends Controller
     public function edit(string $id, Request $request)
     {
         //
-       
+
     }
 
     /**
@@ -72,8 +73,8 @@ class UserController extends Controller
         $users->update($request->all());
         return response()->json([
             'user' => $users,
-            'User updated!']);
-     
+            'User updated!'
+        ]);
     }
 
     /**
@@ -83,34 +84,42 @@ class UserController extends Controller
     {
         //
     }
-    
-    public function viewPermission(Request $request) {
+
+    public function viewPermission(Request $request)
+    {
         if ($request->user()->can('view-users')) {
-            return response()->json(User::all()); 
-        } 
-        
+            return response()->json(User::all());
+        }
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to view users!' 
+            'message' => 'You don\'t have permission to view users!'
         ], 200);
     }
     public function uploadImage(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    if ($request->file('image')) {
-        $image = $request->file('image');
-        $file_name = time() . '_' . $image->getClientOriginalName();
-        $path = $request->file('image')->storeAs('profiles', $file_name, 'public');
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $file_name = time() . '_' . $image->getClientOriginalName();
+            $path = $request->file('image')->storeAs('profiles', $file_name, 'public');
 
-        // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
-        auth()->user()->update(['image' => $path]);
+            // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
+            auth()->user()->update(['image' => $path]);
 
-        return response()->json(['image' => $path]);
+            return response()->json(['image' => $path]);
+        }
+
+        return response()->json(['error' => 'Failed to upload image.']);
     }
 
-    return response()->json(['error' => 'Failed to upload image.']);
+    public function getTotalCustomers()
+{
+    $totalCustomer = User::where('role_id', 3)->count();
+    
+    return response()->json(['totalCustomer' => $totalCustomer]);
 }
 }

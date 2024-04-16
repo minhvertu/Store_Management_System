@@ -48,6 +48,9 @@ Route::resource('tasks', TaskController::class);
 //View Users
 Route::get('/users', [UserController::class, 'viewPermission']);
 
+Route::get('/users/total-customers', [UserController::class, 'getTotalCustomers']);
+
+
 Route::post('/upload-image', [UserController::class, 'uploadImage']);
 
 //Profile
@@ -86,6 +89,9 @@ Route::resource('storages', StorageController::class);
 Route::resource('categories', CategoryController::class);
 
 //Orders
+Route::get('/orders/total-price', [OrderController::class, 'getTotalOrderPrice']);
+Route::get('/orders/total-order', [OrderController::class, 'getTotalOrderCounts']);
+
 Route::resource('orders', OrderController::class);
 
 //Order Product
@@ -96,5 +102,7 @@ Route::resource('orderProduct', OrderProductController::class);
 Route::resource('carts', CartController::class);
 
 Route::post('/cart/add{ product }', [CartController::class, ' addToCart']);
+
+
 
 

@@ -6,18 +6,20 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.money.title"
-                            :value="stats.money.value"
+                            :value="`$${totalOrderPrice}`"
                             :percentage="stats.money.percentage"
                             :iconClass="stats.money.iconClass"
                             :iconBackground="stats.money.iconBackground"
                             :detail="stats.money.detail"
                             directionReverse
+                            
                         ></card>
                     </div>
+                
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.users.title"
-                            :value="stats.users.value"
+                            :value= "totalCustomer"
                             :percentage="stats.users.percentage"
                             :iconClass="stats.users.iconClass"
                             :iconBackground="stats.users.iconBackground"
@@ -84,6 +86,8 @@ export default {
     },
     data() {
         return {
+            totalOrderPrice: 0,
+            totalCustomer: 0,
             chartData: {
                 labels: [
                     "January",
@@ -113,7 +117,7 @@ export default {
             },
             stats: {
                 money: {
-                    title: "Today's Money",
+                    title: "Total Revenue",
                     value: "$53,000",
                     percentage: "+55%",
                     iconClass: "fa-regular fa-money-bill-1",
@@ -121,8 +125,8 @@ export default {
                     iconBackground: "bg-gradient-primary",
                 },
                 users: {
-                    title: "Today's Users",
-                    value: "2,300",
+                    title: "Total Customers",
+                    value:  "2300",
                     percentage: "+3%",
                     iconClass: "fa-solid fa-globe",
                     iconBackground: "bg-gradient-danger",
@@ -147,6 +151,34 @@ export default {
                 },
             },
         };
+        
     },
+
+    created() {
+    // Gọi API để lấy tổng giá trị đơn hàng khi component được tạo
+    this.getTotalOrderPrice();
+    this.getTotalCustomers();
+    },
+
+    methods: {
+        async getTotalOrderPrice() {
+            try {
+                const response = await axios.get('/api/orders/total-price');
+                
+                this.totalOrderPrice = response.data.totalOrderPrice;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async getTotalCustomers() {
+            try {
+                const response = await axios.get('/api/users/total-customers');
+                
+                this.totalCustomer = response.data.totalCustomer;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 };
 </script>

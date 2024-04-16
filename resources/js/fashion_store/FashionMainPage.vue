@@ -416,7 +416,7 @@
                             velit, nemo, nobis, nulla ullam pariatur totam quos.</p>
                     </div>
                     <div class="col-lg-6 order-lg-0">
-                        <img src="../fashion_store/images/about_us.jpg" alt="" class="img-fluid">
+                        <img src="../fashion_store/images/about_us_luxury.jpg" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>

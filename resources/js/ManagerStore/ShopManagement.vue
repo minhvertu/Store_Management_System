@@ -18,11 +18,11 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
                         data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Add
                         Shops</button>
 
-                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
                         data-bs-target="#productCheckModal" data-bs-whatever="@mdo">Storage Check</button>
                     <!-- <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
@@ -156,7 +156,7 @@
                                                 <td class="center-text">{{ storage.product.name }}</td>
                                                 <td class="center-text">{{ storage.amount }}</td>
                                                 <td class="center-text">
-                                               
+
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -201,12 +201,12 @@
                             <td class="center-text">{{ shop.address }}</td>
                             <td class="center-text">{{ shop.phone_number }}</td>
                             <td class="center-text">
-                                <span class="material-symbols-outlined">
-                                    <button @click="deleteShop(shop, index)"
-                                        class="mx-2 p-2 col border btn btn-lg btn-outline-danger">delete_forever</button>
+                                <span class="material-symbols-outlined me-2">
+                                    <button @click="deleteShop(shop, index)" type="button" class="btn btn-danger "
+                                        data-mdb-ripple-init>delete_forever</button>
                                 </span>
                                 <span class="material-symbols-outlined">
-                                    <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
                                         data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(shop)">edit</button>
                                 </span>
@@ -216,8 +216,7 @@
                             <div class="collapse" :id="'collapseorder-' + index">
                                 <div class="card card-body">
                                     <span class="text-wrap">
-                                        What is Lorem Ipsum?
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                      Hiển thị sản phẩm, ảnh, số lượng.
                                     </span>
                                 </div>
                             </div>

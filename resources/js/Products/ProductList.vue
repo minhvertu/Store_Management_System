@@ -10,17 +10,19 @@
                 <div class="input-group rounded " style="width: 55%;">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                         aria-describedby="search-addon" v-model="searchKeyword" @input="searchProducts" />
-                        <span class="input-group-text bg-dark text-light" id="search-addon">
+                    <span class="input-group-text bg-dark text-light" id="search-addon">
                         <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                     </span>
                 </div>
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Create
+                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+                        v-if="addPermission">Create
                         Products</button>
-                    <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" @click="exportProducts">
+                    <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                        @click="exportProducts">
                         Export Data
                     </button>
                 </div>
@@ -58,8 +60,8 @@
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="product.gender_item_code">
                                         <option disabled value="">Select Gender</option>
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
                                     </select>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
@@ -125,8 +127,8 @@
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="editedProduct.gender_item_code">
                                         <option disabled value="">Select Gender</option>
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
                                     </select>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
@@ -192,10 +194,10 @@
                             Gender
                             <span class="arrow" :class="sortOrders['gender_item_code'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <!-- <th scope="col" class="center-text" @click="sortBy('size')">
+                        <th scope="col" class="center-text" @click="sortBy('size')">
                             Size
                             <span class="arrow" :class="sortOrders['size'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th> -->
+                        </th>
                         <th scope="col" class="center-text" @click="sortBy('brand.name')">
                             Brand
                             <span class="arrow" :class="sortOrders['brand.name'] > 0 ? 'asc' : 'dsc'"></span>
@@ -220,16 +222,16 @@
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
                             <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td>
-                            <!-- <td class="center-text">{{ product.size }}</td> -->
+                            <td class="center-text">{{ product.size }}</td>
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined me-2">
-                                    <button @click="deleteProduct(product, index)"
-                                        type="button" class="btn btn-danger " data-mdb-ripple-init>delete_forever</button>
+                                    <button @click="deleteProduct(product, index)" type="button" class="btn btn-danger "
+                                        data-mdb-ripple-init>delete_forever</button>
                                 </span>
                                 <span class="material-symbols-outlined">
-                                    <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                    <button type="button" class="btn btn-info" data-mdb-ripple-init
+                                        data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(product)">edit</button>
                                 </span>
                             </td>
@@ -409,9 +411,9 @@ export default {
         },
         genderLabel(genderCode) {
             if (genderCode == 1) {
-                return "Nam";
+                return "Male";
             } else {
-                return "Nữ";
+                return "Female";
             }
         },
 
@@ -482,12 +484,18 @@ export default {
         searchProducts() {
             const keyword = this.searchKeyword.toLowerCase();
             this.filteredProducts = this.products.filter(product => {
+
+                if ((keyword === 'male' && product.gender_item_code == 1) || (keyword === 'female' && product.gender_item_code == 2)) {
+                    return true;
+                }
+
                 return (
                     product.name.toLowerCase().includes(keyword) ||
+                    product.category.name.toLowerCase().includes(keyword) ||
+                    product.brand.name.toLowerCase().includes(keyword) ||
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
-                    product.sell_price.toLowerCase().includes(keyword) ||
-                    product.gender_item_code.toLowerCase().includes(keyword)
+                    product.sell_price.toLowerCase().includes(keyword)
                 );
             });
         },
@@ -530,8 +538,14 @@ export default {
             const endIndex = startIndex + this.pageSize;
             const keyword = this.searchKeyword.toLowerCase();
             const filteredProducts = this.products.filter(product => {
+                if ((keyword === 'male' && product.gender_item_code == 1) || (keyword === 'female' && product.gender_item_code == 2)) {
+                    return true;
+                }
                 return (
+
                     product.name.toLowerCase().includes(keyword) ||
+                    product.category.name.toLowerCase().includes(keyword) ||
+                    product.brand.name.toLowerCase().includes(keyword) ||
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
                     product.sell_price.toLowerCase().includes(keyword) ||
