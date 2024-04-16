@@ -1,16 +1,16 @@
 <template>
   <!-- <div class="app"> -->
-    
+
     <div v-show="this.$store.state.layout === 'landing'"
       class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
-    <index 
-      :custom_class="this.$store.state.mcolor" 
+    <index
+      :custom_class="this.$store.state.mcolor"
       :class="[
         this.$store.state.isTransparent,
         this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
-      ]" 
-      v-if="this.$store.state.showSidenav && this.$route.path != '/fashion' && this.$route.path != '/lvMainPage' && this.$route.path != '/yslMainPage'" 
-      
+      ]"
+      v-if="this.$store.state.showSidenav && this.$route.path != '/fashion' && this.$route.path != '/lvMainPage' && this.$route.path != '/yslMainPage'"
+
     />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
       <navbar
@@ -22,7 +22,7 @@
       v-if="this.$store.state.showNavbar && this.$route.path != '/fashion' && this.$route.path != '/lvMainPage' && this.$route.path != '/yslMainPage'"
     />
       <router-view></router-view>
-      <app-footer v-show="this.$store.state.showFooter && this.$route.path != '/fashion' && this.$route.path != '/lvMainPage' && this.$route.path != '/yslMainPage'" />
+      <app-footer v-show="this.$store.state.showFooter && this.$route.path != '/fashion' && this.$route.path != '/regards' && this.$route.path != '/lvMainPage' && this.$route.path != '/yslMainPage'" />
     <configurator
       :toggle="toggleConfigurator"
       :class="[
@@ -54,9 +54,9 @@ export default {
   },
   data() {
     return {
-     
+
         products:[],
-      
+
       loaded: false, // Biến đánh dấu trang đã được load
     };
   },

@@ -2,7 +2,7 @@
     <div class="shoppingCart">
         <navbar_fashion></navbar_fashion>
         <section class="h-100 h-custom">
-            <div class="container py-5 h-100">
+            <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-12">
                         <div class="card card-registration card-registration-2" style="border-radius: 15px;">
@@ -15,7 +15,7 @@
                                                 <h6 class="mb-0 text-muted">{{ cartItems.length }} items</h6>
                                             </div>
                                             <hr class="my-4">
-                                            
+
                                             <!-- Hiển thị danh sách sản phẩm trong giỏ hàng -->
                                             <div v-for="(item, index) in cartItems" :key="index"
                                                 class="row mb-4 d-flex justify-content-between align-items-center">
@@ -176,9 +176,13 @@ export default {
             return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
         },
         submitOrder() {
+            if (this.cartItems.length === 0) {
+                alert("There are no items in the shopping cart. Please add items before submitting the order.");
+                return;
+            }
 
             this.order.price = this.getTotalPrice();
-            this.order.detail = this.orderDetail; // 
+            this.order.detail = this.orderDetail; //
 
 
             this.order.products = this.cartItems.map(item => ({
@@ -194,7 +198,7 @@ export default {
 
                     this.$store.commit('removeAllFromCart');
                     alert("Order created successfully");
-                    window.location.href = '/fashion';
+                    window.location.href = '/regards';
                 })
                 .catch(error => {
 
@@ -224,6 +228,9 @@ export default {
 
 <style>
 .shoppingCart {
+    body {
+        font-family: var(--sm-font);
+    }
     @media (min-width: 1025px) {
         .h-custom {
             height: 100vh !important;
@@ -261,6 +268,20 @@ export default {
         border-radius: 25px;
         border: 1px solid rgb(85, 85, 85);
     } */
+    footer .brand {
+        font-family: var(--lg-font);
+        letter-spacing: 2px;
+    }
+
+    footer a {
+        -webkit-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: var(--pink) !important;
+    }
 
 
     @media (min-width: 992px) {

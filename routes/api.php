@@ -89,8 +89,11 @@ Route::resource('storages', StorageController::class);
 Route::resource('categories', CategoryController::class);
 
 //Orders
+Route::get('/orders/total-order', [OrderController::class, 'getTotalOrder']);
+
 Route::get('/orders/total-price', [OrderController::class, 'getTotalOrderPrice']);
-Route::get('/orders/total-order', [OrderController::class, 'getTotalOrderCounts']);
+
+
 
 Route::resource('orders', OrderController::class);
 

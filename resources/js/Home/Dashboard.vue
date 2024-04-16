@@ -12,14 +12,14 @@
                             :iconBackground="stats.money.iconBackground"
                             :detail="stats.money.detail"
                             directionReverse
-                            
+
                         ></card>
                     </div>
-                
+
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.users.title"
-                            :value= "totalCustomer"
+                            :value= "totalOrder"
                             :percentage="stats.users.percentage"
                             :iconClass="stats.users.iconClass"
                             :iconBackground="stats.users.iconBackground"
@@ -30,7 +30,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.clients.title"
-                            :value="stats.clients.value"
+                            :value= "totalCustomer"
                             :percentage="stats.clients.percentage"
                             :iconClass="stats.clients.iconClass"
                             :iconBackground="stats.clients.iconBackground"
@@ -88,6 +88,7 @@ export default {
         return {
             totalOrderPrice: 0,
             totalCustomer: 0,
+            totalOrder: 0,
             chartData: {
                 labels: [
                     "January",
@@ -125,15 +126,15 @@ export default {
                     iconBackground: "bg-gradient-primary",
                 },
                 users: {
-                    title: "Total Customers",
+                    title: "Total Orders",
                     value:  "2300",
                     percentage: "+3%",
-                    iconClass: "fa-solid fa-globe",
+                    iconClass: "fa-solid fa-cart-shopping",
                     iconBackground: "bg-gradient-danger",
                     detail: "since last week",
                 },
                 clients: {
-                    title: "New Clients",
+                    title: "Total Customers",
                     value: "+3,462",
                     percentage: "-2%",
                     iconClass: "fa-regular fa-user",
@@ -151,20 +152,21 @@ export default {
                 },
             },
         };
-        
+
     },
 
     created() {
     // Gọi API để lấy tổng giá trị đơn hàng khi component được tạo
     this.getTotalOrderPrice();
     this.getTotalCustomers();
+    this.getTotalOrder();
     },
 
     methods: {
         async getTotalOrderPrice() {
             try {
                 const response = await axios.get('/api/orders/total-price');
-                
+
                 this.totalOrderPrice = response.data.totalOrderPrice;
             } catch (error) {
                 console.error(error);
@@ -173,12 +175,22 @@ export default {
         async getTotalCustomers() {
             try {
                 const response = await axios.get('/api/users/total-customers');
-                
+
                 this.totalCustomer = response.data.totalCustomer;
             } catch (error) {
                 console.error(error);
             }
+        },
+        async getTotalOrder() {
+            try {
+                const response = await axios.get('/api/orders/total-order');
+
+                this.totalOrder = response.data.totalOrder;
+            } catch (error) {
+                console.error(error);
+            }
         }
+
     }
 };
 </script>

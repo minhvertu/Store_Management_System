@@ -30,7 +30,7 @@ import driverRouterVueRouter from '@websanova/vue-auth/dist/drivers/router/vue-r
  */
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.APP_URL), 
+    history: createWebHistory(import.meta.env.APP_URL),
     routes: routes,
     scrollBehavior (to, from, savedPosition) {
         // ...

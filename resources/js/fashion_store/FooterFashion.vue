@@ -4,7 +4,7 @@
             <div class="row text-white g-4">
                 <div class="col-md-6 col-lg-3">
                     <a class="text-uppercase text-decoration-none brand text-white" href="index.html">Vertu Phan</a>
-                    <p class="text-white text-muted mt-3">Tạo dấu ấn cá nhân với phong cách thời trang độc đáo và tinh tế, khám phá các bộ sưu tập đa dạng. 
+                    <p class="text-white text-muted mt-3">Tạo dấu ấn cá nhân với phong cách thời trang độc đáo và tinh tế, khám phá các bộ sưu tập đa dạng.
                         Nâng tầm phong cách với những lựa chọn đẳng cấp và đưa bạn vào một hành trình khám phá góc nhìn mới, độc đáo về thế giới thời trang.</p>
                 </div>
 
@@ -109,7 +109,7 @@ export default {
         }
     },
     mounted() {
-       this.getShops(); 
+       this.getShops();
     },
    methods: {
 
@@ -117,7 +117,7 @@ export default {
         axios.get('api/shops')
           .then(response => {
             this.shops = response.data;
-  
+
           })
           .catch(error => {
             console.log(error);
@@ -130,9 +130,31 @@ export default {
 
 
 <style>
+.footer-fashion {
 
-.bg-dark {
-        background-color: #212529 !important;
+    body {
+        font-family: var(--sm-font);
+    }
+
+    /* footer */
+    footer .brand {
+        font-family: var(--lg-font);
+        letter-spacing: 2px;
+    }
+
+    footer a {
+        -webkit-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: var(--pink) !important;
+    }
+
+    .bg-dark {
+            background-color: #212529 !important;
+    }
 }
 
 </style>

@@ -23,6 +23,8 @@ import Orders from './Transactions/Orders.vue';
 import ProductDetail from './fashion_store/Cart/ProductDetail.vue';
 import ShopManagement from './ManagerStore/ShopManagement.vue';
 import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
+import ThankYouPage from './fashion_store/ThankYouPage/ThankYouPage.vue';
+
 
 export const routes = [
     {
@@ -55,10 +57,10 @@ export const routes = [
         path: '/profile',
         component: Profile,
     },
-    { 
+    {
         name: 'editProfile',
-        path: '/users/:id/edit', 
-        component: EditProfile 
+        path: '/users/:id/edit',
+        component: EditProfile
     },
     {
         name: 'employeeList',
@@ -70,14 +72,14 @@ export const routes = [
         path: '/employeeManagement',
         component: EmployeeManagement,
     },
-    { 
+    {
         name: 'editEmployee',
-        path: '/employees/:id/edit', 
+        path: '/employees/:id/edit',
         component: EditEmployee,
     },
-    { 
+    {
         name: 'createEmployee',
-        path: '/employees/create', 
+        path: '/employees/create',
         component: EditEmployee,
     },
     {
@@ -85,14 +87,14 @@ export const routes = [
         path: '/productList',
         component: ProductList,
     },
-    { 
+    {
         name: 'createProduct',
-        path: '/products/create', 
+        path: '/products/create',
         component: EditProduct,
     },
-    { 
+    {
         name: 'editProduct',
-        path: '/products/:id/edit', 
+        path: '/products/:id/edit',
         component: EditProduct,
     },
     {
@@ -157,7 +159,13 @@ export const routes = [
         path: '/shoppingCart',
         component: ShoppingCart,
     },
-    
+
+    {
+        name: 'regards',
+        path: '/regards',
+        component: ThankYouPage,
+    },
+
 
 ]
 

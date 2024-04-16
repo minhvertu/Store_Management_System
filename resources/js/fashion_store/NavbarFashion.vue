@@ -65,7 +65,7 @@
 
 <style>
 .navbar_fashion {
-    
+
  .navbar {
         -webkit-box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
         box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
@@ -86,6 +86,33 @@
 
     .nav-item {
         border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+    }
+     /* media queries */
+     @media(min-width: 992px) {
+        .nav-item {
+            border-bottom: none;
+        }
+    }
+
+    .brand-font {
+        font-family: "cloister" !important;
+        color: #000;
+        font-size: 50px;
+
+    }
+
+    .bg-dark {
+        background-color: #212529 !important;
+    }
+
+    .fade-enter-active,
+
+    .fade-leave-active {
+        transition: opacity 0.3s;
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
     }
 }
 

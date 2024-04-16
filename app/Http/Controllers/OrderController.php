@@ -105,14 +105,15 @@ class OrderController extends Controller
         return response()->json(['totalOrderPrice' => $totalOrderPrice]);
     }
 
-    public function getTotalOrdersCount()
-{
-    
-    $totalOrdersCount = Order::whereIn('status', ['paid', 'shipping'])->count();
+    public function getTotalOrder()
+    {
 
-   
-    return response()->json(['totalOrdersCount' => $totalOrdersCount]);
-}
+        $totalOrder = Order::count();
+
+
+        return response()->json(['totalOrder' => $totalOrder]);
+    }
+
 
 
 
