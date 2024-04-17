@@ -16,7 +16,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\ProductAmountSizeController;
+use App\Http\Controllers\SizeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,9 @@ Route::resource('orderProduct', OrderProductController::class);
 Route::resource('carts', CartController::class);
 
 Route::post('/cart/add{ product }', [CartController::class, ' addToCart']);
+
+Route::resource('sizes', SizeController::class);
+Route::resource('product_size_amounts', ProductAmountSizeController::class);
 
 
 

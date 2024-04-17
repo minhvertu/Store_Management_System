@@ -86,7 +86,7 @@ class OrderController extends Controller
                 }
             }
             $order->price = $totalPrice;
-            $order->detail = $request->input('detail');
+            $order->detail = $request->detail;
             $order->save();
 
             return response()->json($order);

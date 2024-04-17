@@ -18,12 +18,19 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" data-bs-whatever="@mdo" v-if="addPermission">Add
+                    <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+                        v-if="addPermission">Add
                         Shops</button>
 
-                    <button type="button" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
-                        data-bs-target="#productCheckModal" data-bs-whatever="@mdo">Storage Check</button>
+                        <button class="btn btn-outline-warning me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                        data-bs-toggle="modal" data-bs-target="#importProducts" data-bs-whatever="@mdo"
+                        v-if="addPermission">Import Products</button>
+
+
+                    <button type="button" class="btn btn-outline-success" data-mdb-ripple-init
+                        data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#productCheckModal"
+                        data-bs-whatever="@mdo">Storage Check</button>
                     <!-- <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
                     </button> -->
@@ -130,6 +137,57 @@
                 </form>
 
 
+                <form @submit.prevent="importProductForm">
+                    <div class="modal fade" id="importProducts" tabindex="-1" aria-labelledby="importProductsLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="importProductsLabel">Import Products Form</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="storage.product_id">
+                                        <option disabled value="">Select Products</option>
+                                        <option v-for="product in products" :key="product.id" :value="product.id">
+                                            {{ product.name }}</option>
+                                    </select>
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="product_size_amount.size_id">
+                                        <option disabled value="">Select Sizes</option>
+                                        <option v-for="size in sizes" :key="size.id" :value="size.id">
+                                            {{ size.name }}</option>
+                                    </select>
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="product_size_amount.storage_id">
+                                        <option disabled value="">Select Shops</option>
+                                        <option v-for="storage in storages" :key="storage.id" :value="storage.id">
+                                            {{ storage.shop.name }}</option>
+                                    </select>
+
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input class="form-control" type="text" id="amount" v-model="product_size_amount.name" />
+                                    </div>
+                                    
+                
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Import Products</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
                 <div class="modal fade" id="productCheckModal" tabindex="-1" aria-labelledby="productCheckModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -144,7 +202,7 @@
                                     <table class="table table-bordered ">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th scope="col" class="center-text">Shop Address</th>
+                                                <th scope="col" class="center-text ">Shop Address</th>
                                                 <th scope="col" class="center-text">Product</th>
                                                 <th scope="col" class="center-text">Amount</th>
                                                 <th scope="col" class="center-text">Actions</th>
@@ -175,22 +233,22 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table border">
+            <table class="table " style="border: 1px ; border-radius: 5px;">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" @click="sortBy('name')">
+                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('name')">
                             Name
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="text-center" @click="sortBy('address')">
+                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('address')">
                             Address
                             <span class="arrow" :class="sortOrders['address'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="text-center" @click="sortBy('phone_number')">
+                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('phone_number')">
                             Phone Number
                             <span class="arrow" :class="sortOrders['phone_number'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="text-center">Actions</th>
+                        <th scope="col" class="text-center  text-uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,10 +263,15 @@
                                     <button @click="deleteShop(shop, index)" type="button" class="btn btn-danger "
                                         data-mdb-ripple-init>delete_forever</button>
                                 </span>
-                                <span class="material-symbols-outlined">
-                                    <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                <span class="material-symbols-outlined me-2">
+                                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                        data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(shop)">edit</button>
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    <button type="button" class="btn btn-info" data-mdb-ripple-init
+                                        data-bs-toggle="modal" data-bs-target="#productCollapse" data-bs-whatever="@mdo"
+                                        >visibility</button>
                                 </span>
                             </td>
                         </tr>
@@ -216,7 +279,50 @@
                             <div class="collapse" :id="'collapseorder-' + index">
                                 <div class="card card-body">
                                     <span class="text-wrap">
-                                      Hiển thị sản phẩm, ảnh, số lượng.
+                                        <div class="table-responsive">
+                                            <table class="table  ">
+                                                <thead>
+                                                    <tr>
+                                                        <td></td>
+                                                        <th scope="col" class="center-text  text-uppercase"
+                                                            @click="sortBy('product_code')">
+                                                            Product Code
+                                                            <span class="arrow"
+                                                                :class="sortOrders['product_code'] > 0 ? 'asc' : 'dsc'"></span>
+                                                        </th>
+                                                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('name')">
+                                                            Name
+                                                            <span class="arrow"
+                                                                :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
+                                                        </th>
+                                                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('amount')">
+                                                            Amount
+                                                            <span class="arrow"
+                                                                :class="sortOrders['amount'] > 0 ? 'asc' : 'dsc'"></span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template v-for="(storage, storageIndex) in storages"
+                                                        :key="'storage-' + storageIndex">
+                                                        <tr v-if="storage.shop_id === shop.id">
+                                                            
+                                                            <td class="center-text">
+                                                                <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
+                                                                    <img :src="'/storage/' + storage.product.image"
+                                                                        alt="Product Image" class="shadow-sm border-radius-lg border border-1"
+                                                                         style="width: 100%; height: 100%; object-fit: cover;" />
+                                                            </div>
+                                                            </td>
+                                                            <td class="center-text">{{ storage.product.product_code }}
+                                                            </td>
+                                                            <td class="center-text">{{ storage.product.name }}</td>
+                                                            <td class="center-text">{{ storage.amount }}</td>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -275,6 +381,7 @@ export default {
                 phone_number: '',
 
             },
+
             storages: [],
             storage: {
                 id: '',
@@ -282,7 +389,26 @@ export default {
                 product_id: '',
                 amount: '',
 
+
             },
+
+            products: [],
+            
+
+            product_size_amounts: [],
+            product_size_amount: {
+                id: '',
+                amount: '',
+                storage_id: '',
+                size_id: '',
+
+            },
+            sizes: [],
+            size: {
+                id: '',
+                name: '',
+            },
+    
 
             isNewStore: true,
             imageUrl: null,
@@ -301,6 +427,8 @@ export default {
         }
     },
     created() {
+        this.getProductSizeAmounts();
+        this.getSizes();
         this.getShops();
         this.getProducts();
         this.getStorages();
@@ -308,6 +436,30 @@ export default {
     },
 
     methods: {
+
+        getSizes() {
+            axios.get('api/sizes')
+                .then(response => {
+                    this.sizes = response.data;
+                    console.log(this.sizes);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getProductSizeAmounts() {
+            axios.get('api/product_size_amounts')
+                .then(response => {
+                    this.product_size_amounts = response.data;
+                    console.log(this.product_size_amounts);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
 
         openProductCheckModal(storage) {
             // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
@@ -412,6 +564,28 @@ export default {
 
 
                 await axios.post('/api/shops', formData, {
+                    header: {
+                        'content-Type': 'multipart/form-data'
+                    }
+                });
+                alert('Add Shop Successfully');
+                // this.$router.push('/productList');
+                window.location.href = '/shopManagement';
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async importProductForm() {
+            try {
+                const formData = new FormData();
+
+                formData.append('amount', this.product_size_amount.amount);
+                formData.append('size_id', this.product_size_amount.size_id);
+                formData.append('storage_id', this.product_size_amount.storage_id);
+
+
+                await axios.post('/api/product_size_amounts', formData, {
                     header: {
                         'content-Type': 'multipart/form-data'
                     }
@@ -563,5 +737,10 @@ export default {
 .dsc {
     border-top: 0.3em solid;
     border-bottom: none;
+}
+
+.image-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
 }
 </style>

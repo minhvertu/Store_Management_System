@@ -17,7 +17,7 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                    <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
                         data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
                         v-if="addPermission">Create
                         Products</button>
@@ -166,43 +166,39 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table border ">
+            <table class="table border  " >
                 <thead>
                     <tr>
                         <td></td>
-                        <th scope="col" class="center-text" @click="sortBy('product_code')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('product_code')">
                             Product Code
                             <span class="arrow" :class="sortOrders['product_code'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('name')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('name')">
                             Name
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('category.name')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('category.name')">
                             Product Type
                             <span class="arrow" :class="sortOrders['category.name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('import_price')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('import_price')">
                             Import Price
                             <span class="arrow" :class="sortOrders['import_price'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('sell_price')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('sell_price')">
                             Sell Price
                             <span class="arrow" :class="sortOrders['sell_price'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('gender_item_code')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('gender_item_code')">
                             Gender
                             <span class="arrow" :class="sortOrders['gender_item_code'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text" @click="sortBy('size')">
-                            Size
-                            <span class="arrow" :class="sortOrders['size'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
-                        <th scope="col" class="center-text" @click="sortBy('brand.name')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('brand.name')">
                             Brand
                             <span class="arrow" :class="sortOrders['brand.name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text ">Actions</th>
+                        <th scope="col" class="center-text text-uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +208,7 @@
                             <td>
                                 <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
                                     <img :src="'/storage/' + product.image" alt="Product Image"
-                                        class="shadow-sm border-radius-lg"
+                                        class="shadow-sm border-radius-lg border border-1"
                                         style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                             </td>
@@ -222,7 +218,6 @@
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
                             <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td>
-                            <td class="center-text">{{ product.size }}</td>
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined me-2">

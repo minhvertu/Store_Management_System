@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductAmountSize;
+use App\Models\ProductSizeAmount;
 use App\Models\Storage;
 use Illuminate\Http\Request;
 
@@ -37,25 +39,58 @@ class StorageController extends Controller
     public function store(Request $request)
     {
         //
+      
+        
         if ($request->user()->can('create-storages')) {
-            $request->validate([
-                'amount' => 'required',
-                'shop_id' => 'required',
-                'product_id' => 'required',
-            ]);
+            $shop = $request->shop_id;
+            $product = $request->product_id;   
+         
+            $existingStorage = Storage::where('shop_id', $shop)
+            ->where('product_id', $product)
+            ->first();
 
-            $storage = new Storage();
-            $storage->amount= $request->input('amount');
-            $storage->shop_id = $request->input('shop_id');
-            $storage->product_id = $request->input('product_id');
-            $storage->save();
+            if (!$existingStorage) {
+                $storage = new Storage();
+          
+                $storage->shop_id= $shop;
+                $storage->product_id= $product;
+    
+                $storage->save();
 
-            return response()->json($storage);
+                $product_size_amount = new ProductSizeAmount();
+                $size = $request->size_id;
+                $product_size_amount->size_id = $size;
+    
+                $storage = $request->storage_id;
+                $product_size_amount->storage_id = $storage;
+    
+                $product_size_amount->amount = $request->amount;
+                $product_size_amount->save();  
+                
+                return response()->json($storage);   
+
+            } else {
+                
+                $product_size_amount = new ProductSizeAmount();
+                $size = $request->size_id;
+                $product_size_amount->size_id = $size;
+    
+                $storage = $request->storage_id;
+                $product_size_amount->storage_id = $storage;
+    
+                $product_size_amount->amount = $request->amount;
+                $product_size_amount->save();  
+                
+                return response()->json($storage);
+                
+            }
+
+          
         }
 
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create storage!'
+            'message' => 'You don\'t have permission to Import Products!'
         ], 404);
     }
 

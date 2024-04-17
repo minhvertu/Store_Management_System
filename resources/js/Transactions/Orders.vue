@@ -54,18 +54,18 @@
                 </div>
             </div>
             <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0 table-sm ">
+                <table class="table align-items-center mb-0 table-sm " style="border: 1px ; border-radius: 5px;">
                     <thead>
                         <tr>
-                            <th class="text-center ">
-                                ID</th>
-                            <th class="text-center ">
+                            <th class="text-center text-uppercase">
+                                order no</th>
+                            <th class="text-center text-uppercase">
                                 Order Code</th>
-                            <th class="text-center ">
+                            <th class="text-center text-uppercase">
                                 Client</th>
-                            <th class="text-center ">
+                            <th class="text-center text-uppercase">
                                 Status</th>
-                            <th class="text-center ">
+                            <th class="text-center text-uppercase">
                                 Actions</th>
                         </tr>
                     </thead>

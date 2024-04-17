@@ -17,9 +17,9 @@
       </div>
       <div class="col">
         <div class="text-end">
-          <router-link to="/employees/create" v-if="addPermission" class="btn btn-outline-info" data-mdb-ripple-init
-            data-mdb-ripple-color="dark">Add
-            Employee</router-link>
+          <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
+            data-bs-target="#addEmployeeModal" data-bs-whatever="@mdo" v-if="addPermission">Add
+            Employees</button>
           <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
             @click="exportEmployees">
             Export Data
@@ -28,61 +28,116 @@
       </div>
     </div>
 
+    <form @submit.prevent="submitForm">
+      <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addEmployeeModalLabel">Create Products Form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input class="form-control" type="text" id="name" v-model="employee.name" />
+              </div>
+              <div class="mb-3">
+                <label for="employee_code" class="form-label">Import Price</label>
+                <input class="form-control" type="text" id="employee_code" v-model="employee.employee_code" />
+              </div>
+              <div class="mb-3">
+                <label for="phone_number" class="form-label">Sell Price</label>
+                <input class="form-control" type="text" id="phone_number" v-model="employee.phone_number" />
+              </div>
+              <div class="mb-3">
+                <label for="card_id" class="form-label">card_id</label>
+                <input class="form-control" type="text" id="card_id" v-model="employee.card_id" />
+              </div>
+              <div class="mb-3">
+                <label for="salary_code" class="form-label">salary_code</label>
+                <input class="form-control" type="text" id="salary_code" v-model="employee.salary_code" />
+              </div>        
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
     <div class="table-responsive">
-      <table class="table table-bordered table-striped">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col" class="center-text">
 
             </th>
-            <th scope="col" class="center-text" @click="sortBy('id')">
+            <th scope="col" class="center-text  text-uppercase" @click="sortBy('id')">
               ID
               <span class="arrow" :class="sortOrders['id'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text" @click="sortBy('name')">
+            <th scope="col" class="center-text  text-uppercase" @click="sortBy('name')">
               Name
               <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text" @click="sortBy('employee_code')">
+            <th scope="col" class="center-text  text-uppercase" @click="sortBy('employee_code')">
               Employee Code
               <span class="arrow" :class="sortOrders['employee_code'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text" @click="sortBy('phone_number')">
+            <th scope="col" class="center-text  text-uppercase" @click="sortBy('phone_number')">
               Phone Number
               <span class="arrow" :class="sortOrders['phone_number'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text" @click="sortBy('salary_code')">
+            <th scope="col" class="center-text  text-uppercase" @click="sortBy('salary_code')">
               Salary Code
               <span class="arrow" :class="sortOrders['salary_code'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text" @click="sortBy('card_id')">
+            <th scope="col" class="center-text text-uppercase" @click="sortBy('card_id')">
               CCCD
               <span class="arrow" :class="sortOrders['card_id'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text">Actions</th>
+            <th scope="col" class="center-text  text-uppercase">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-            <td> <input type="checkbox" v-model="selectedEmployees[index]"></td>
-            <td class="center-text">{{ employee.id }} </td>
-            <td class="center-text">{{ employee.name }}</td>
-            <td class="center-text">{{ employee.employee_code }}</td>
-            <td class="center-text">{{ employee.phone_number }}</td>
-            <td class="center-text">{{ employee.salary_code }}</td>
-            <td class="center-text">{{ employee.card_id }}</td>
-            <td class="center-text">
-              <span class="material-symbols-outlined me-2">
-                <button @click="deleteEmployee(employee, index)" type="button" class="btn btn-danger "
-                  data-mdb-ripple-init>delete_forever
-                </button>
-              </span>
-              <span class="material-symbols-outlined">
-                <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
-                  data-bs-target="#updateModal" data-bs-whatever="@mdo" @click="openUpdateModal(product)">edit</button>
-              </span>
+          <template v-for="(employee, index) in filteredEmployees" :key="employee.id">
+            <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index" aria-expanded="false"
+              aria-controls="collapseExample">
+              <td> <input type="checkbox" v-model="selectedEmployees[index]"></td>
+              <td class="center-text">{{ employee.id }} </td>
+              <td class="center-text">{{ employee.name }}</td>
+              <td class="center-text">{{ employee.employee_code }}</td>
+              <td class="center-text">{{ employee.phone_number }}</td>
+              <td class="center-text">{{ employee.salary_code }}</td>
+              <td class="center-text">{{ employee.card_id }}</td>
+              <td class="center-text">
+                <span class="material-symbols-outlined me-2">
+                  <button @click="deleteEmployee(employee, index)" type="button" class="btn btn-danger "
+                    data-mdb-ripple-init>delete_forever
+                  </button>
+                </span>
+                <span class="material-symbols-outlined">
+                  <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
+                    data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                    @click="openUpdateModal(product)">edit</button>
+                </span>
+              </td>
+            </tr>
+            <td colspan="12">
+              <div class="collapse" :id="'collapseorder-' + index">
+                <div class="card card-body">
+                  <span class="text-wrap">
+                    What is Lorem Ipsum?
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  </span>
+                </div>
+              </div>
             </td>
-          </tr>
+          </template>
         </tbody>
       </table>
       <div v-if="showPagination">
@@ -111,6 +166,14 @@ export default {
     return {
       user_permissions: {},
       employees: [],
+      employee: {
+          id: '',
+          name: '',
+          card_id: '',
+          phone_number: '',
+          employee_code: '',
+          salary_code: '',
+        },
       searchKeyword: '',
       addPermission: true,
       listView: true,
@@ -132,6 +195,27 @@ export default {
     this.blockAddPermission();
   },
   methods: {
+    async submitForm() {
+            try {
+                const formData = new FormData();
+                // formData.append('image', this.product.image);
+                formData.append('name', this.employee.name);
+                formData.append('employee_code', this.employee.employee_code);
+                formData.append('phone_number', this.employee.phone_number);
+                formData.append('card_id', this.employee.card_id);
+                formData.append('salary_code', this.employee.salary_code);
+
+                await axios.post('/api/employees', formData, {
+                    header: {
+                        'content-Type': 'multipart/form-data'
+                    }
+                });
+                alert('Add Employee Successfully');
+                window.location.href = '/employeeManagement';
+            } catch (error) {
+                console.error(error);
+            }
+        },
 
     getEmployees() {
       axios.get('api/employees')
