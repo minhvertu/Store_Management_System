@@ -12,7 +12,7 @@ class Storage extends Model
         'shop_id',
         'product_id',
         'amount',
-    ]; 
+    ];
 
     public function shop()
     {
@@ -21,5 +21,9 @@ class Storage extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function product_size_amount()
+    {
+        return $this->hasMany(ProductSizeAmount::class);
     }
 }

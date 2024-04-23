@@ -133,12 +133,14 @@ export default {
     data() {
         return {
             products: [],
+
             orders: [],
             order_product: {
                 id: "",
                 amount: "",
                 order_id: "",
                 product_id: "",
+                size_id:"",
             },
             order: {
                 id: '',
@@ -187,7 +189,8 @@ export default {
 
             this.order.products = this.cartItems.map(item => ({
                 id: item.id,
-                amount: item.quantity
+                amount: item.quantity,
+                size_id: item.size_id,
             }));
 
             // Gửi đơn hàng lên server

@@ -16,7 +16,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index()
     {
         //
@@ -60,7 +60,7 @@ class ProductController extends Controller
             'gender_item_code' => 'required',
             'import_price' => 'required',
             'sell_price' => 'required',
-            'size' => 'required',
+
             'brand_id' => 'required',
             'category_id' => 'required',
         ]);
@@ -77,7 +77,7 @@ class ProductController extends Controller
         $product->gender_item_code = $request->input('gender_item_code');
         $product->import_price = $request->input('import_price');
         $product->sell_price = $request->input('sell_price');
-        $product->size = $request->input('size');
+
         $product->brand_id = $request->input('brand_id');
         $product->category_id = $request->input('category_id');
         $product->image = $path; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
     return response([
         'status' => false,
-        'message' => 'You don\'t have permission to create Product!' 
+        'message' => 'You don\'t have permission to create Product!'
     ], 404);
 }
 
@@ -147,12 +147,14 @@ class ProductController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete Product!' 
+            'message' => 'You don\'t have permission to delete Product!'
         ], 200);
     }
+
+    
 
     public function get_product_data()
     {
@@ -195,4 +197,7 @@ public function generateProductCode() {
 
     return 'PROD' . $numbers . $characters;
 }
+
+
+
 }

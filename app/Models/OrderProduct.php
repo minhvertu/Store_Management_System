@@ -12,8 +12,9 @@ class OrderProduct extends Model
         'amount',
         'product_id',
         'order_id',
+        'size_id',
 
-    ]; 
+    ];
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -21,5 +22,9 @@ class OrderProduct extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+    public function size()
+    {
+        return $this->belongsTo(ProductSizeAmount::class);
     }
 }

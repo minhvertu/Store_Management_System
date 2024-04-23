@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductSizeAmount;
 use App\Models\Storage;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
@@ -45,62 +46,71 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $user = $request->user();
-        if ($request->user()->can('create-orders')) {
-            $order = new Order();
-            $order->order_code = $this->generateOrderCode();
-            $order->user_id = $user->id;
+{
+    $user = $request->user();
+    if ($request->user()->can('create-orders')) {
+        $order = new Order();
+        $order->order_code = $this->generateOrderCode();
+        $order->user_id = $user->id;
 
-            // Mảng chứa các trạng thái có thể
-            $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
+        // Mảng chứa các trạng thái có thể
+        $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
 
-            // Chọn ngẫu nhiên một trạng thái từ mảng
-            $randomStatus = $statuses[array_rand($statuses)];
+        // Chọn ngẫu nhiên một trạng thái từ mảng
+        $randomStatus = $statuses[array_rand($statuses)];
 
-            $order->status = $randomStatus;
-            $order->save();
+        $order->status = $randomStatus;
+        $order->save();
 
-            $totalPrice = 0;
+        $totalPrice = 0;
 
-            foreach ($request->input('products') as $product) {
-                $orderProduct = new OrderProduct();
+        foreach ($request->input('products') as $product) {
+            $orderProduct = new OrderProduct();
 
-                $orderProduct->order_id = $order->id;
-                $orderProduct->product_id = $product['id'];
-                $orderProduct->amount = $product['amount'];
+            $orderProduct->order_id = $order->id;
+            $orderProduct->product_id = $product['id'];
+            $orderProduct->amount = $product['amount'];
+            $orderProduct->size_id = $product['size_id']; // Thêm size_id vào OrderProduct
 
-                $productSellPrice = Product::find($product['id'])->sell_price;
+            // Tìm storage_id từ bảng storages dựa trên product_id
+            $storage = Storage::where('product_id', $product['id'])->first();
+            if ($order->status === 'shipping' || $order->status === 'paid') {
+            // Nếu tìm thấy storage, cập nhật số lượng trong bảng product_size_amount
+                if ($storage) {
+                    $productSizeAmount = ProductSizeAmount::where([
+                        ['storage_id', '=', $storage->id],
+                        ['size_id', '=', $product['size_id']]
+                    ])->first();
 
-                $productTotalPrice = $productSellPrice * $orderProduct->amount;
-                $totalPrice += $productTotalPrice;
-                $order->order_product()->save($orderProduct);
-
-                // Giảm số lượng sản phẩm trong kho
-                if ($order->status === 'paid'  || $order->status === 'shipping') {
-                    $storageItem = Storage::where('product_id', $product['id'])->first();
-                    if ($storageItem) {
-                        $storageItem->amount -= $product['amount'];
-                        $storageItem->save();
+                    if ($productSizeAmount) {
+                        $productSizeAmount->amount -= $product['amount'];
+                        $productSizeAmount->save();
                     }
                 }
+
+            $productSellPrice = Product::find($product['id'])->sell_price;
+            $productTotalPrice = $productSellPrice * $orderProduct->amount;
+            $totalPrice += $productTotalPrice;
+            $order->order_product()->save($orderProduct);
             }
-            $order->price = $totalPrice;
-            $order->detail = $request->detail;
-            $order->save();
-
-            return response()->json($order);
         }
+        $order->price = $totalPrice;
+        $order->detail = $request->detail;
+        $order->save();
 
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to create Order!'
-        ], 404);
+        return response()->json($order);
     }
+
+    return response([
+        'status' => false,
+        'message' => 'You don\'t have permission to create Order!'
+    ], 404);
+}
+
     public function getTotalOrderPrice()
     {
 
-        $totalOrderPrice = Order::where('status', 'paid')->sum('price');
+        $totalOrderPrice = Order::where('status', 'paid','shipping')->sum('price');
 
         return response()->json(['totalOrderPrice' => $totalOrderPrice]);
     }

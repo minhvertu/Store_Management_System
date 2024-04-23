@@ -53,10 +53,7 @@
                                         <input class="form-control" type="text" id="sell_price"
                                             v-model="product.sell_price" />
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="size" class="form-label">Size</label>
-                                        <input class="form-control" type="text" id="size" v-model="product.size" />
-                                    </div>
+
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="product.gender_item_code">
                                         <option disabled value="">Select Gender</option>
@@ -119,11 +116,7 @@
                                         <input class="form-control" type="text" id="updateSellPrice"
                                             v-model="editedProduct.sell_price" />
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="updateSize" class="form-label">Size</label>
-                                        <input class="form-control" type="text" id="updateSize"
-                                            v-model="editedProduct.size" />
-                                    </div>
+
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="editedProduct.gender_item_code">
                                         <option disabled value="">Select Gender</option>
@@ -178,7 +171,7 @@
                             Name
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('category.name')">
+                        <!-- <th scope="col" class="center-text  text-uppercase" @click="sortBy('category.name')">
                             Product Type
                             <span class="arrow" :class="sortOrders['category.name'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
@@ -193,7 +186,7 @@
                         <th scope="col" class="center-text  text-uppercase" @click="sortBy('gender_item_code')">
                             Gender
                             <span class="arrow" :class="sortOrders['gender_item_code'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
+                        </th> -->
                         <th scope="col" class="center-text  text-uppercase" @click="sortBy('brand.name')">
                             Brand
                             <span class="arrow" :class="sortOrders['brand.name'] > 0 ? 'asc' : 'dsc'"></span>
@@ -206,7 +199,7 @@
                         <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index" aria-expanded="false"
                             aria-controls="collapseExample">
                             <td>
-                                <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
+                                <div class="image-container" style="width: 70px; height: 70px; overflow: hidden;">
                                     <img :src="'/storage/' + product.image" alt="Product Image"
                                         class="shadow-sm border-radius-lg border border-1"
                                         style="width: 100%; height: 100%; object-fit: cover;">
@@ -214,10 +207,10 @@
                             </td>
                             <td class="center-text">{{ product.product_code }}</td>
                             <td class="center-text">{{ product.name }}</td>
-                            <td class="center-text">{{ product.category.name }}</td>
+                            <!-- <td class="center-text">{{ product.category.name }}</td>
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
-                            <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td>
+                            <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td> -->
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined me-2">
@@ -232,15 +225,37 @@
                             </td>
                         </tr>
                         <td colspan="12">
-                            <div class="collapse" :id="'collapseorder-' + index">
-                                <div class="card card-body">
-                                    <span class="text-wrap">
-                                        What is Lorem Ipsum?
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
+    <div class="collapse" :id="'collapseorder-' + index">
+        <div class="card card-body">
+            <!-- Bố cục chứa hình ảnh và thông tin bổ sung -->
+            <div class="d-flex">
+                <!-- Phần chứa hình ảnh -->
+                <div class="image-container me-6" style="width: 15%; height: 15%; overflow: hidden; margin-right: 20px;">
+                    <img :src="'/storage/' + product.image" alt="Product Image"
+                         class="shadow-sm border-radius-lg border border-1"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Phần chứa thông tin bổ sung -->
+                <div class="product-info d-flex flex-wrap">
+                    <!-- Hàng đầu tiên chứa 3 thông tin -->
+                    <div class="col me-6">
+                        <p class="me-3"><strong>Product Code:</strong> {{ product.product_code }}</p>
+                        <p class="me-3"><strong>Category:</strong> {{ product.category.name }}</p>
+                        <p class="me-3"><strong>Gender:</strong> {{ genderLabel(product.gender_item_code) }}</p>
+                    </div>
+                    <!-- Hàng thứ hai chứa 3 thông tin -->
+                    <div class="col me-6">
+                        <p class="me-3"><strong>Import Price:</strong> ${{ product.import_price }}</p>
+                        <p class="me-3"><strong>Sell Price:</strong> ${{ product.sell_price }}</p>
+                        <p class="me-3"><strong>Brand:</strong> {{ product.brand.name }}</p>
+                    </div>
+                    <!-- Hàng thứ ba chứa 1 thông tin -->
+                </div>
+            </div>
+        </div>
+    </div>
+</td>
+
                     </template>
                 </tbody>
             </table>
@@ -277,7 +292,7 @@ export default {
                 import_price: '',
                 sell_price: '',
                 gender_item_code: '',
-                size: '',
+
                 brand_id: '',
                 category_id: '',
                 image: '',
@@ -289,7 +304,7 @@ export default {
                 import_price: '',
                 sell_price: '',
                 gender_item_code: '',
-                size: '',
+
                 brand_id: '',
                 category_id: '',
                 image: '',
@@ -339,7 +354,7 @@ export default {
                 import_price: product.import_price,
                 sell_price: product.sell_price,
                 gender_item_code: product.gender_item_code,
-                size: product.size,
+
                 brand_id: product.brand_id,
                 category_id: product.category_id,
                 image: product.image,
@@ -388,7 +403,7 @@ export default {
                 formData.append('name', this.product.name);
                 formData.append('import_price', this.product.import_price);
                 formData.append('sell_price', this.product.sell_price);
-                formData.append('size', this.product.size);
+
                 formData.append('gender_item_code', this.product.gender_item_code);
                 formData.append('brand_id', this.product.brand_id);
                 formData.append('category_id', this.product.category_id);

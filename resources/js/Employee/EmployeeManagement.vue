@@ -57,7 +57,7 @@
               <div class="mb-3">
                 <label for="salary_code" class="form-label">salary_code</label>
                 <input class="form-control" type="text" id="salary_code" v-model="employee.salary_code" />
-              </div>        
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -125,6 +125,11 @@
                     data-bs-target="#updateModal" data-bs-whatever="@mdo"
                     @click="openUpdateModal(product)">edit</button>
                 </span>
+                <!-- <span class="material-symbols-outlined">2
+                  <router-link :to="`/employees/${employee.id}/edit`"
+                    class="mx-2 p-2 col border btn ">edit
+                  </router-link>
+                </span> -->
               </td>
             </tr>
             <td colspan="12">

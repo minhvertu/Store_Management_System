@@ -16,7 +16,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductAmountSizeController;
+use App\Http\Controllers\ProductSizeAmountController;
 use App\Http\Controllers\SizeController;
 
 /*
@@ -65,9 +65,11 @@ Route::resource('employees', EmployeeController::class);
 Route::get('employees_export',[EmployeeController::class, 'get_employee_data'])->name('employee.export');
 
 //Products
+
 Route::resource('products', ProductController::class);
 Route::get('products_export',[ProductController::class, 'get_product_data'])->name('product.export');
 Route::post('/upload-product-image', [ProductController::class, 'uploadProductImage']);
+
 
 
 
@@ -84,7 +86,15 @@ Route::resource('shops', ShopController::class);
 Route::resource('suppliers', SupplierController::class);
 
 //Storages
+
+
+Route::get('/storages/total-import-cost', [StorageController::class, 'calculateTotalImportCost']);
+
 Route::resource('storages', StorageController::class);
+
+
+
+
 
 //Categories
 Route::resource('categories', CategoryController::class);
@@ -108,7 +118,8 @@ Route::resource('carts', CartController::class);
 Route::post('/cart/add{ product }', [CartController::class, ' addToCart']);
 
 Route::resource('sizes', SizeController::class);
-Route::resource('product_size_amounts', ProductAmountSizeController::class);
+
+Route::resource('product_size_amounts', ProductSizeAmountController::class);
 
 
 

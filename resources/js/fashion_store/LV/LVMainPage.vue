@@ -46,11 +46,11 @@
                             </div>
                         </div>
 
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" v-for="(product, index) in products" :key="'product-' + index">
-                            <router-link :to="`/products/productDetail/${product.id}`">
+                    <template v-for="(storage, index) in storages" :key="'storage-' + index">
+                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" >
+                            <router-link :to="`/products/productDetail/${storage.product.id}`">
                                 <div class="collection-img position-relative">
-                                    <img :src="'/storage/' + product.image" class="w-100">
+                                    <img :src="'/storage/' + storage.product.image" class="w-100">
                                     <span
                                         class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
                                 </div>
@@ -63,11 +63,11 @@
                                     <span class="text-primary"><i class="fas fa-star"></i></span>
                                     <span class="text-primary"><i class="fas fa-star"></i></span>
                                 </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
+                                <p class="text-capitalize my-1">{{storage.product.name}}</p>
+                                <span class="fw-bold">$ {{storage.product.sell_price}}</span>
                             </div>
                         </div>
-
+                    </template>
 
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
                             <div class="collection-img position-relative">
@@ -220,15 +220,56 @@ export default {
                 category_id: '',
                 image: '',
             },
+            storages: [],
+            storage: {
+                id: '',
+                product_id: '',
+                shop_id: '',
+                size_id:'',
+
+                amount: '',
+            },
+            product_size_amounts: [],
+            product_size_amount: {
+                id: '',
+                amount: '',
+                storage_id: '',
+                size_id: '',
+
+            },
             imageUrl: null,
         }
     },
     created() {
         this.getProducts();
+        this.getStorages();
+        this.getProductSizeAmounts();
 
     },
 
     methods: {
+        getProductSizeAmounts() {
+            axios.get('api/product_size_amounts')
+                .then(response => {
+                    this.product_size_amounts = response.data;
+                    console.log(this.product_size_amounts);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        getStorages() {
+            axios.get('api/storages')
+                .then(response => {
+                    this.storages = response.data;
+                    console.log(this.storages);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
         getProducts() {
             axios.get('api/products')
                 .then(response => {

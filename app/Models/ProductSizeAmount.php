@@ -9,12 +9,12 @@ class ProductSizeAmount extends Model
 {
     use HasFactory;
     protected $fillable = [
-       
+
         'amount',
         'size_id',
         'storage_id',
-      
-    ]; 
+
+    ];
 
     public function size()
     {
@@ -25,4 +25,6 @@ class ProductSizeAmount extends Model
     {
         return $this->belongsTo(Storage::class);
     }
+
+    
 }

@@ -27,10 +27,6 @@
                         data-bs-toggle="modal" data-bs-target="#importProducts" data-bs-whatever="@mdo"
                         v-if="addPermission">Import Products</button>
 
-
-                    <button type="button" class="btn btn-outline-success" data-mdb-ripple-init
-                        data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#productCheckModal"
-                        data-bs-whatever="@mdo">Storage Check</button>
                     <!-- <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
                     </button> -->
@@ -148,7 +144,7 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    
+
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="storage.product_id">
                                         <option disabled value="">Select Products</option>
@@ -164,18 +160,18 @@
                                     </select>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product_size_amount.storage_id">
+                                        v-model="storage.shop_id">
                                         <option disabled value="">Select Shops</option>
-                                        <option v-for="storage in storages" :key="storage.id" :value="storage.id">
-                                            {{ storage.shop.name }}</option>
+                                        <option v-for="shop in shops" :key="shop.id" :value="shop.id">
+                                            {{ shop.name }}</option>
                                     </select>
 
                                     <div class="mb-3">
                                         <label for="amount" class="form-label">Amount</label>
-                                        <input class="form-control" type="text" id="amount" v-model="product_size_amount.name" />
+                                        <input class="form-control" type="text" id="amount" v-model="product_size_amount.amount" />
                                     </div>
-                                    
-                
+
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -228,7 +224,6 @@
                     </div>
                 </div>
 
-
             </div>
         </div>
 
@@ -252,84 +247,86 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(shop, index) in filteredShops" :key="shop.id">
-                        <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index" aria-expanded="false"
-                            aria-controls="collapseExample">
-                            <td class="center-text">{{ shop.name }}</td>
-                            <td class="center-text">{{ shop.address }}</td>
-                            <td class="center-text">{{ shop.phone_number }}</td>
-                            <td class="center-text">
-                                <span class="material-symbols-outlined me-2">
-                                    <button @click="deleteShop(shop, index)" type="button" class="btn btn-danger "
-                                        data-mdb-ripple-init>delete_forever</button>
-                                </span>
-                                <span class="material-symbols-outlined me-2">
-                                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                                        data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
-                                        @click="openUpdateModal(shop)">edit</button>
-                                </span>
-                                <span class="material-symbols-outlined">
-                                    <button type="button" class="btn btn-info" data-mdb-ripple-init
-                                        data-bs-toggle="modal" data-bs-target="#productCollapse" data-bs-whatever="@mdo"
-                                        >visibility</button>
-                                </span>
-                            </td>
-                        </tr>
-                        <td colspan="12">
-                            <div class="collapse" :id="'collapseorder-' + index">
-                                <div class="card card-body">
-                                    <span class="text-wrap">
-                                        <div class="table-responsive">
-                                            <table class="table  ">
-                                                <thead>
-                                                    <tr>
-                                                        <td></td>
-                                                        <th scope="col" class="center-text  text-uppercase"
-                                                            @click="sortBy('product_code')">
-                                                            Product Code
-                                                            <span class="arrow"
-                                                                :class="sortOrders['product_code'] > 0 ? 'asc' : 'dsc'"></span>
-                                                        </th>
-                                                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('name')">
-                                                            Name
-                                                            <span class="arrow"
-                                                                :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
-                                                        </th>
-                                                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('amount')">
-                                                            Amount
-                                                            <span class="arrow"
-                                                                :class="sortOrders['amount'] > 0 ? 'asc' : 'dsc'"></span>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <template v-for="(storage, storageIndex) in storages"
-                                                        :key="'storage-' + storageIndex">
-                                                        <tr v-if="storage.shop_id === shop.id">
-                                                            
-                                                            <td class="center-text">
-                                                                <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
-                                                                    <img :src="'/storage/' + storage.product.image"
-                                                                        alt="Product Image" class="shadow-sm border-radius-lg border border-1"
-                                                                         style="width: 100%; height: 100%; object-fit: cover;" />
-                                                            </div>
-                                                            </td>
-                                                            <td class="center-text">{{ storage.product.product_code }}
-                                                            </td>
-                                                            <td class="center-text">{{ storage.product.name }}</td>
-                                                            <td class="center-text">{{ storage.amount }}</td>
-                                                        </tr>
-                                                    </template>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
+    <template v-for="(shop, shopIndex) in filteredShops" :key="'shop-' + shopIndex">
+        <tr>
+            <td class="center-text">{{ shop.name }}</td>
+            <td class="center-text">{{ shop.address }}</td>
+            <td class="center-text">{{ shop.phone_number }}</td>
+            <td class="center-text">
+                <span class="material-symbols-outlined me-2">
+                    <button @click="deleteShop(shop, shopIndex)" type="button" class="btn btn-danger"
+                        data-mdb-ripple-init>delete_forever</button>
+                </span>
+                <span class="material-symbols-outlined me-2">
+                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                        data-bs-toggle="modal" data-bs-target="'#productCollapse-' + shopIndex" data-bs-whatever="@mdo"
+                        @click="openUpdateModal(shop)">edit</button>
+                </span>
+                <span class="material-symbols-outlined">
+                    <button type="button" class="btn btn-info" data-mdb-ripple-init
+                        data-bs-toggle="modal" :data-bs-target="'#productCollapse-' + shopIndex" data-bs-whatever="@mdo"
+                        >visibility</button>
+                </span>
+            </td>
+        </tr>
+        <!-- Modal for products in shop's inventory -->
+        <div class="modal fade" :id="'productCollapse-' + shopIndex" tabindex="-1" :aria-labelledby="'productCollapseLabel-' + shopIndex"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" :id="'productCollapseLabel-' + shopIndex">Product Check</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" class="center-text"></th>
+                                        <th scope="col" class="center-text">Name</th>
+                                        <th scope="col" class="center-text">Product Code</th>
+                                        <th scope="col" class="center-text">Detail</th>
+                                    </tr>
+                                </thead>
+                               <tbody>
+    <template v-for="(storage, storageIndex) in storages" :key="'storage-' + storageIndex">
+        <template v-if="storage.shop_id === shop.id">
+            <tr>
+                <td class="center-text">
+                    <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
+                        <img :src="'/storage/' + storage.product.image"
+                            alt="Product Image" class="shadow-sm border-radius-lg border border-1"
+                            style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                </td>
+                <td class="center-text">{{ storage.product.name }}</td>
+                <td class="center-text">{{ storage.product.product_code }}</td>
+                <td class="center-text">
+                    <template v-for="(productSizeAmount, psaIndex) in storage.product_size_amount" :key="'psa-' + psaIndex">
+                        <div> Size: {{ getSizeName(productSizeAmount.size_id) }} - Amount: {{ productSizeAmount.amount }}</div>
                     </template>
-                </tbody>
+                </td>
+            </tr>
+        </template>
+    </template>
+</tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</tbody>
+
             </table>
+
 
 
 
@@ -385,15 +382,13 @@ export default {
             storages: [],
             storage: {
                 id: '',
-                shop_id: '',
                 product_id: '',
+                shop_id: '',
                 amount: '',
-
-
             },
 
             products: [],
-            
+
 
             product_size_amounts: [],
             product_size_amount: {
@@ -408,7 +403,7 @@ export default {
                 id: '',
                 name: '',
             },
-    
+
 
             isNewStore: true,
             imageUrl: null,
@@ -436,6 +431,10 @@ export default {
     },
 
     methods: {
+        getSizeName(sizeId) {
+        const size = this.sizes.find(size => size.id === sizeId);
+        return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
+    },
 
         getSizes() {
             axios.get('api/sizes')
@@ -576,28 +575,55 @@ export default {
             }
         },
 
-        async importProductForm() {
-            try {
-                const formData = new FormData();
+        importProducts() {
+    axios.post('api/storages', {
+        shop_id: this.product_size_amount.shop_id,
+        product_id: this.storage.product_id,
+        size_id: this.storage.size_id,
+        storage_id: this.product_size_amount.storage_id,
+        amount: this.product_size_amount.amount,
 
-                formData.append('amount', this.product_size_amount.amount);
-                formData.append('size_id', this.product_size_amount.size_id);
-                formData.append('storage_id', this.product_size_amount.storage_id);
+    })
+    .then(response => {
+        if (response.data.status === false) {
+            this.error.message = response.data.message;
+            alert('trollvn');
+            setTimeout(() => {
+                this.error.message = '';
+            }, 3000);
+        } else {
+            this.storages.push(response.data);
+            alert('okvn');
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+},
 
 
-                await axios.post('/api/product_size_amounts', formData, {
-                    header: {
-                        'content-Type': 'multipart/form-data'
-                    }
-                });
-                alert('Add Shop Successfully');
-                // this.$router.push('/productList');
-                window.location.href = '/shopManagement';
-            } catch (error) {
-                console.error(error);
+async importProductForm() {
+    try {
+        const formData = new FormData();
+
+        formData.append('amount', this.product_size_amount.amount);
+        formData.append('size_id', this.product_size_amount.size_id);
+
+        formData.append('shop_id', this.storage.shop_id);
+        formData.append('product_id', this.storage.product_id);
+
+        await axios.post('/api/storages', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
-        },
-
+        });
+        alert('Import Product Successfully');
+        // this.$router.push('/productList');
+        window.location.href = '/shopManagement';
+    } catch (error) {
+        console.error(error);
+    }
+},
         deleteShop(shop, index) {
             axios.delete('api/shops/' + shop.id)
                 .then(response => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductAmountSize;
 use App\Models\ProductSizeAmount;
 use App\Models\Storage;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
@@ -20,7 +21,7 @@ class StorageController extends Controller
     public function index()
     {
         //
-        $storage = Storage::with ([ 'shop','product',
+        $storage = Storage::with ([ 'shop','product', 'product_size_amount'
         ])->get();
         return response()->json($storage);
     }
@@ -37,62 +38,74 @@ class StorageController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-      
-        
-        if ($request->user()->can('create-storages')) {
-            $shop = $request->shop_id;
-            $product = $request->product_id;   
-         
-            $existingStorage = Storage::where('shop_id', $shop)
+{
+    // Kiểm tra quyền truy cập
+    if ($request->user()->can('create-storages')) {
+        $shop = $request->shop_id;
+        $product = $request->product_id;
+
+        // Kiểm tra tồn tại của Storage
+        $existingStorage = Storage::where('shop_id', $shop)
             ->where('product_id', $product)
             ->first();
 
-            if (!$existingStorage) {
-                $storage = new Storage();
-          
-                $storage->shop_id= $shop;
-                $storage->product_id= $product;
-    
-                $storage->save();
+        if (!$existingStorage) {
+            // Tạo Storage mới
+            $storage = new Storage();
+            $storage->shop_id = $shop;
+            $storage->product_id = $product;
+            $storage->save();
 
-                $product_size_amount = new ProductSizeAmount();
-                $size = $request->size_id;
-                $product_size_amount->size_id = $size;
-    
-                $storage = $request->storage_id;
-                $product_size_amount->storage_id = $storage;
-    
-                $product_size_amount->amount = $request->amount;
-                $product_size_amount->save();  
-                
-                return response()->json($storage);   
-
-            } else {
-                
-                $product_size_amount = new ProductSizeAmount();
-                $size = $request->size_id;
-                $product_size_amount->size_id = $size;
-    
-                $storage = $request->storage_id;
-                $product_size_amount->storage_id = $storage;
-    
-                $product_size_amount->amount = $request->amount;
-                $product_size_amount->save();  
-                
-                return response()->json($storage);
-                
-            }
-
-          
+            $storage_id = $storage->id; // Lấy ID của storage mới tạo
+        } else {
+            $storage_id = $existingStorage->id; // Sử dụng ID của storage đã tồn tại
         }
 
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to Import Products!'
-        ], 404);
+        $size_id = $request->size_id;
+        $amount = $request->amount;
+
+        // Lấy sản phẩm theo ID
+        $product = Product::find($request->product_id);
+
+        // Tính tổng chi phí nhập hàng
+        $totalImportCost = $product->import_price * $amount;
+
+        // Kiểm tra bản ghi ProductSizeAmount đã tồn tại
+        $existingProductSizeAmount = ProductSizeAmount::where('storage_id', $storage_id)
+            ->where('size_id', $size_id)
+            ->first();
+
+        if ($existingProductSizeAmount) {
+            // Nếu đã có bản ghi, cập nhật số lượng và thêm tiền nhập hàng
+            $existingProductSizeAmount->amount += $amount;
+            $existingProductSizeAmount->import_cost += $totalImportCost;
+            $existingProductSizeAmount->save();
+        } else {
+            // Nếu không có bản ghi, tạo mới và lưu số tiền nhập hàng
+            $product_size_amount = new ProductSizeAmount();
+            $product_size_amount->size_id = $size_id;
+            $product_size_amount->storage_id = $storage_id;
+            $product_size_amount->amount = $amount;
+            $product_size_amount->import_cost = $totalImportCost;
+            $product_size_amount->save();
+        }
+
+        // Trả về kết quả lưu trữ và tổng chi phí nhập hàng
+        return response()->json([
+            'storage_id' => $storage_id,
+            'total_import_cost' => $totalImportCost
+        ]);
+
     }
+
+    // Trả về thông báo lỗi nếu không có quyền
+    return response([
+        'status' => false,
+        'message' => 'You don\'t have permission to Import Products!'
+    ], 404);
+}
+
+
 
     /**
      * Display the specified resource.
@@ -128,6 +141,9 @@ class StorageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+
+
     public function destroy(Request $request, $id)
     {
         //
@@ -153,4 +169,15 @@ class StorageController extends Controller
 
     //     return response()->json(['amount' => $amount]);
     // }
+    public function calculateTotalImportCost(Request $request)
+    {
+        // Truy vấn để lấy tổng chi phí nhập hàng (import_cost) từ bảng ProductSizeAmount
+        $totalImportCost = ProductSizeAmount::sum('import_cost');
+
+        // Trả về tổng chi phí nhập hàng dưới dạng JSON
+        return response()->json(['totalImportCost' => $totalImportCost]);
+    }
+
+
+
 }

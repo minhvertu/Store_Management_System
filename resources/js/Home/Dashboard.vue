@@ -6,7 +6,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.money.title"
-                            :value="`$${totalOrderPrice}`"
+                            :value="`$${totalOrderPrice-totalImportCost}`"
                             :percentage="stats.money.percentage"
                             :iconClass="stats.money.iconClass"
                             :iconBackground="stats.money.iconBackground"
@@ -89,6 +89,7 @@ export default {
             totalOrderPrice: 0,
             totalCustomer: 0,
             totalOrder: 0,
+            totalImportCost: 0,
             chartData: {
                 labels: [
                     "January",
@@ -157,12 +158,23 @@ export default {
 
     created() {
     // Gọi API để lấy tổng giá trị đơn hàng khi component được tạo
+    this.getTotalImportCost();
     this.getTotalOrderPrice();
     this.getTotalCustomers();
     this.getTotalOrder();
     },
 
     methods: {
+
+        async getTotalImportCost() {
+            try {
+                const response = await axios.get('/api/storages/total-import-cost');
+
+                this.totalImportCost = response.data.totalImportCost;
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async getTotalOrderPrice() {
             try {
                 const response = await axios.get('/api/orders/total-price');

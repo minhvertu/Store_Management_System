@@ -62,7 +62,14 @@
                                 <p class="text-secondary mb-1">
                                     (Additional tax may apply on checkout)
                                 </p>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" v-model="products.size_id" style="width: 150px;" >
+    <option disabled value="">Select Sizes</option>
+    <option v-for="size in sizes" :key="size.id" :value="size.id">
+        {{ size.name }}
+    </option>
+</select>
                             </div>
+
 
                             <form @submit.prevent="submitForm">
                                 <div class="buttons d-flex my-5">
@@ -247,8 +254,13 @@ export default {
                 user_id: '',
                 status: "pending",
                 products: [
-
+                   
                 ],
+            },
+            sizes: [],
+            size: {
+                id: '',
+                name: '',
             },
 
         };
@@ -261,11 +273,28 @@ export default {
 
     created() {
         this.getProducts();
-
+        this.getSizes();
         this.$store.state.showSidenav = false;
     },
 
     methods: {
+
+        getSizeName(sizeId) {
+        const size = this.sizes.find(size => size.id === sizeId);
+        return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
+    },
+
+    getSizes() {
+    axios.get('/api/sizes')
+        .then(response => {
+            this.sizes = response.data;
+            console.log(this.sizes); // Kiểm tra dữ liệu
+        })
+        .catch(error => {
+            console.log(error);
+        });
+},
+
         getProducts() {
             axios
                 .get(`/api/products/${this.$route.params.id}`)
@@ -285,6 +314,7 @@ export default {
       name: this.products.name,
       price: this.products.sell_price,
       image: this.products.image,
+      size_id: this.products.size_id,
       quantity: 1 // Số lượng sản phẩm mặc định
     };
 
