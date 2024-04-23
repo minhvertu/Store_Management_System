@@ -14,7 +14,7 @@ class ProductSizeAmountController extends Controller
     public function index()
     {
         //
-        $product_size_amount = ProductSizeAmount::with ([ 'storage','size',
+        $product_size_amount = ProductSizeAmount::with ([ 'storage','size','product'
         ])->get();
         return response()->json($product_size_amount);
     }

@@ -86,6 +86,7 @@ class StorageController extends Controller
             $product_size_amount->size_id = $size_id;
             $product_size_amount->storage_id = $storage_id;
             $product_size_amount->amount = $amount;
+            $product_size_amount->import_code = $this->generateImportCode();
             $product_size_amount->import_cost = $totalImportCost;
             $product_size_amount->save();
         }
@@ -176,6 +177,25 @@ class StorageController extends Controller
 
         // Trả về tổng chi phí nhập hàng dưới dạng JSON
         return response()->json(['totalImportCost' => $totalImportCost]);
+    }
+
+    public function generateImportCode()
+    {
+        $digits = 3; // Số lượng chữ số
+        $letters = 2; // Số lượng chữ cái
+
+        $numbers = '';
+        for ($i = 0; $i < $digits; $i++) {
+            $numbers .= mt_rand(0, 9); // Tạo ngẫu nhiên chữ số từ 0 đến 9
+        }
+
+        $characters = '';
+        $lettersRange = range('A', 'Z'); // Mảng chứa các chữ cái từ A đến Z
+        for ($i = 0; $i < $letters; $i++) {
+            $characters .= $lettersRange[array_rand($lettersRange)]; // Chọn ngẫu nhiên một chữ cái từ mảng
+        }
+
+        return 'IMP' . $numbers . $characters;
     }
 
 

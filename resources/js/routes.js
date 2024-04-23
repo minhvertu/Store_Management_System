@@ -24,6 +24,7 @@ import ProductDetail from './fashion_store/Cart/ProductDetail.vue';
 import ShopManagement from './ManagerStore/ShopManagement.vue';
 import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
 import ThankYouPage from './fashion_store/ThankYouPage/ThankYouPage.vue';
+import ImportShipment from './Transactions/ImportShipment.vue';
 
 
 export const routes = [
@@ -165,6 +166,13 @@ export const routes = [
         path: '/regards',
         component: ThankYouPage,
     },
+
+    {
+        name: 'importShipment',
+        path: '/importShipment',
+        component: ImportShipment,
+    },
+
 
 
 ]

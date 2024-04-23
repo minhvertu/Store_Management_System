@@ -11,6 +11,8 @@ class ProductSizeAmount extends Model
     protected $fillable = [
 
         'amount',
+        'import_cost',
+        'import_code',
         'size_id',
         'storage_id',
 
@@ -19,6 +21,10 @@ class ProductSizeAmount extends Model
     public function size()
     {
         return $this->belongsTo(Size::class);
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 
     public function storage()

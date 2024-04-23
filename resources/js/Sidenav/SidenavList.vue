@@ -162,11 +162,10 @@
       </div>
       <span class="nav-link-text ms-1">Transactions</span>
     </a>
-    
+
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
       <li>
-        <sidenav-item url="/orders" :class="getRoute() === '/orders' ? 'active' : ''"
-          :navText="'Orders'">
+        <sidenav-item url="/orders" :class="getRoute() === '/orders' ? 'active' : ''" :navText="'Orders'">
 
           <template v-slot:icon>
             <span class="material-symbols-outlined">orders</span>
@@ -174,8 +173,18 @@
         </sidenav-item>
       </li>
       <li>
-        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
-          :navText="'Sign In'">
+        <sidenav-item url="/importShipment" :class="getRoute() === '/importShipment' ? 'active' : ''"
+          :navText="'ImportShipment'">
+
+          <template v-slot:icon>
+            <span class="material-symbols-outlined">
+              local_shipping
+            </span>
+          </template>
+        </sidenav-item>
+      </li>
+      <li>
+        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''" :navText="'Sign In'">
           <template v-slot:icon>
             <span class="material-symbols-outlined">login</span>
           </template>
@@ -193,7 +202,7 @@
       </div>
       <span class="nav-link-text ms-1">Stores</span>
     </a>
-    
+
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
       <li>
         <sidenav-item url="/shopManagement" :class="getRoute() === '/shopManagement' ? 'active' : ''"
@@ -205,8 +214,7 @@
         </sidenav-item>
       </li>
       <li>
-        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''"
-          :navText="'Sign In'">
+        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''" :navText="'Sign In'">
           <template v-slot:icon>
             <span class="material-symbols-outlined">login</span>
           </template>
@@ -214,8 +222,8 @@
       </li>
     </ul>
   </li>
-  
-  
+
+
   </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">

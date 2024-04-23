@@ -227,29 +227,29 @@
                         <td colspan="12">
     <div class="collapse" :id="'collapseorder-' + index">
         <div class="card card-body">
-            <!-- Bố cục chứa hình ảnh và thông tin bổ sung -->
+        
             <div class="d-flex">
-                <!-- Phần chứa hình ảnh -->
+             
                 <div class="image-container me-6" style="width: 15%; height: 15%; overflow: hidden; margin-right: 20px;">
                     <img :src="'/storage/' + product.image" alt="Product Image"
                          class="shadow-sm border-radius-lg border border-1"
                          style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <!-- Phần chứa thông tin bổ sung -->
+              
                 <div class="product-info d-flex flex-wrap">
-                    <!-- Hàng đầu tiên chứa 3 thông tin -->
+                   
                     <div class="col me-6">
                         <p class="me-3"><strong>Product Code:</strong> {{ product.product_code }}</p>
                         <p class="me-3"><strong>Category:</strong> {{ product.category.name }}</p>
                         <p class="me-3"><strong>Gender:</strong> {{ genderLabel(product.gender_item_code) }}</p>
                     </div>
-                    <!-- Hàng thứ hai chứa 3 thông tin -->
+                   
                     <div class="col me-6">
                         <p class="me-3"><strong>Import Price:</strong> ${{ product.import_price }}</p>
                         <p class="me-3"><strong>Sell Price:</strong> ${{ product.sell_price }}</p>
                         <p class="me-3"><strong>Brand:</strong> {{ product.brand.name }}</p>
                     </div>
-                    <!-- Hàng thứ ba chứa 1 thông tin -->
+                   
                 </div>
             </div>
         </div>
