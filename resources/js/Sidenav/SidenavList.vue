@@ -35,75 +35,79 @@
         </sidenav-item>
       </li>
 
-      <li class="nav-item">
-        <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
-          aria-controls="applicationsExamples" role="button" aria-expanded="false">
-          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-            <span class="material-symbols-outlined ">deployed_code</span>
-          </div>
-          <span class="nav-link-text ms-1">Products</span>
-        </a>
+      <div v-if="roleId =='2'">
+        <li class="nav-item">
+          <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+            aria-controls="applicationsExamples" role="button" aria-expanded="false">
+            <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+              <span class="material-symbols-outlined ">deployed_code</span>
+            </div>
+            <span class="nav-link-text ms-1">Products</span>
+          </a>
 
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
 
-      <li>
-        <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
-          :navText="'PriceManagement'">
+        <li>
+          <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+            :navText="'PriceManagement'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined fa-lg">sell</span>
-          </template>
-        </sidenav-item>
-      </li>
-      <li>
-        <sidenav-item url="/productList" :class="getRoute() === '/productList' ? 'active' : ''"
-          :navText="'ProductList'">
+            <template v-slot:icon>
+              <span class="material-symbols-outlined fa-lg">sell</span>
+            </template>
+          </sidenav-item>
+        </li>
+        <li>
+          <sidenav-item url="/productList" :class="getRoute() === '/productList' ? 'active' : ''"
+            :navText="'ProductList'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined fa-lg">view_list</span>
-          </template>
-        </sidenav-item>
-      </li>
-  </div>
-  </li>
-
-  <li class="nav-item ">
-    <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
-      aria-controls="applicationsExamples" role="button" aria-expanded="false">
-      <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-        <span class="material-symbols-outlined">badge</span>
+            <template v-slot:icon>
+              <span class="material-symbols-outlined fa-lg">view_list</span>
+            </template>
+          </sidenav-item>
+        </li>
+    </div>
+    </li>
       </div>
-      <span class="nav-link-text ms-1">Employees</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-      <li>
-        <sidenav-item url="/employeeList" :class="getRoute() === '/employeeList' ? 'active' : ''"
-          :navText="'EmployeeList'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined">patient_list</span>
-          </template>
-        </sidenav-item>
-      </li>
-      <li>
-        <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
-          :navText="'EmployeeManagement'">
+  <div v-if="roleId =='2'">
+    <li class="nav-item ">
+      <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+        aria-controls="applicationsExamples" role="button" aria-expanded="false">
+        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+          <span class="material-symbols-outlined">badge</span>
+        </div>
+        <span class="nav-link-text ms-1">Employees</span>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+          <sidenav-item url="/employeeList" :class="getRoute() === '/employeeList' ? 'active' : ''"
+            :navText="'EmployeeList'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined">patient_list</span>
-          </template>
-        </sidenav-item>
-      </li>
-      <li>
-        <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''" :navText="'Log Out'" @click.prevent="logout">
+            <template v-slot:icon>
+              <span class="material-symbols-outlined">patient_list</span>
+            </template>
+          </sidenav-item>
+        </li>
+        <li>
+          <sidenav-item url="/employeeManagement" :class="getRoute() === '/employeeManagement' ? 'active' : ''"
+            :navText="'EmployeeManagement'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined">logout</span>
-          </template>
-        </sidenav-item>
-      </li>
-    </ul>
-  </li>
+            <template v-slot:icon>
+              <span class="material-symbols-outlined">patient_list</span>
+            </template>
+          </sidenav-item>
+        </li>
+        <li>
+          <sidenav-item url="/" :class="getRoute() === '/' ? 'active' : ''" :navText="'Log Out'" @click.prevent="logout">
+
+            <template v-slot:icon>
+              <span class="material-symbols-outlined">logout</span>
+            </template>
+          </sidenav-item>
+        </li>
+      </ul>
+    </li>
+</div>
 
   <li class="nav-item ">
     <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
@@ -183,13 +187,20 @@
           </template>
         </sidenav-item>
       </li>
+
       <li>
-        <sidenav-item url="/login" :class="getRoute() === '/login' ? 'active' : ''" :navText="'Sign In'">
+        <sidenav-item url="/sellProducts" :class="getRoute() === '/sellProducts' ? 'active' : ''"
+          :navText="'Purchase Products'">
+
           <template v-slot:icon>
-            <span class="material-symbols-outlined">login</span>
+            <span class="material-symbols-outlined">
+              shopping_cart
+            </span>
           </template>
         </sidenav-item>
       </li>
+      
+     
     </ul>
   </li>
 
@@ -246,7 +257,8 @@ export default {
     return {
       title: "Argon Dashboard 2",
       controls: "dashboardsExamples",
-      isActive: "active"
+      isActive: "active",
+      roleId: '',
     };
   },
   components: {
@@ -254,6 +266,10 @@ export default {
     SidenavCard,
     User,
     Profile,
+  },
+  created() {
+    this.roleId = localStorage.getItem('role_id');
+
   },
   methods: {
     getRoute() {

@@ -325,7 +325,8 @@ export default {
             pageSize: 10, // Số lượng nhân viên trên mỗi trang
             error: {
                 message: ''
-            }
+            },
+            roleId: '',
         }
     },
     created() {
@@ -334,6 +335,8 @@ export default {
         this.getCategories();
 
         this.blockAddPermission();
+        this.roleId = localStorage.getItem('role_id');
+
     },
     methods: {
 

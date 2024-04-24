@@ -59,11 +59,13 @@ class AuthController extends Controller
 
         $user = Auth::guard('api')->user();
         $permissions = $user->permissions;
+        $shopId = $user->shop_id;
 
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
                 'permission_id' => $permissions,
+                'shop_id' => $shopId,
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',

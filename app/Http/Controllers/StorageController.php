@@ -86,7 +86,6 @@ class StorageController extends Controller
             $product_size_amount->size_id = $size_id;
             $product_size_amount->storage_id = $storage_id;
             $product_size_amount->amount = $amount;
-            $product_size_amount->import_code = $this->generateImportCode();
             $product_size_amount->import_cost = $totalImportCost;
             $product_size_amount->save();
         }

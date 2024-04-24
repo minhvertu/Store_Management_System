@@ -131,6 +131,7 @@ export default {
               localStorage.setItem('authToken', data.authorisation.token);
               localStorage.setItem('id', data.user.id);
               localStorage.setItem('role_id', data.user.role_id);
+              localStorage.setItem('shop_id', data.user.shop_id);
               localStorage.setItem('permission_id', JSON.stringify(data.permission_id));
               localStorage.setItem('isLoggedIn', true);
               console.log(data.permission_id);

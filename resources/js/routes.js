@@ -25,6 +25,8 @@ import ShopManagement from './ManagerStore/ShopManagement.vue';
 import ShoppingCart from './fashion_store/Cart/ShoppingCart.vue';
 import ThankYouPage from './fashion_store/ThankYouPage/ThankYouPage.vue';
 import ImportShipment from './Transactions/ImportShipment.vue';
+import SellProducts from './Transactions/SellProducts.vue';
+import InvoiceTest from  './Transactions/InvoiceTest.vue';
 
 
 export const routes = [
@@ -171,6 +173,18 @@ export const routes = [
         name: 'importShipment',
         path: '/importShipment',
         component: ImportShipment,
+    },
+
+    {
+        name: 'sellProducts',
+        path: '/sellProducts',
+        component: SellProducts,
+    },
+
+    {
+        name: 'invoiceTest',
+        path: '/invoiceTest',
+        component: InvoiceTest,
     },
 
 
