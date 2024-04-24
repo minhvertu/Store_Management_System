@@ -18,270 +18,20 @@
             </div>
             <div class="col">
                 <div class="text-end">
-                    <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
-                        v-if="addPermission">Add
-                        Shops</button>
 
-                    <button class="btn btn-outline-warning me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
-                        data-bs-toggle="modal" data-bs-target="#importProducts" data-bs-whatever="@mdo"
-                        v-if="addPermission">Import Products</button>
 
-                    <!-- <button class="p-2 col border btn " @click="exportProducts">
-                        Export Data
-                    </button> -->
+
                 </div>
-                <!-- Modal -->
 
-                <form @submit.prevent="submitForm">
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Create Shop Form</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input class="form-control" type="text" id="name" v-model="shop.name" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label">Address</label>
-                                        <input class="form-control" type="text" id="address" v-model="shop.address" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="phone_number" class="form-label">Phone Number</label>
-                                        <input class="form-control" type="text" id="phone_number"
-                                            v-model="shop.phone_number" />
-                                    </div>
-
-                                    <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.gender_item_code">
-                                        <option disabled value="">Select Gender</option>
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
-                                    </select>
-
-                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.category_id">
-                                        <option disabled value="">Select Category</option>
-                                        <option v-for="category in categories" :key="category.id" :value="category.id">
-                                            {{ category.name }}</option>
-                                    </select> -->
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add Shop</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <form @submit.prevent="updateShop">
-                    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="updateModalLabel">Update Shop</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <div class="mb-3">
-                                        <label for="updateName" class="form-label">Name</label>
-                                        <input class="form-control" type="text" id="updateName"
-                                            v-model="editedShop.name" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="updateAddress" class="form-label">Address</label>
-                                        <input class="form-control" type="text" id="updateAddress"
-                                            v-model="editedShop.address" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="updatePhoneNumber" class="form-label">Phone Number</label>
-                                        <input class="form-control" type="text" id="updatePhoneNumber"
-                                            v-model="editedShop.phone_number" />
-                                    </div>
-
-
-                                    <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="editedShop.brand_id">
-                                        <option disabled value="">Select Brand</option>
-                                        <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name
-                                            }}</option>
-                                    </select> -->
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Update Shop</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-
-                <form @submit.prevent="importProductForm">
-                    <div class="modal fade" id="importProducts" tabindex="-1" aria-labelledby="importProductsLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="importProductsLabel">Import Products Form</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="storage.product_id">
-                                        <option disabled value="">Select Products</option>
-                                        <option v-for="product in products" :key="product.id" :value="product.id">
-                                            {{ product.name }}</option>
-                                    </select>
-
-                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product_size_amount.size_id">
-                                        <option disabled value="">Select Sizes</option>
-                                        <option v-for="size in sizes" :key="size.id" :value="size.id">
-                                            {{ size.name }}</option>
-                                    </select>
-
-                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="storage.shop_id">
-                                        <option disabled value="">Select Shops</option>
-                                        <option v-for="shop in shops" :key="shop.id" :value="shop.id">
-                                            {{ shop.name }}</option>
-                                    </select>
-
-                                    <div class="mb-3">
-                                        <label for="amount" class="form-label">Amount</label>
-                                        <input class="form-control" type="text" id="amount"
-                                            v-model="product_size_amount.amount" />
-                                    </div>
-
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Import Products</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-
-                <div class="modal fade" id="productCheckModal" tabindex="-1" aria-labelledby="productCheckModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="productCheckModalLabel">Product Check</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered ">
-                                        <thead class="table-dark">
-                                            <tr>
-                                                <th scope="col" class="center-text ">Shop Address</th>
-                                                <th scope="col" class="center-text">Product</th>
-                                                <th scope="col" class="center-text">Amount</th>
-                                                <th scope="col" class="center-text">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(storage, index) in storages" :key="'storage-' + index">
-                                                <td class="center-text">{{ storage.shop.name }}</td>
-                                                <td class="center-text">{{ storage.product.name }}</td>
-                                                <td class="center-text">{{ storage.amount }}</td>
-                                                <td class="center-text">
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
 
         <div class="table-responsive">
             <table class="table " style="border: 1px ; border-radius: 5px;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('name')">
-                            Name
-                            <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
-                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('address')">
-                            Address
-                            <span class="arrow" :class="sortOrders['address'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
-                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('phone_number')">
-                            Phone Number
-                            <span class="arrow" :class="sortOrders['phone_number'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
-                        <th scope="col" class="text-center  text-uppercase">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+
                     <template v-for="(shop, shopIndex) in filteredShops" :key="'shop-' + shopIndex">
-                        <tr>
-                            <td class="center-text">{{ shop.name }}</td>
-                            <td class="center-text">{{ shop.address }}</td>
-                            <td class="center-text">{{ shop.phone_number }}</td>
-                            <td class="center-text">
-                                <span class="material-symbols-outlined me-2">
-                                    <button @click="deleteShop(shop, shopIndex)" type="button" class="btn btn-danger"
-                                        data-mdb-ripple-init>delete_forever</button>
-                                </span>
-                                <span class="material-symbols-outlined me-2">
-                                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                                        data-bs-toggle="modal" data-bs-target="'#productCollapse-' + shopIndex"
-                                        data-bs-whatever="@mdo" @click="openUpdateModal(shop)">edit</button>
-                                </span>
-                                <span class="material-symbols-outlined">
-                                    <button type="button" class="btn btn-info" data-mdb-ripple-init
-                                        data-bs-toggle="modal" :data-bs-target="'#productCollapse-' + shopIndex"
-                                        data-bs-whatever="@mdo">visibility</button>
-                                </span>
-                            </td>
-                        </tr>
-                        <!-- Modal for products in shop's inventory -->
-                        <div class="modal fade" :id="'productCollapse-' + shopIndex" tabindex="-1"
-                            :aria-labelledby="'productCollapseLabel-' + shopIndex" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" :id="'productCollapseLabel-' + shopIndex">Product Check
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
+
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
                                                 <thead class="table-dark">
@@ -325,16 +75,7 @@
 
                                             </table>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </template>
-                </tbody>
             </table>
 
 
@@ -355,12 +96,7 @@
             </div>
         </div>
 
-
-
-
     </div>
-
-
 
 </template>
 
@@ -369,7 +105,7 @@
 import axios from 'axios';
 
 export default {
-    name: "shopManagement",
+    name: "sellProducts",
     data() {
         return {
             user_permissions: {},
@@ -379,14 +115,6 @@ export default {
                 name: '',
                 phone_number: '',
                 address: '',
-            },
-
-            editedShop: {
-                id: '',
-                name: '',
-                address: '',
-                phone_number: '',
-
             },
 
             storages: [],
@@ -415,14 +143,13 @@ export default {
             },
 
 
-            isNewStore: true,
+
             imageUrl: null,
 
             sortKey: "", // Cột hiện tại được sắp xếp
             sortOrders: {}, // Hướng sắp xếp của các cột
 
             searchKeyword: '',
-            addPermission: true,
             listView: true,
             currentPage: 1, // Trang hiện tại
             pageSize: 10, // Số lượng nhân viên trên mỗi trang
@@ -437,7 +164,7 @@ export default {
         this.getShops();
         this.getProducts();
         this.getStorages();
-        this.blockAddPermission();
+
     },
 
     methods: {
@@ -508,17 +235,6 @@ export default {
             $('#updateModal').modal('show');
         },
 
-        async updateShop() {
-            try {
-                await axios.put(`/api/shops/${this.editedShop.id}`, this.editedShop);
-                alert('Updated Shop Successfully');
-                window.location.href = '/shopManagement';
-            } catch (error) {
-                console.error(error);
-
-            }
-        },
-
         getShops() {
             axios.get('api/shops')
                 .then(response => {
@@ -563,108 +279,6 @@ export default {
             });
         },
 
-        async submitForm() {
-            try {
-                const formData = new FormData();
-
-                formData.append('name', this.shop.name);
-                formData.append('address', this.shop.address);
-                formData.append('phone_number', this.shop.phone_number);
-
-
-                await axios.post('/api/shops', formData, {
-                    header: {
-                        'content-Type': 'multipart/form-data'
-                    }
-                });
-                alert('Add Shop Successfully');
-                // this.$router.push('/productList');
-                window.location.href = '/shopManagement';
-            } catch (error) {
-                console.error(error);
-            }
-        },
-
-        importProducts() {
-            axios.post('api/storages', {
-                shop_id: this.product_size_amount.shop_id,
-                product_id: this.storage.product_id,
-                size_id: this.storage.size_id,
-                storage_id: this.product_size_amount.storage_id,
-                amount: this.product_size_amount.amount,
-
-            })
-                .then(response => {
-                    if (response.data.status === false) {
-                        this.error.message = response.data.message;
-                        alert('trollvn');
-                        setTimeout(() => {
-                            this.error.message = '';
-                        }, 3000);
-                    } else {
-                        this.storages.push(response.data);
-                        alert('okvn');
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
-
-        async importProductForm() {
-            try {
-                const formData = new FormData();
-
-                formData.append('amount', this.product_size_amount.amount);
-                formData.append('size_id', this.product_size_amount.size_id);
-
-                formData.append('shop_id', this.storage.shop_id);
-                formData.append('product_id', this.storage.product_id);
-
-                await axios.post('/api/storages', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                alert('Import Product Successfully');
-                // this.$router.push('/productList');
-                window.location.href = '/shopManagement';
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        deleteShop(shop, index) {
-            axios.delete('api/shops/' + shop.id)
-                .then(response => {
-                    if (response.data.status === false) {
-                        this.error.message = response.data.message;
-                        setTimeout(() => {
-                            this.error.message = '';
-                        }, 3000);
-                    } else {
-                        this.shops.splice(index, 1);
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
-        goToPage(page) {
-            this.currentPage = page;
-        },
-        nextPage() {
-            if (this.currentPage < this.totalPages) {
-                this.currentPage++;
-            }
-        },
-        prevPage() {
-            if (this.currentPage > 1) {
-                this.currentPage--;
-            }
-        },
-
         searchShops() {
             const keyword = this.searchKeyword.toLowerCase();
             this.filteredShops = this.shops.filter(shop => {
@@ -679,18 +293,6 @@ export default {
             this.listView = !this.listView;
         },
 
-        blockAddPermission() {
-            let user_permissions = JSON.parse(localStorage.getItem('permission_id'));
-
-            for (let i = 0; i < user_permissions.length; i++) {
-
-                if (user_permissions[i].id == 5) {
-                    this.addPermission = true;
-                    return this.addPermission;
-                }
-            }
-            return this.addPermission = false;
-        },
     },
 
     computed: {
@@ -698,9 +300,9 @@ export default {
             const startIndex = (this.currentPage - 1) * this.pageSize;
             const endIndex = startIndex + this.pageSize;
             const keyword = this.searchKeyword.toLowerCase();
-            const filteredShops = this.shops.filter(shop => {
+            const filteredShops = this.shops.filter(product => {
                 return (
-                    shop.name.toLowerCase().includes(keyword) ||
+                    product.name.toLowerCase().includes(keyword) ||
                     shop.phone_number.toLowerCase().includes(keyword) ||
                     shop.address.includes(keyword)
                 );

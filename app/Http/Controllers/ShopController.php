@@ -15,12 +15,23 @@ class ShopController extends Controller
         $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //
-        return response()->json(Shop::all());
+        $shopId = $request->user()->shop_id;
+        $roleId = $request->user()->role_id;
+
+
+        if ($roleId == 2) {
+            return response()->json(Shop::all());
+        } else if ($roleId != '2') {
+
+        $shops = Shop::where('id', $shopId)->get();
+        }
+
+        return response()->json($shops);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -42,13 +53,13 @@ class ShopController extends Controller
             $shop->phone_number = $request->input('phone_number');
             $shop->address = $request->input('address');
             $shop->save();
-    
+
             return response()->json($shop);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create shop!' 
+            'message' => 'You don\'t have permission to create shop!'
         ], 404);
     }
 
@@ -96,10 +107,10 @@ class ShopController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete shop!' 
+            'message' => 'You don\'t have permission to delete shop!'
         ], 200);
     }
 }

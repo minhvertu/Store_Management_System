@@ -26,15 +26,6 @@
         </sidenav-item>
       </li>
 
-      <li class="nav-item">
-        <sidenav-item url="/virtual-reality" :class="getRoute() === 'virtual-reality' ? 'active' : ''"
-          :navText="'Virtual Reality'">
-          <template v-slot:icon>
-            <span class="material-symbols-outlined">bring_your_own_ip</span>
-          </template>
-        </sidenav-item>
-      </li>
-
       <div v-if="roleId =='2'">
         <li class="nav-item">
           <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
@@ -199,8 +190,8 @@
           </template>
         </sidenav-item>
       </li>
-      
-     
+
+
     </ul>
   </li>
 

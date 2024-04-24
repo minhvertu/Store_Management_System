@@ -18,11 +18,27 @@ class StorageController extends Controller
         $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //
-        $storage = Storage::with ([ 'shop','product', 'product_size_amount'
-        ])->get();
+        $shopId = $request->user()->shop_id;
+        $roleId = $request->user()->role_id;
+        if ($roleId == '2') {
+            $storage = Storage::with ([ 'shop','product', 'product_size_amount'
+            ])->get();
+            return response()->json($storage);
+        } else if ( $roleId !='2') {
+            $storage = Storage::with(['shop', 'product', 'product_size_amount'])
+            ->where('shop_id', $shopId) // Lọc theo shop_id
+            ->get();
+        }
+
+        // Lọc dữ liệu theo shop_id
+        $storage = Storage::with(['shop', 'product', 'product_size_amount'])
+                         ->where('shop_id', $shopId) // Lọc theo shop_id
+                         ->get();
+
+        // Trả về dữ liệu dưới dạng JSON
         return response()->json($storage);
     }
 

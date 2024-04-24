@@ -25,7 +25,7 @@
 
                         <button class="btn btn-outline-warning me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
                         data-bs-toggle="modal" data-bs-target="#importProducts" data-bs-whatever="@mdo"
-                        v-if="addPermission">Import Products</button>
+                       >Import Products</button>
 
                     <!-- <button class="p-2 col border btn " @click="exportProducts">
                         Export Data
@@ -418,7 +418,9 @@ export default {
             pageSize: 10, // Số lượng nhân viên trên mỗi trang
             error: {
                 message: ''
-            }
+            },
+            currentShopId: '',
+            currentRoleId: '',
         }
     },
     created() {
@@ -510,7 +512,10 @@ export default {
         },
 
         getShops() {
-            axios.get('api/shops')
+            const currentShopId = localStorage.getItem('shop_id');
+            const currentRoleId = localStorage.getItem('role_id');
+            if (currentRoleId == '2') {
+                axios.get('api/shops')
                 .then(response => {
                     this.shops = response.data;
                     console.log(this.shops);
@@ -519,6 +524,18 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+            } else if (currentRoleId != '2') {
+                axios.get(`api/shops?shop_id=${currentShopId}`)
+                .then(response => {
+                    this.shops = response.data;
+                    console.log(this.shops);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            }
+
         },
 
         getProducts() {

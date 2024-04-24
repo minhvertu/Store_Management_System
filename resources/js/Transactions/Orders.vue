@@ -3,7 +3,7 @@
         <div class="header ">
             <h6>Orders Table</h6>
         </div>
-        <div v-if="shopId == '2'">
+
             <div class="row">
                 <div class="col">
                     <div class="input-group rounded" style="width: 55%;">
@@ -180,18 +180,18 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr>  
+                                                                        <tr>
                                                                             <td class="center-text"> {{ order_products.product.name }}</td>
                                                                             <td class="center-text" >{{ order_products.amount }}</td>
-                                                                            
+
                                                                             <td class="center-text">{{ order.detail }}</td>
                                                                             <td class="center-text">${{ order.price }}</td>
                                                                         </tr>
-                                                                        
+
                                                                     </tbody>
 
                                                                 </table>
-                                                           
+
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xl-8">
@@ -239,7 +239,7 @@
                 </table>
             </div>
         </div>
-    </div>
+   
 </template>
 
                                                 <!-- <table class="table table-striped">
