@@ -63,7 +63,7 @@
                             <th class="text-center text-uppercase">
                                 Order Code</th>
                             <th class="text-center text-uppercase">
-                                Client</th>
+                                Seller</th>
                             <th class="text-center text-uppercase">
                                 Status</th>
                             <th class="text-center text-uppercase">
@@ -126,12 +126,10 @@
                                                         <hr>
                                                     </div>
 
-                                                    <div class="container">
+                                                    <div class="">
                                                         <div class="col-md-12">
                                                             <div class="text-center">
-                                                                <i class="fab fa-mdb fa-4x ms-0"
-                                                                    style="color:#5d9fc5 ;"></i>
-                                                                <p class="pt-0">Vertu Invoice</p>
+                                                                <h2>Vertu Invoice</h2>
                                                             </div>
 
                                                         </div>
@@ -216,15 +214,7 @@
                                                         </div>
                                                         <hr>
                                                         <div class="row">
-                                                            <div class="col-xl-10">
-                                                                <p>Thank you for your purchase</p>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <button type="button" data-mdb-button-init
-                                                                    data-mdb-ripple-init
-                                                                    class="btn btn-primary text-capitalize"
-                                                                    style="background-color:#60bdf3 ;">Pay Now</button>
-                                                            </div>
+                                                           
                                                         </div>
 
                                                     </div>

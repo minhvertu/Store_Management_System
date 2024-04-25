@@ -180,7 +180,7 @@
       </li>
 
       <li>
-        <sidenav-item url="/sellProducts" :class="getRoute() === '/sellProducts' ? 'active' : ''"
+        <sidenav-item url="/productPage" :class="getRoute() === '/productPage' ? 'active' : ''"
           :navText="'Purchase Products'">
 
           <template v-slot:icon>

@@ -1,384 +1,297 @@
 <template>
-    <div class="container-fluid" id="shops">
-        <div class="error" v-if="error.message.length">
-            <div class="alert alert-danger" role="alert">
-                {{ error.message }}
-            </div>
-        </div>
+    <div class="shoppingCart">
+      
+        <section class="h-100 h-custom">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12">
+                        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                            <div class="card-body p-0">
+                                <div class="row g-0">
+                                    <div class="col-lg-8">
+                                        <div class="p-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                                <h2 class="fw-bold mb-0 text-black">Shopping Cart</h2>
+                                                <h6 class="mb-0 text-muted">{{ cartItems.length }} items</h6>
+                                            </div>
+                                            <hr class="my-4">
 
-        <div class="row">
-            <div class="col">
-                <div class="input-group rounded" style="width: 55%;">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                        aria-describedby="search-addon" v-model="searchKeyword" @input="searchShops" />
-                    <span class="input-group-text bg-dark text-light" id="search-addon">
-                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-end">
+                                            <!-- Hiển thị danh sách sản phẩm trong giỏ hàng -->
+                                            <div v-for="(item, index) in cartItems" :key="index"
+                                                class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img :src="'/storage/' + item.image" class="img-fluid rounded-3"
+                                                        :alt="item.name">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-muted">Shirt</h6>
+                                                    <h6 class="text-black mb-0">{{ item.name }}</h6>
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <button data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn-link px-2" @click="decreaseQuantity(item)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
 
+                                                    <input type="" class="form-control form-control-sm text-center"
+                                                        v-model="item.quantity">
 
+                                                    <button data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn-link px-2" @click="increaseQuantity(item)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">{{ item.price }}</h6>
+                                                </div>
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                    <button class="text-muted" @click="removeFromCart(index)"><i
+                                                            class="fas fa-times"></i></button>
+                                                </div>
+                                            </div>
 
-                </div>
+                                            <!-- <hr class="my-4"> -->
 
-
-            </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table " style="border: 1px ; border-radius: 5px;">
-
-                    <template v-for="(shop, shopIndex) in filteredShops" :key="'shop-' + shopIndex">
-
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead class="table-dark">
-                                                    <tr>
-                                                        <th scope="col" class="center-text"></th>
-                                                        <th scope="col" class="center-text">Name</th>
-                                                        <th scope="col" class="center-text">Product Code</th>
-                                                        <th scope="col" class="center-text">Detail</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <template v-for="(storage, storageIndex) in storages"
-                                                        :key="'storage-' + storageIndex">
-                                                        <template v-if="storage.shop_id === shop.id">
-                                                            <tr>
-                                                                <td class="center-text">
-                                                                    <div class="image-container"
-                                                                        style="width: 50px; height: 50px; overflow: hidden;">
-                                                                        <img :src="'/storage/' + storage.product.image"
-                                                                            alt="Product Image"
-                                                                            class="shadow-sm border-radius-lg border border-1"
-                                                                            style="width: 100%; height: 100%; object-fit: cover;" />
-                                                                    </div>
-                                                                </td>
-                                                                <td class="center-text">{{ storage.product.name }}</td>
-                                                                <td class="center-text">{{ storage.product.product_code
-                                                                    }}</td>
-                                                                <td class="center-text">
-                                                                    <template
-                                                                        v-for="(productSizeAmount, psaIndex) in storage.product_size_amount"
-                                                                        :key="'psa-' + psaIndex">
-                                                                        <div> Size: {{
-                                                                                    getSizeName(productSizeAmount.size_id) }} -
-                                                                            Amount: {{ productSizeAmount.amount }}</div>
-                                                                    </template>
-                                                                </td>
-                                                            </tr>
-                                                        </template>
-                                                    </template>
-                                                </tbody>
-
-                                            </table>
+                                            <div class="pt-5">
+                                                <div v-if="cartItems.length === 0" class="text-center my-4">
+                                                    <p class="text-muted">No product in cart</p>
+                                                </div>
+                                                <button type="button" class="btn btn-outline-info btn-rounded"
+                                                    data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <router-link to="/productPage">
+                                                        <h6 class="mb-0"><i
+                                                                class="fas fa-long-arrow-alt-left me-2"></i>Back
+                                                        </h6>
+                                                    </router-link>
+                                                </button>
+                                            </div>
                                         </div>
-                    </template>
-            </table>
+                                    </div>
+                                    <div class="col-lg-4 bg-grey">
+                                        <div class="p-5">
+                                            <h3 class="fw-bold mb-5 mt-2 pt-1">Invoice</h3>
+                                            <hr class="my-4">
 
+                                            <!-- Number of items -->
+                                            <div class="d-flex justify-content-between mb-4">
+                                                <h5 class="text-uppercase">Items</h5>
+                                                <h5>{{ cartItems.length }}</h5>
+                                            </div>
 
+                                            <!-- Shipping options -->
+                                            <h5 class="text-uppercase mb-3">Shipping</h5>
+                                            <div class="mb-4 pb-2">
+                                                <select class="form-select form-select-lg">
+                                                    <option value="1">Standard Delivery - $5.00</option>
+                                                    <option value="2">Fast Delivery - $7.00</option>
+                                                    <option value="3">Extreme Fast Delivery - $10.00</option>
+                                                </select>
+                                            </div>
 
+                                            <!-- Enter details -->
+                                            <h5 class="text-uppercase mb-3">Enter Details</h5>
+                                            <div class="mb-4 pb-2">
+                                                <input type="text" id="detail" v-model="orderDetail"
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Enter your details">
+                                            </div>
 
-            <div v-if="showPagination">
-                <ul class="pagination justify-content-end" style="font-size: 80%;">
-                    <li :class="{ 'disabled': currentPage === 1 }">
-                        <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
-                    </li>
-                    <li v-for="page in totalPages" :key="page" :class="{ 'active': currentPage === page }">
-                        <a class="page-link" href="#" @click.prevent="goToPage(page)">{{ page }}</a>
-                    </li>
-                    <li :class="{ 'disabled': currentPage === totalPages }">
-                        <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
-                    </li>
-                </ul>
+                                            <!-- Total price -->
+                                            <hr class="my-4">
+                                            <div class="d-flex justify-content-between mb-5">
+                                                <h5 class="text-uppercase">Total Price</h5>
+                                                <h5>${{ getTotalPrice() }}</h5>
+                                            </div>
+
+                                            <!-- Register button -->
+                                            <button type="button" class="btn btn-dark btn-block btn-lg"
+                                                @click="submitOrder">Register</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
+        </section>
+       
     </div>
-
 </template>
-
 
 <script>
 import axios from 'axios';
 
+
 export default {
-    name: "sellProducts",
+    name: "shoppingCart",
+
     data() {
         return {
-            user_permissions: {},
-            shops: [],
-            shop: {
-                id: '',
-                name: '',
-                phone_number: '',
-                address: '',
-            },
-
-            storages: [],
-            storage: {
-                id: '',
-                product_id: '',
-                shop_id: '',
-                amount: '',
-            },
-
             products: [],
 
-
-            product_size_amounts: [],
-            product_size_amount: {
+            orders: [],
+            order_product: {
+                id: "",
+                amount: "",
+                order_id: "",
+                product_id: "",
+                size_id:"",
+            },
+            order: {
                 id: '',
-                amount: '',
-                storage_id: '',
-                size_id: '',
+                price: '',
+                detail: '',
+                client_id: '',
+                user_id: '',
+                status: '',
+                products: [],
 
             },
-            sizes: [],
-            size: {
-                id: '',
-                name: '',
-            },
+            orderDetail: '',
 
-
-
-            imageUrl: null,
-
-            sortKey: "", // Cột hiện tại được sắp xếp
-            sortOrders: {}, // Hướng sắp xếp của các cột
-
-            searchKeyword: '',
-            listView: true,
-            currentPage: 1, // Trang hiện tại
-            pageSize: 10, // Số lượng nhân viên trên mỗi trang
-            error: {
-                message: ''
-            }
         }
     },
-    created() {
-        this.getProductSizeAmounts();
-        this.getSizes();
-        this.getShops();
-        this.getProducts();
-        this.getStorages();
-
+    computed: {
+        cartItems() {
+            return this.$store.getters.cartItems;
+        }
     },
 
     methods: {
-        getSizeName(sizeId) {
-            const size = this.sizes.find(size => size.id === sizeId);
-            return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
+        removeFromCart(index) {
+            this.$store.commit('removeFromCart', index);
         },
-
-        getSizes() {
-            axios.get('api/sizes')
-                .then(response => {
-                    this.sizes = response.data;
-                    console.log(this.sizes);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        decreaseQuantity(item) {
+            if (item.quantity > 1) {
+                item.quantity--;
+            }
         },
-
-        getProductSizeAmounts() {
-            axios.get('api/product_size_amounts')
-                .then(response => {
-                    this.product_size_amounts = response.data;
-                    console.log(this.product_size_amounts);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        increaseQuantity(item) {
+            item.quantity++;
         },
-
-        openProductCheckModal(storage) {
-            // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
-            this.storage = {
-                id: storage.id,
-                shop_id: storage.shop_id,
-                product_id: storage.product_id,
-                amount: storage.amount,
-            };
-            // Mở modal cập nhật sản phẩm
-            $('#productCheckModal').modal('show');
+        getTotalPrice() {
+            return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
         },
-
-
-        getStorages() {
-            axios.get('api/storages')
-                .then(response => {
-                    this.storages = response.data;
-                    console.log(this.storages);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
-        openUpdateModal(shop) {
-            // Điền dữ liệu sản phẩm hiện tại vào biến editedShop
-            this.editedShop = {
-                id: shop.id,
-                name: shop.name,
-                address: shop.address,
-                phone_number: shop.phone_number,
-
-            };
-            // Mở modal cập nhật sản phẩm
-            $('#updateModal').modal('show');
-        },
-
-        getShops() {
-            axios.get('api/shops')
-                .then(response => {
-                    this.shops = response.data;
-                    console.log(this.shops);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
-        getProducts() {
-            axios.get('api/products')
-                .then(response => {
-                    this.products = response.data;
-                    console.log(this.products);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
-        sortBy(key) {
-            // Kiểm tra xem cột hiện tại có phải là cột đang được sắp xếp không
-            if (this.sortKey === key) {
-                // Đảo hướng sắp xếp
-                this.sortOrders[key] = this.sortOrders[key] * -1;
-            } else {
-                // Nếu không phải, đặt cột hiện tại và hướng sắp xếp mới
-                this.sortKey = key;
-                this.sortOrders[key] = 1;
+        submitOrder() {
+            if (this.cartItems.length === 0) {
+                alert("There are no items in the shopping cart. Please add items before submitting the order.");
+                return;
             }
 
-            // Sắp xếp dữ liệu
-            this.filteredShops.sort((a, b) => {
-                let modifier = this.sortOrders[key];
-                if (a[key] < b[key]) return -1 * modifier;
-                if (a[key] > b[key]) return 1 * modifier;
-                return 0;
-            });
-        },
+            this.order.price = this.getTotalPrice();
+            this.order.detail = this.orderDetail; //
 
-        searchShops() {
-            const keyword = this.searchKeyword.toLowerCase();
-            this.filteredShops = this.shops.filter(shop => {
-                return (
-                    shop.name.toLowerCase().includes(keyword) ||
-                    shop.address.toLowerCase().includes(keyword) ||
-                    shop.phone_number.toLowerCase().includes(keyword)
-                );
-            });
-        },
-        toggleListView() {
-            this.listView = !this.listView;
-        },
 
+            this.order.products = this.cartItems.map(item => ({
+                id: item.id,
+                amount: item.quantity,
+                size_id: item.size_id,
+            }));
+
+            // Gửi đơn hàng lên server
+            axios.post('/api/orders', this.order)
+                .then(response => {
+
+                    console.log('Order submitted successfully:', response.data);
+
+                    this.$store.commit('removeAllFromCart');
+                    alert("Order created successfully");
+                    window.location.href = '/productPage';
+                })
+                .catch(error => {
+
+                    console.error('Error submitting order:', error);
+                });
+        }
     },
 
-    computed: {
-        filteredShops() {
-            const startIndex = (this.currentPage - 1) * this.pageSize;
-            const endIndex = startIndex + this.pageSize;
-            const keyword = this.searchKeyword.toLowerCase();
-            const filteredShops = this.shops.filter(product => {
-                return (
-                    product.name.toLowerCase().includes(keyword) ||
-                    shop.phone_number.toLowerCase().includes(keyword) ||
-                    shop.address.includes(keyword)
-                );
-            });
-            return filteredShops.slice(startIndex, endIndex);
-        },
-        totalPages() {
-            return Math.ceil(this.shops.length / this.pageSize);
-        },
-        showPagination() {
-            if (this.filteredShops.length >= 4 || this.nextPage > 1) {
-                return true;
+   
 
-            } else if (this.filteredShops.length < 5 && this.nextPage == 1) {
-                return false;
-            }
-            return true;
-        },
+    created() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            this.$store.state.cart = JSON.parse(savedCart); // Khôi phục giỏ hàng từ Local Storage
+        }
 
+        this.$store.state.showSidenav = true;
     },
 }
-
 </script>
 
-<style lang="scss" scoped>
-.error {
-    margin-bottom: 15px;
-}
-
-.center-text {
-    text-align: center;
-}
-
-.table-bordered td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: center;
-}
-
-.image-container:hover img {
-    transform: scale(1.2);
-    transition: transform 0.3s ease;
-}
-
-.pagination li a,
-.pagination li span {
-    border-radius: 20px;
-    padding: 8px 16px;
-}
 
 
-/* CSS cho hình mũi tên chỉ ra hướng sắp xếp */
-.arrow {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: 0.25em;
-    vertical-align: middle;
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-bottom: none;
-    border-left: 0.3em solid transparent;
-}
+<style>
+.shoppingCart {
+    body {
+        font-family: var(--sm-font);
+    }
+    @media (min-width: 1025px) {
+        .h-custom {
+            height: 100vh !important;
+        }
+    }
 
-.asc {
-    border-top: none;
-    border-bottom: 0.3em solid;
-}
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+    }
 
-.dsc {
-    border-top: 0.3em solid;
-    border-bottom: none;
-}
+    .card-registration .select-arrow {
+        top: 13px;
+    }
 
-.image-container:hover img {
-    transform: scale(1.2);
-    transition: transform 0.3s ease;
+    .bg-grey {
+        background-color: #eae8e8;
+    }
+
+    .bg-dark {
+        background-color: #212529 !important;
+    }
+
+    /* button */
+    .bg-primary {
+        background-color: var(--pink) !important;
+    }
+
+    /* .btn:not(.nav-btns button) {
+        background-color: #fff;
+        color: rgb(85, 85, 85);
+        padding: 10px 28px;
+        border-radius: 25px;
+        border: 1px solid rgb(85, 85, 85);
+    } */
+    footer .brand {
+        font-family: var(--lg-font);
+        letter-spacing: 2px;
+    }
+
+    footer a {
+        -webkit-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: var(--pink) !important;
+    }
+
+
+    @media (min-width: 992px) {
+        .card-registration-2 .bg-grey {
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .card-registration-2 .bg-grey {
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+    }
 }
 </style>

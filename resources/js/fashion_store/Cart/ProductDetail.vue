@@ -7,39 +7,27 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="main-img">
-                            <img
-                                class="img-fluid"
-                                :src="'/storage/' + products.image"
-                                alt="ProductS"
-                            />
+                            <img class="img-fluid" :src="'/storage/' + products.image" alt="ProductS" />
                             <div class="row my-3 previews">
                                 <div class="col-md-3">
-                                    <img
-                                        class="w-100"
+                                    <img class="w-100"
                                         src="https://cdn.pixabay.com/photo/2015/07/24/18/40/model-858754_960_720.jpg"
-                                        alt="Sale"
-                                    />
+                                        alt="Sale" />
                                 </div>
                                 <div class="col-md-3">
-                                    <img
-                                        class="w-100"
+                                    <img class="w-100"
                                         src="https://cdn.pixabay.com/photo/2015/07/24/18/38/model-858749_960_720.jpg"
-                                        alt="Sale"
-                                    />
+                                        alt="Sale" />
                                 </div>
                                 <div class="col-md-3">
-                                    <img
-                                        class="w-100"
+                                    <img class="w-100"
                                         src="https://cdn.pixabay.com/photo/2015/07/24/18/39/model-858751_960_720.jpg"
-                                        alt="Sale"
-                                    />
+                                        alt="Sale" />
                                 </div>
                                 <div class="col-md-3">
-                                    <img
-                                        class="w-100"
+                                    <img class="w-100"
                                         src="https://cdn.pixabay.com/photo/2015/07/24/18/37/model-858748_960_720.jpg"
-                                        alt="Sale"
-                                    />
+                                        alt="Sale" />
                                 </div>
                             </div>
                         </div>
@@ -62,27 +50,24 @@
                                 <p class="text-secondary mb-1">
                                     (Additional tax may apply on checkout)
                                 </p>
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" v-model="products.size_id" style="width: 150px;" >
-    <option disabled value="">Select Sizes</option>
-    <option v-for="size in sizes" :key="size.id" :value="size.id">
-        {{ size.name }}
-    </option>
-</select>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    v-model="products.size_id" style="width: 150px;">
+                                    <option disabled value="">Select Sizes</option>
+                                    <option v-for="size in sizes" :key="size.id" :value="size.id">
+                                        {{ size.name }}
+                                    </option>
+                                </select>
                             </div>
 
 
                             <form @submit.prevent="submitForm">
                                 <div class="buttons d-flex my-5">
                                     <div class="block">
-                                        <a
-                                            href="#"
-                                            class="shadow btn custom-btn"
-                                            >Wishlist</a
-                                        >
+                                        <a href="#" class="shadow btn custom-btn">Wishlist</a>
                                     </div>
                                     <div class="block">
-                                        <button class="shadow btn custom-btn"  @click="addToCart">
-                                          Add To Cart
+                                        <button class="shadow btn custom-btn" @click="addToCart">
+                                            Add To Cart
                                         </button>
                                     </div>
 
@@ -108,9 +93,7 @@
 
                         <div class="row questions bg-light p-3">
                             <div class="col-md-1 icon">
-                                <i
-                                    class="fa-brands fa-rocketchat questions-icon"
-                                ></i>
+                                <i class="fa-brands fa-rocketchat questions-icon"></i>
                             </div>
                             <div class="col-md-11 text">
                                 Have a question about our products at E-Store?
@@ -122,10 +105,8 @@
                         <div class="delivery my-4">
                             <p class="font-weight-bold mb-0">
                                 <span><i class="fa-solid fa-truck"></i></span>
-                                <b
-                                    >Delivery done in 3 days from date of
-                                    purchase</b
-                                >
+                                <b>Delivery done in 3 days from date of
+                                    purchase</b>
                             </p>
                             <p class="text-secondary">
                                 Order now to get this product delivery
@@ -151,44 +132,28 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="similar-product">
-                            <img
-                                class="w-100"
-                                src="https://source.unsplash.com/gsKdPcIyeGg"
-                                alt="Preview"
-                            />
+                            <img class="w-100" src="https://source.unsplash.com/gsKdPcIyeGg" alt="Preview" />
                             <p class="title">Lovely black dress</p>
                             <p class="price">$100</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="similar-product">
-                            <img
-                                class="w-100"
-                                src="https://source.unsplash.com/sg_gRhbYXhc"
-                                alt="Preview"
-                            />
+                            <img class="w-100" src="https://source.unsplash.com/sg_gRhbYXhc" alt="Preview" />
                             <p class="title">Lovely Dress with patterns</p>
                             <p class="price">$85</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="similar-product">
-                            <img
-                                class="w-100"
-                                src="https://source.unsplash.com/gJZQcirK8aw"
-                                alt="Preview"
-                            />
+                            <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview" />
                             <p class="title">Lovely fashion dress</p>
                             <p class="price">$200</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="similar-product">
-                            <img
-                                class="w-100"
-                                src="https://source.unsplash.com/qbB_Z2pXLEU"
-                                alt="Preview"
-                            />
+                            <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview" />
                             <p class="title">Lovely red dress</p>
                             <p class="price">$120</p>
                         </div>
@@ -201,8 +166,7 @@
         <section id="offers" class="py-5">
             <div class="container">
                 <div
-                    class="row d-flex align-items-center justify-content-center text-center justify-content-lg-start text-lg-start"
-                >
+                    class="row d-flex align-items-center justify-content-center text-center justify-content-lg-start text-lg-start">
                     <div class="offers-content">
                         <span class="text-white">Discount Up To 40%</span>
                         <h2 class="mt-2 mb-4 text-white">Grand Sale Offer!</h2>
@@ -216,9 +180,7 @@
         <!-- newsletter -->
         <section id="newsletter" class="py-5">
             <div class="container">
-                <div
-                    class="d-flex flex-column align-items-center justify-content-center"
-                >
+                <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="title text-center pt-3 pb-5">
                         <h2 class="position-relative d-inline-block ms-4">
                             Newsletter Subscription
@@ -239,6 +201,7 @@
     </div>
 </template>
 
+
 <script>
 import navbar_fashion from "../../fashion_store/NavbarFashion.vue";
 import footer_fashion from "../../fashion_store/FooterFashion.vue";
@@ -254,7 +217,7 @@ export default {
                 user_id: '',
                 status: "pending",
                 products: [
-                   
+
                 ],
             },
             sizes: [],
@@ -280,20 +243,20 @@ export default {
     methods: {
 
         getSizeName(sizeId) {
-        const size = this.sizes.find(size => size.id === sizeId);
-        return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
-    },
+            const size = this.sizes.find(size => size.id === sizeId);
+            return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
+        },
 
-    getSizes() {
-    axios.get('/api/sizes')
-        .then(response => {
-            this.sizes = response.data;
-            console.log(this.sizes); // Kiểm tra dữ liệu
-        })
-        .catch(error => {
-            console.log(error);
-        });
-},
+        getSizes() {
+            axios.get('/api/sizes')
+                .then(response => {
+                    this.sizes = response.data;
+                    console.log(this.sizes); // Kiểm tra dữ liệu
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
 
         getProducts() {
             axios
@@ -308,21 +271,21 @@ export default {
         },
 
         addToCart() {
-    // Tạo đối tượng sản phẩm từ dữ liệu sản phẩm hiện tại
-    const productToAdd = {
-      id: this.products.id,
-      name: this.products.name,
-      price: this.products.sell_price,
-      image: this.products.image,
-      size_id: this.products.size_id,
-      quantity: 1 // Số lượng sản phẩm mặc định
-    };
+            // Tạo đối tượng sản phẩm từ dữ liệu sản phẩm hiện tại
+            const productToAdd = {
+                id: this.products.id,
+                name: this.products.name,
+                price: this.products.sell_price,
+                image: this.products.image,
+                size_id: this.products.size_id,
+                quantity: 1 // Số lượng sản phẩm mặc định
+            };
 
-    // Gọi action addToCart để thêm sản phẩm vào giỏ hàng
-    this.$store.dispatch('addToCart', productToAdd);
-    alert('Product Added To Cart Succesfully');
-    console.log(productToAdd);
-  },
+            // Gọi action addToCart để thêm sản phẩm vào giỏ hàng
+            this.$store.dispatch('addToCart', productToAdd);
+            alert('Product Added To Cart Succesfully');
+            console.log(productToAdd);
+        },
     },
 };
 </script>
@@ -423,6 +386,7 @@ export default {
 
     /* Small devices (landscape phones, less than 768px) */
     @media (max-width: 767.98px) {
+
         /* Make preview images responsive  */
         .previews img {
             width: 100%;
@@ -478,8 +442,7 @@ export default {
 
     /* offers */
     #offers {
-        background: url(../../fashion_store/images/lv_blog.jpg) center/cover
-            no-repeat;
+        background: url(../../fashion_store/images/lv_blog.jpg) center/cover no-repeat;
     }
 
     #offers .row {
