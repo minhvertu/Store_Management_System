@@ -52,11 +52,11 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function getJWTIdentifier() { 
-        return $this->getKey(); 
-    } 
-    public function getJWTCustomClaims() { 
-        return []; 
+    public function getJWTIdentifier() {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims() {
+        return [];
     }
     public function permissions()
     {

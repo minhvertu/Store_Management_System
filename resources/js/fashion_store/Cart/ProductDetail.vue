@@ -7,28 +7,34 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="main-img">
-                            <img class="img-fluid" :src="'/storage/' + products.image" alt="ProductS" />
-                            <div class="row my-3 previews">
-                                <div class="col-md-3">
-                                    <img class="w-100"
-                                        src="https://cdn.pixabay.com/photo/2015/07/24/18/40/model-858754_960_720.jpg"
-                                        alt="Sale" />
+                            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+                                <!-- Tạo các mục carousel cho từng hình ảnh -->
+                                <div class="carousel-inner">
+                                    <!-- Mục đầu tiên là ảnh chính của sản phẩm -->
+                                    <div class="carousel-item active">
+                                        <img :src="'/storage/' + products.image" class="d-block w-100" alt="Product Image">
+                                    </div>
+                                    <!-- Các mục còn lại là các hình ảnh mô tả -->
+                                    <div v-for="descriptionImage in filteredDescriptionImages" :key="descriptionImage.id"
+                                        class="carousel-item">
+                                        <img :src="'/storage/' + descriptionImage.image" class="d-block w-100" alt="Description Image">
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <img class="w-100"
-                                        src="https://cdn.pixabay.com/photo/2015/07/24/18/38/model-858749_960_720.jpg"
-                                        alt="Sale" />
-                                </div>
-                                <div class="col-md-3">
-                                    <img class="w-100"
-                                        src="https://cdn.pixabay.com/photo/2015/07/24/18/39/model-858751_960_720.jpg"
-                                        alt="Sale" />
-                                </div>
-                                <div class="col-md-3">
-                                    <img class="w-100"
-                                        src="https://cdn.pixabay.com/photo/2015/07/24/18/37/model-858748_960_720.jpg"
-                                        alt="Sale" />
-                                </div>
+
+                                <!-- Nút điều hướng trước -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev"
+                                        style="position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background-color: rgba(0, 0, 0, 0.5); border-radius: 50%; z-index: 10;">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: white;"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+
+                                <!-- Nút điều hướng sau -->
+                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next"
+                                        style="position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background-color: rgba(0, 0, 0, 0.5); border-radius: 50%; z-index: 10;">
+                                    <span class="carousel-control-next-icon" aria-hidden="true" style="color: white;"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -220,7 +226,9 @@ export default {
 
                 ],
             },
+            descriptionImages: [],
             sizes: [],
+
             size: {
                 id: '',
                 name: '',
@@ -234,14 +242,37 @@ export default {
         footer_fashion,
     },
 
+
+
     created() {
         this.getProducts();
         this.getSizes();
+        this.getDescriptionImages(),
+
         this.$store.state.showSidenav = false;
     },
 
+    computed: {
+    // Lọc danh sách description_images để chỉ bao gồm những hình ảnh có product_id khớp với products.id
+    filteredDescriptionImages() {
+        return this.descriptionImages.filter(
+            (image) => image.product_id === this.products.id
+        );
+    },
+},
+
     methods: {
 
+        getDescriptionImages() {
+            axios.get('/api/descriptionImages')
+                .then(response => {
+                    this.descriptionImages = response.data;
+                    console.log(this.descriptionImages); // Kiểm tra dữ liệu
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
         getSizeName(sizeId) {
             const size = this.sizes.find(size => size.id === sizeId);
             return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy

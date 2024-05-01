@@ -119,7 +119,29 @@ class UserController extends Controller
     public function getTotalCustomers()
 {
     $totalCustomer = User::where('role_id', 3)->count();
-    
+
     return response()->json(['totalCustomer' => $totalCustomer]);
+}
+
+
+public function countEmployee(Request $request)
+{
+    // Lấy shop_id từ người dùng đang đăng nhập
+    $shopId = $request->user()->shop_id;
+    $roleId = $request->user()->role_id;
+
+    // Kiểm tra vai trò của người dùng
+    if ($roleId == 2) {
+        // Nếu người dùng có role_id là 2 (quản lý hoặc chủ cửa hàng)
+        // Truy vấn tất cả người dùng thuộc cửa hàng đó
+        $users = User::where('shop_id', $shopId)
+        ->where('role_id', '!=', 2)
+        ->get();
+        // Trả về danh sách người dùng dưới dạng JSON
+        return response()->json($users);
+    } else {
+        // Nếu người dùng không có quyền quản lý cửa hàng, trả về lỗi 403
+        return response()->json(['error' => 'You do not have permission to view this data'], 403);
+    }
 }
 }

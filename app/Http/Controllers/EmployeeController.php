@@ -43,13 +43,13 @@ class EmployeeController extends Controller
             $employee->card_id = $request->input('card_id');
             $employee->phone_number = $request->input('phone_number');
             $employee->save();
-    
+
             return response()->json($employee);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create Employee!' 
+            'message' => 'You don\'t have permission to create Employee!'
         ], 404);
     }
 
@@ -96,10 +96,10 @@ class EmployeeController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete Employee!' 
+            'message' => 'You don\'t have permission to delete Employee!'
         ], 200);
     }
 

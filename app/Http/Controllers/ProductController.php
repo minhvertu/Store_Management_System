@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\DescriptionImage;
 use Illuminate\Http\Request;
 use App\Exports\ProductExport;
 use Maatwebsite\Excel\Facades\Excel;
 class ProductController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+
+
+    // }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $product = Product::with ([ 'brand','category',
+        $product = Product::with ([ 'brand','category', 'descriptionImages'
         ])->get();
         // return response()->json([
         //     "id" => $product->id,
@@ -38,6 +43,7 @@ class ProductController extends Controller
         // ]);
         return response()->json($product);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -154,7 +160,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    
+
 
     public function get_product_data()
     {
@@ -198,6 +204,30 @@ public function generateProductCode() {
     return 'PROD' . $numbers . $characters;
 }
 
+public function uploadDescriptionImages(Request $request)
+{
+    // Nhận dữ liệu từ request
+    $productId = $request->input('product_id');
+    $images = $request->file('images');
+
+    // Xử lý từng tệp hình ảnh
+    foreach ($images as $image) {
+        // Lấy tên tệp ban đầu và tạo tên tệp mới với timestamp để tránh trùng lặp
+        $fileName = time() . '_' . $image->getClientOriginalName();
+
+        // Lưu hình ảnh vào thư mục 'description_images' trong disk 'public'
+        $path = $image->storeAs('description_images', $fileName, 'public');
+
+        // Tạo bản ghi mới trong bảng 'description_images'
+        DescriptionImage::create([
+            'image' => $path,
+            'product_id' => $productId, // Sử dụng product_id từ request
+        ]);
+    }
+
+    // Trả về phản hồi JSON cho biết thành công
+    return response()->json(['message' => 'Images uploaded successfully'], 200);
+}
 
 
 }

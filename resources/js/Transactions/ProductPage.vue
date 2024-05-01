@@ -24,11 +24,11 @@
             <div class="text-center container py-5">
                 <div class="row">
                     <template v-for="(storage, storageIndex) in filteredShops" :key="storage.id">
-                        <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="col-lg-3 col-md-4 mb-4">
                             <div class="card">
                                 <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                                     data-mdb-ripple-color="light">
-                                    <img :src="'/storage/' + storage.product.image" class="w-100" alt="Product image" />
+                                    <img :src="'/storage/' + storage.product.image" class="w-100" alt="Product image"   />
                                 </div>
                                 <div class="card-body">
                                     <a href="" class="text-reset">
@@ -52,8 +52,7 @@
                                 </div>
                             </div>
                             <button @click="addToCart(storage)" type="button" class="btn btn-info "
-                                data-mdb-ripple-init>Add
-                                to Cart</button>
+                                data-mdb-ripple-init> <i class="fa fa-shopping-cart"></i></button>
                         </div>
                     </template>
                 </div>
@@ -252,24 +251,32 @@ export default {
 
     computed: {
         filteredShops() {
+        const keyword = this.searchKeyword.toLowerCase();
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
 
-            const startIndex = (this.currentPage - 1) * this.pageSize;
-            const endIndex = startIndex + this.pageSize;
+        // Tạo tập hợp để lưu trữ các product_id đã được hiển thị
+        const displayedProducts = new Set();
+        const filteredShops = [];
 
+        // Lọc các kho sản phẩm dựa trên từ khóa và chỉ hiển thị một sản phẩm duy nhất dựa trên product_id
+        for (const storage of this.storages) {
+            if (
+                // Kiểm tra xem sản phẩm có phù hợp với từ khóa tìm kiếm không
+                storage.product.name.toLowerCase().includes(keyword) ||
+                storage.product.product_code.toLowerCase().includes(keyword)
+            ) {
+                // Nếu product_id chưa tồn tại trong tập hợp, thêm sản phẩm vào danh sách
+                if (!displayedProducts.has(storage.product.id)) {
+                    displayedProducts.add(storage.product.id);
+                    filteredShops.push(storage);
+                }
+            }
+        }
 
-            const keyword = this.searchKeyword.toLowerCase();
-            const filteredShops = this.storages.filter(storage => {
-                // Kiểm tra tên sản phẩm hoặc mã sản phẩm để xem có chứa từ khóa tìm kiếm hay không
-                return (
-                    storage.product.name.toLowerCase().includes(keyword) ||
-                    storage.product.sell_price.toLowerCase().includes(keyword) ||
-                    storage.product.product_code.toLowerCase().includes(keyword)
-                    // Bạn có thể thêm các thuộc tính khác của sản phẩm mà bạn muốn tìm kiếm tại đây
-                );
-            });
-            // Trả về một phần của danh sách đã lọc dựa trên trang hiện tại và kích thước trang
-            return filteredShops.slice(startIndex, endIndex);
-        },
+        // Trả về một phần của danh sách đã lọc dựa trên trang hiện tại và kích thước trang
+        return filteredShops.slice(startIndex, endIndex);
+    },
         totalPages() {
             return Math.ceil(this.shops.length / this.pageSize);
         },

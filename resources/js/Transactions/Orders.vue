@@ -103,7 +103,7 @@
                                 </td>
                             </tr>
                             <td colspan="12">
-                                <div v-for="(order_products, index2) in order.order_product" :key="index2">
+
                                     <div class="collapse" :id="'collapseorder-' + index">
                                         <div class="card">
                                             <div class="card-body">
@@ -171,6 +171,7 @@
                                                                     <thead style="background-color:#84B0CA ;"
                                                                         class="text-white">
                                                                         <tr>
+                                                                            <th></th>
                                                                             <th scope="col" class="center-text">Products</th>
                                                                             <th scope="col" class="center-text">Amount</th>
                                                                             <th scope="col" class="center-text">Detail</th>
@@ -178,18 +179,22 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr>
+                                                                        <tr v-for="(order_products, index2) in order.order_product" :key="index2">
+                                                                            <td>
+                                                                                <div class="image-container" style="width: 70px; height: 70px; overflow: hidden;">
+                                                                                    <img :src="'/storage/' + order_products.product.image" alt="Product Image"
+                                                                                        class="shadow-sm border-radius-lg border border-1"
+                                                                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                                                                </div>
+                                                                            </td>
                                                                             <td class="center-text"> {{ order_products.product.name }}</td>
                                                                             <td class="center-text" >{{ order_products.amount }}</td>
 
                                                                             <td class="center-text">{{ order.detail }}</td>
-                                                                            <td class="center-text">${{ order.price }}</td>
+                                                                            <td class="center-text">${{ order_products.product.sell_price }}</td>
                                                                         </tr>
-
                                                                     </tbody>
-
                                                                 </table>
-
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xl-8">
@@ -214,7 +219,7 @@
                                                         </div>
                                                         <hr>
                                                         <div class="row">
-                                                           
+
                                                         </div>
 
                                                     </div>
@@ -222,39 +227,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </td>
                         </template>
                     </tbody>
                 </table>
             </div>
         </div>
-   
 </template>
-
-                                                <!-- <table class="table table-striped">
-                                                    <tr>
-                                                        <th class="align-middle text-lg" scope="col">Information</th>
-                                                        <th class="align-middle text-lg" scope="col">Details</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="align-middle text-lg">Amount</td>
-                                                        <td>{{ order_products.amount }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="align-middle text-lg">Product</td>
-                                                        <td>{{ order_products.product.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="align-middle text-lg">Detail</td>
-                                                        <td>{{ order.detail }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="align-middle text-lg">Total Cost</td>
-                                                        <td>{{ order.price }}</td>
-                                                    </tr>
-                                                </table> -->
-
 <script>
 export default {
     name: "orders",
@@ -276,12 +256,17 @@ export default {
                 status: '',
 
             },
-            products: [{ id: '', amount: '' }],
+            products: [{
+            id: '', amount: ''
+            }],
 
 
             users: [],
             clients: [],
             shopId: '',
+            error: {
+                message: ''
+            },
 
         }
     },

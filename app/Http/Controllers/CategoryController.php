@@ -40,13 +40,13 @@ class CategoryController extends Controller
             $category = new Category();
             $category->name = $request->input('name');
             $category->save();
-    
+
             return response()->json($category);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create category!' 
+            'message' => 'You don\'t have permission to create category!'
         ], 404);
     }
 
@@ -94,10 +94,10 @@ class CategoryController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete category!' 
+            'message' => 'You don\'t have permission to delete category!'
         ], 200);
     }
 }

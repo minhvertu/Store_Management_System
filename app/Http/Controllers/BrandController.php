@@ -14,12 +14,12 @@ class BrandController extends Controller
     {
         $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
     }
-    
+
     public function index()
     {
         //
         return response()->json(Brand::all());
-        
+
     }
 
     /**
@@ -40,13 +40,13 @@ class BrandController extends Controller
             $brand = new Brand();
             $brand->name = $request->input('name');
             $brand->save();
-    
+
             return response()->json($brand);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create brand!' 
+            'message' => 'You don\'t have permission to create brand!'
         ], 404);
     }
 
@@ -94,10 +94,10 @@ class BrandController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete Brand!' 
+            'message' => 'You don\'t have permission to delete Brand!'
         ], 200);
     }
 }

@@ -11,10 +11,10 @@ class SizeController extends Controller
      * Display a listing of the resource.
      */
 
-    public function __construct()
-    {
-        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+    // }
 
     public function index()
     {
@@ -40,13 +40,13 @@ class SizeController extends Controller
             $size = new Size();
             $size->name = $request->input('name');
             $size->save();
-    
+
             return response()->json($size);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to create size!' 
+            'message' => 'You don\'t have permission to create size!'
         ], 404);
     }
 
@@ -68,7 +68,7 @@ class SizeController extends Controller
         $size = Size::find($id);
         return response()->json($size);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -95,10 +95,10 @@ class SizeController extends Controller
                 'status' => true,
             ], 200);
         }
-    
+
         return response([
             'status' => false,
-            'message' => 'You don\'t have permission to delete size!' 
+            'message' => 'You don\'t have permission to delete size!'
         ], 200);
     }
 }

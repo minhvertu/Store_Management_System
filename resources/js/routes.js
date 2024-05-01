@@ -18,6 +18,12 @@ import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
 import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
 import LVMainPage from './fashion_store/LV/LVMainPage.vue';
+import GucciMainpage from './fashion_store/Gucci/GucciMainpage.vue';
+import ChanelMainpage from './fashion_store/Chanel/ChanelMainPage.vue';
+import ZaraMainpage from './fashion_store/Zara/ZaraMainPage.vue';
+import DolceMainpage from './fashion_store/Dolce/DolceMainPage.vue';
+import PradaMainpage from './fashion_store/Prada/PradaMainPage.vue';
+import CalvinKleinMainpage from './fashion_store/CalvinKlein/CalvinKleinMainPage.vue';
 import DataTablesTest from './components/DataTablesTest.vue';
 import Orders from './Transactions/Orders.vue';
 import ProductDetail from './fashion_store/Cart/ProductDetail.vue';
@@ -51,6 +57,9 @@ export const routes = [
         path: '/login',
         component: Login,
     },
+
+
+
     {
         name: 'signup',
         path: '/signup',
@@ -199,6 +208,43 @@ export const routes = [
         path: '/ProductPage',
         component: ProductPage,
     },
+
+    {
+        name: 'gucciMainPage',
+        path: '/gucciMainPage',
+        component: GucciMainpage,
+    },
+
+    {
+        name: 'chanelMainPage',
+        path: '/chanelMainPage',
+        component: ChanelMainpage,
+    },
+
+    {
+        name: 'zaraMainPage',
+        path: '/zaraMainPage',
+        component: ZaraMainpage,
+    },
+
+    {
+        name: 'dolceMainPage',
+        path: '/dolceMainPage',
+        component: DolceMainpage,
+    },
+
+    {
+        name: 'pradaMainPage',
+        path: '/pradaMainPage',
+        component: PradaMainpage,
+    },
+
+    {
+        name: 'calvinKleinMainPage',
+        path: '/calvinKleinMainPage',
+        component: CalvinKleinMainpage,
+    },
+
 
 
 

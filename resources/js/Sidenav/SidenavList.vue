@@ -26,7 +26,7 @@
         </sidenav-item>
       </li>
 
-      <div v-if="roleId =='2'">
+
         <li class="nav-item">
           <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
             aria-controls="applicationsExamples" role="button" aria-expanded="false">
@@ -58,7 +58,7 @@
         </li>
     </div>
     </li>
-      </div>
+      
 
   <div v-if="roleId =='2'">
     <li class="nav-item ">

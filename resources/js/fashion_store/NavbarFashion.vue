@@ -48,6 +48,18 @@
                     <li class="nav-item px-2 py-2 border-0">
                         <a class="nav-link text-uppercase text-dark" href="#popular">popular</a>
                     </li>
+                    <li class="nav-item dropdown px-2 py-2">
+    <a class="nav-link text-uppercase text-dark" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        account
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+
+        <li>
+            <router-link to="/login" class="dropdown-item">Login</router-link>
+        </li>
+        <!-- Bạn có thể thêm các mục khác ở đây nếu cần -->
+    </ul>
+</li>
                 </ul>
             </div>
         </div>
@@ -61,6 +73,7 @@
  export default {
     name: "navbar_fashion",
  }
+
 </script>
 
 <style>
@@ -114,6 +127,27 @@
     .fade-leave-to {
         opacity: 0;
     }
+
+    /* Quy tắc cho dropdown-menu */
+.dropdown-menu {
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    background-color: #f8f9fa; /* Màu nền phù hợp với trang */
+}
+
+/* Quy tắc cho dropdown-item */
+.dropdown-item {
+    padding: 8px 15px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hiệu ứng khi di chuột qua dropdown-item */
+.dropdown-item:hover {
+    background-color: var(--pink); /* Thay đổi màu nền khi di chuột */
+    color: #fff;
+}
 }
 
 </style>

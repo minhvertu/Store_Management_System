@@ -46,11 +46,11 @@
                             </div>
                         </div>
 
-                    <template v-for="(storage, index) in storages" :key="'storage-' + index">
+                    <template v-for="(product, index) in products" :key="'product-' + index">
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" >
-                            <router-link :to="`/products/productDetail/${storage.product.id}`">
+                            <router-link :to="`/products/productDetail/${product.id}`">
                                 <div class="collection-img position-relative">
-                                    <img :src="'/storage/' + storage.product.image" class="w-100">
+                                    <img :src="'/storage/' + product.image" class="w-100">
                                     <span
                                         class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
                                 </div>
@@ -63,8 +63,8 @@
                                     <span class="text-primary"><i class="fas fa-star"></i></span>
                                     <span class="text-primary"><i class="fas fa-star"></i></span>
                                 </div>
-                                <p class="text-capitalize my-1">{{storage.product.name}}</p>
-                                <span class="fw-bold">$ {{storage.product.sell_price}}</span>
+                                <p class="text-capitalize my-1">{{product.name}}</p>
+                                <span class="fw-bold">$ {{product.sell_price}}</span>
                             </div>
                         </div>
                     </template>

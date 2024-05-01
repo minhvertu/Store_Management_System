@@ -18,7 +18,7 @@ use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductSizeAmountController;
 use App\Http\Controllers\SizeController;
-
+use App\Http\Controllers\DescriptionImageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,6 +47,8 @@ Route::resource('tasks', TaskController::class);
 //* Users */
 
 //View Users
+Route::get('/users/total-employees', [UserController::class, 'countEmployee']);
+
 Route::get('/users', [UserController::class, 'viewPermission']);
 
 Route::get('/users/total-customers', [UserController::class, 'getTotalCustomers']);
@@ -66,10 +68,11 @@ Route::get('employees_export',[EmployeeController::class, 'get_employee_data'])-
 
 //Products
 
+
 Route::resource('products', ProductController::class);
 Route::get('products_export',[ProductController::class, 'get_product_data'])->name('product.export');
 Route::post('/upload-product-image', [ProductController::class, 'uploadProductImage']);
-
+Route::post('/upload-description-image', [ProductController::class, 'uploadDescriptionImages']);
 
 
 
@@ -90,6 +93,8 @@ Route::resource('suppliers', SupplierController::class);
 
 Route::get('/storages/total-import-cost', [StorageController::class, 'calculateTotalImportCost']);
 
+Route::get('/storages/total-import_cost-shop', [StorageController::class, 'calculateShopImportCost']);
+
 Route::resource('storages', StorageController::class);
 
 
@@ -100,7 +105,15 @@ Route::resource('storages', StorageController::class);
 Route::resource('categories', CategoryController::class);
 
 //Orders
+Route::get('/orders/total-revenue-shop', [OrderController::class, 'calculateShopRevenue']);
+
+
+
+
 Route::get('/orders/total-order', [OrderController::class, 'getTotalOrder']);
+
+Route::get('/orders/total-shop-order', [OrderController::class, 'getTotalShopOrder']);
+
 
 Route::get('/orders/total-price', [OrderController::class, 'getTotalOrderPrice']);
 
@@ -121,6 +134,8 @@ Route::resource('sizes', SizeController::class);
 
 Route::resource('product_size_amounts', ProductSizeAmountController::class);
 
+
+Route::resource('descriptionImages', DescriptionImageController::class);
 
 
 

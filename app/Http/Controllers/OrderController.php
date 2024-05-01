@@ -18,20 +18,34 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+        // $this->middleware('auth:client'); //bắt buộc khi sử dụng phải đăng nhập
     }
 
-    public function index()
-    {
-        $orders = Order::with(['user', 'order_product.product'])->get();
-        foreach ($orders as $order) {
-            foreach ($order->order_product as $orderProduct) {
-                $product = $orderProduct->product;
-                $orderProduct->sell_price = $product->sell_price;
-            }
+    public function index(Request $request)
+{
+    // Lấy shop_id từ người dùng đang đăng nhập
+    $shopId = $request->user()->shop_id;
+
+    // Lọc các đơn hàng mà có user_id thuộc về shop_id của người dùng đang đăng nhập
+    $orders = Order::with(['user', 'order_product.product'])
+        ->whereHas('user', function ($query) use ($shopId) {
+            // Lọc theo shop_id trong mối quan hệ với user
+            $query->where('shop_id', $shopId);
+        })
+        ->get();
+
+    // Cập nhật sell_price của order_product dựa trên product
+    foreach ($orders as $order) {
+        foreach ($order->order_product as $orderProduct) {
+            $product = $orderProduct->product;
+            $orderProduct->sell_price = $product->sell_price;
         }
-
-        return response()->json($orders);
     }
+
+    // Trả về danh sách các đơn hàng được lọc dưới dạng JSON
+    return response()->json($orders);
+}
+
 
 
     /**
@@ -46,66 +60,84 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $user = $request->user();
-    if ($request->user()->can('create-orders')) {
-        $order = new Order();
-        $order->order_code = $this->generateOrderCode();
-        $order->user_id = $user->id;
+    {
+        // Kiểm tra xem người dùng có quyền tạo đơn hàng không
 
-        // Mảng chứa các trạng thái có thể
-        $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
+            // Tạo đơn hàng mới
+            $order = new Order();
+            $order->order_code = $this->generateOrderCode();
 
-        // Chọn ngẫu nhiên một trạng thái từ mảng
-        $randomStatus = $statuses[array_rand($statuses)];
+            // Kiểm tra nếu người dùng đã đăng nhập
+            if ($request->user()) {
+                // Lấy `user_id` từ người dùng đang đăng nhập
+                $order->user_id = $request->user()->id;
+            } else {
+                // Nếu `user_id` là null, để trống `user_id`
+                $order->user_id = null;
+            }
 
-        $order->status = $randomStatus;
-        $order->save();
+            // Mảng chứa các trạng thái có thể
+            $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
 
-        $totalPrice = 0;
+            // Chọn ngẫu nhiên một trạng thái từ mảng
+            $randomStatus = $statuses[array_rand($statuses)];
+            $order->status = $randomStatus;
+            $order->save();
 
-        foreach ($request->input('products') as $product) {
-            $orderProduct = new OrderProduct();
+            $totalPrice = 0;
 
-            $orderProduct->order_id = $order->id;
-            $orderProduct->product_id = $product['id'];
-            $orderProduct->amount = $product['amount'];
-            $orderProduct->size_id = $product['size_id']; // Thêm size_id vào OrderProduct
+            // Xử lý các sản phẩm trong đơn hàng
+            foreach ($request->input('products') as $product) {
+                $orderProduct = new OrderProduct();
 
-            // Tìm storage_id từ bảng storages dựa trên product_id
-            $storage = Storage::where('product_id', $product['id'])->first();
-            if ($order->status === 'shipping' || $order->status === 'paid') {
-            // Nếu tìm thấy storage, cập nhật số lượng trong bảng product_size_amount
-                if ($storage) {
-                    $productSizeAmount = ProductSizeAmount::where([
-                        ['storage_id', '=', $storage->id],
-                        ['size_id', '=', $product['size_id']]
-                    ])->first();
+                $orderProduct->order_id = $order->id;
+                $orderProduct->product_id = $product['id'];
+                $orderProduct->amount = $product['amount'];
+                $orderProduct->size_id = $product['size_id'];
 
-                    if ($productSizeAmount) {
-                        $productSizeAmount->amount -= $product['amount'];
-                        $productSizeAmount->save();
+                // Tìm storage_id từ bảng storages dựa trên product_id
+                $storage = Storage::where('product_id', $product['id'])->first();
+
+                // Nếu trạng thái là "shipping" hoặc "paid", cập nhật số lượng
+                if ($order->status === 'shipping' || $order->status === 'paid') {
+                    if ($storage) {
+                        $productSizeAmount = ProductSizeAmount::where([
+                            ['storage_id', '=', $storage->id],
+                            ['size_id', '=', $product['size_id']]
+                        ])->first();
+
+                        if ($productSizeAmount) {
+                            $productSizeAmount->amount -= $product['amount'];
+                            $productSizeAmount->save();
+                        }
                     }
                 }
 
-            $productSellPrice = Product::find($product['id'])->sell_price;
-            $productTotalPrice = $productSellPrice * $orderProduct->amount;
-            $totalPrice += $productTotalPrice;
-            $order->order_product()->save($orderProduct);
-            }
-        }
-        $order->price = $totalPrice;
-        $order->detail = $request->detail;
-        $order->save();
+                // Tính giá sản phẩm và tổng giá
+                $productSellPrice = Product::find($product['id'])->sell_price;
+                $productTotalPrice = $productSellPrice * $orderProduct->amount;
+                $totalPrice += $productTotalPrice;
 
-        return response()->json($order);
+                // Lưu OrderProduct
+                $order->order_product()->save($orderProduct);
+            }
+
+            // Lưu tổng giá vào đơn hàng
+            $order->price = $totalPrice;
+            $order->detail = $request->detail;
+            $order->save();
+
+            // Trả về đơn hàng dưới dạng JSON
+            return response()->json($order);
+
+
+        // Nếu người dùng không có quyền tạo đơn hàng
+        return response([
+            'status' => false,
+            'message' => 'You don\'t have permission to create Order!'
+        ], 404);
     }
 
-    return response([
-        'status' => false,
-        'message' => 'You don\'t have permission to create Order!'
-    ], 404);
-}
 
     public function getTotalOrderPrice()
     {
@@ -123,6 +155,21 @@ class OrderController extends Controller
 
         return response()->json(['totalOrder' => $totalOrder]);
     }
+
+    public function getTotalShopOrder(Request $request)
+{
+    // Lấy `shop_id` từ người dùng đang đăng nhập
+    $shopId = $request->user()->shop_id;
+
+    // Đếm tổng số đơn hàng theo `shop_id`
+    $totalOrder = Order::whereHas('user', function ($query) use ($shopId) {
+        $query->where('shop_id', $shopId);
+    })->count();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json(['totalOrder' => $totalOrder]);
+}
+
 
 
 
@@ -231,4 +278,31 @@ class OrderController extends Controller
 
         return 'ORD' . $numbers . $characters;
     }
+
+    public function calculateShopRevenue(Request $request)
+    {
+        // Lấy shop_id từ người dùng đang đăng nhập
+        $shopId = $request->user()->shop_id;
+
+        // Kiểm tra nếu người dùng không có shop_id
+        if (!$shopId) {
+            return response()->json(['error' => 'User does not belong to any shop'], 400);
+        }
+
+        // Tính tổng doanh thu của cửa hàng bằng cách lấy tổng tiền của các đơn hàng
+        // mà user (người bán) có shop_id bằng shopId của người dùng đang đăng nhập
+        // và có trạng thái là 'paid' hoặc 'shipping'
+        $totalShopRevenue = Order::whereHas('user', function ($query) use ($shopId) {
+            $query->where('shop_id', $shopId);
+        })
+        ->whereIn('status', ['paid', 'shipping'])
+        ->sum('price');
+
+        // Trả về doanh thu của cửa hàng dưới dạng JSON
+        return response()->json([
+            'shop_id' => $shopId,
+            'totalShopRevenue' => $totalShopRevenue
+        ]);
+    }
+
 }

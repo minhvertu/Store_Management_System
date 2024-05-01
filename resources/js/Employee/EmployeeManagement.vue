@@ -112,7 +112,7 @@
               <td class="center-text">{{ employee.name }}</td>
               <td class="center-text">{{ employee.employee_code }}</td>
               <td class="center-text">{{ employee.phone_number }}</td>
-              <td class="center-text">{{ employee.salary_code }}</td>
+              <td class="center-text">{{ employee.email }}</td>
               <td class="center-text">{{ employee.card_id }}</td>
               <td class="center-text">
                 <span class="material-symbols-outlined me-2">
@@ -223,7 +223,7 @@ export default {
         },
 
     getEmployees() {
-      axios.get('api/employees')
+      axios.get('api/users/total-employees')
         .then(response => {
           this.employees = response.data;
 

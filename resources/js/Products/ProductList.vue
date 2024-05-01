@@ -155,6 +155,38 @@
 
 
 
+                    <div class="modal fade" id="uploadDescriptionImages" tabindex="-1" aria-labelledby="uploadDescriptionImagesLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="uploadDescriptionImagesLabel">Upload Descripion Images</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <!-- Hiển thị dữ liệu sản phẩm hiện tại -->
+
+                                    <div class="mb-3">
+                    <input type="file" multiple @change="uploadDescriptionImages(selectedProductId, $event)">
+                </div>
+                                    <!-- Các trường thông tin khác -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
             </div>
         </div>
 
@@ -217,39 +249,48 @@
                                     <button @click="deleteProduct(product, index)" type="button" class="btn btn-danger "
                                         data-mdb-ripple-init>delete_forever</button>
                                 </span>
-                                <span class="material-symbols-outlined">
+                                <span class="material-symbols-outlined me-2">
                                     <button type="button" class="btn btn-info" data-mdb-ripple-init
                                         data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(product)">edit</button>
                                 </span>
+
+                                <span class="material-symbols-outlined me-2">
+                                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                        data-bs-toggle="modal" data-bs-target="#uploadDescriptionImages"   @click="openUploadModal(product.id)" data-bs-whatever="@mdo"
+                                        >image</button>
+                                </span>
+
+                                <!-- <input type="file" multiple @change="uploadDescriptionImages(product.id, $event)"> -->
+
                             </td>
                         </tr>
                         <td colspan="12">
     <div class="collapse" :id="'collapseorder-' + index">
         <div class="card card-body">
-        
+
             <div class="d-flex">
-             
+
                 <div class="image-container me-6" style="width: 15%; height: 15%; overflow: hidden; margin-right: 20px;">
                     <img :src="'/storage/' + product.image" alt="Product Image"
                          class="shadow-sm border-radius-lg border border-1"
                          style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-              
+
                 <div class="product-info d-flex flex-wrap">
-                   
+
                     <div class="col me-6">
                         <p class="me-3"><strong>Product Code:</strong> {{ product.product_code }}</p>
                         <p class="me-3"><strong>Category:</strong> {{ product.category.name }}</p>
                         <p class="me-3"><strong>Gender:</strong> {{ genderLabel(product.gender_item_code) }}</p>
                     </div>
-                   
+
                     <div class="col me-6">
                         <p class="me-3"><strong>Import Price:</strong> ${{ product.import_price }}</p>
                         <p class="me-3"><strong>Sell Price:</strong> ${{ product.sell_price }}</p>
                         <p class="me-3"><strong>Brand:</strong> {{ product.brand.name }}</p>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -327,6 +368,7 @@ export default {
                 message: ''
             },
             roleId: '',
+            selectedProductId: null,
         }
     },
     created() {
@@ -339,6 +381,48 @@ export default {
 
     },
     methods: {
+
+        openUploadModal(productId) {
+        this.selectedProductId = productId;
+        // Mở modal (nếu cần)
+    },
+
+        async uploadDescriptionImages(productId, event) {
+    try {
+        // Tạo FormData để chứa các tệp hình ảnh và product_id
+        const formData = new FormData();
+        const files = event.target.files;
+
+        // Thêm các tệp hình ảnh vào FormData
+        for (let i = 0; i < files.length; i++) {
+            formData.append('images[]', files[i]);
+        }
+
+        // Thêm product_id vào FormData
+        formData.append('product_id', productId);
+
+        // Gửi yêu cầu POST đến API '/upload-description-image' với FormData
+        const response = await axios.post('/api/upload-description-image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        // Xử lý phản hồi từ server
+        console.log('Description images uploaded successfully:', response.data);
+        alert('Description images uploaded successfully!');
+        window.location.href = '/productList';
+
+        // Làm mới sản phẩm để cập nhật danh sách các hình ảnh (nếu cần)
+        await this.getProducts();
+
+    } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error('Failed to upload description images:', error);
+        alert('Failed to upload description images. Please try again later.');
+    }
+},
+
 
         onUpdateImageChange(event) {
             // Lấy file ảnh từ sự kiện change

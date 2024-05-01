@@ -6,6 +6,7 @@ use App\Models\ProductAmountSize;
 use App\Models\ProductSizeAmount;
 use App\Models\Storage;
 use App\Models\Product;
+
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
@@ -17,6 +18,7 @@ class StorageController extends Controller
     {
         $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
     }
+
 
     public function index(Request $request)
     {
@@ -211,6 +213,30 @@ class StorageController extends Controller
         }
 
         return 'IMP' . $numbers . $characters;
+    }
+
+    public function calculateShopImportCost(Request $request)
+    {
+        // Lấy shop_id từ người dùng đang đăng nhập
+        $shopId = $request->user()->shop_id;
+
+        // Kiểm tra nếu người dùng không có shop_id
+        if (!$shopId) {
+            return response()->json(['error' => 'User does not belong to any shop'], 400);
+        }
+
+        // Truy vấn tổng tiền nhập hàng của cửa hàng bằng cách lấy tổng các cột 'price'
+        // trong bảng product_size_amount có storage_id liên kết với shop_id của cửa hàng
+        $totalShopImportCost = ProductSizeAmount::whereHas('storage', function ($query) use ($shopId) {
+            $query->where('shop_id', $shopId);
+        })
+        ->sum('import_cost');
+
+        // Trả về tổng tiền nhập hàng của cửa hàng dưới dạng JSON
+        return response()->json([
+            'shop_id' => $shopId,
+            'totalShopImportCost' => $totalShopImportCost
+        ]);
     }
 
 

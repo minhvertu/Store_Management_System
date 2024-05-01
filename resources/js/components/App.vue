@@ -84,11 +84,12 @@ export default {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const id = localStorage.getItem('id');
     if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
-      this.$router.push('/login');
+      this.$router.push('/fashion');
     } else {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-      this.loaded = true; // Đánh dấu trang đã được load
+
     }
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    this.loaded = true; // Đánh dấu trang đã được load
     window.addEventListener('beforeunload', this.clearLocalStorageOnClose);
     window.addEventListener('load', this.setLoadedFlag);
   },

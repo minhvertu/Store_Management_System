@@ -6,7 +6,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.money.title"
-                            :value="`$${totalOrderPrice-totalImportCost}`"
+                            :value="`$${totalShopRevenue-totalShopImportCost}`"
                             :percentage="stats.money.percentage"
                             :iconClass="stats.money.iconClass"
                             :iconBackground="stats.money.iconBackground"
@@ -42,7 +42,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.sales.title"
-                            :value="stats.sales.value"
+                            :value="totalShopImportCost"
                             :percentage="stats.sales.percentage"
                             :iconClass="stats.sales.iconClass"
                             :iconBackground="stats.sales.iconBackground"
@@ -90,6 +90,8 @@ export default {
             totalCustomer: 0,
             totalOrder: 0,
             totalImportCost: 0,
+            totalShopRevenue: 0,
+            totalShopImportCost: 0,
             chartData: {
                 labels: [
                     "January",
@@ -162,9 +164,31 @@ export default {
     this.getTotalOrderPrice();
     this.getTotalCustomers();
     this.getTotalOrder();
+    this.getShopRevenue();
+    this.getShopImportCost();
     },
 
     methods: {
+
+        async getShopImportCost() {
+            try {
+                const response = await axios.get('/api/storages/total-import_cost-shop');
+
+                this.totalShopImportCost = response.data.totalShopImportCost;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getShopRevenue() {
+            try {
+                const response = await axios.get('/api/orders/total-revenue-shop');
+
+                this.totalShopRevenue = response.data.totalShopRevenue;
+            } catch (error) {
+                console.error(error);
+            }
+        },
 
         async getTotalImportCost() {
             try {
@@ -195,7 +219,7 @@ export default {
         },
         async getTotalOrder() {
             try {
-                const response = await axios.get('/api/orders/total-order');
+                const response = await axios.get('/api/orders/total-shop-order');
 
                 this.totalOrder = response.data.totalOrder;
             } catch (error) {

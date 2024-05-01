@@ -39,47 +39,70 @@
                     </div>
 
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/gucci2.jpg" class="w-100">
-                        </div>
+                        <router-link to="/gucciMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/gucci2.jpg" class="w-100">
+                                </div>
+                            </transition>
+                        </router-link>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <router-link to="/chanelMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/chanel.jpg" class="w-100">
+
+                                </div>
+                            </transition>
+                        </router-link>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <router-link to="/zaraMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/zara.png" class="w-100">
+
+                                </div>
+                            </transition>
+                        </router-link>
 
                     </div>
 
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/chanel.jpg" class="w-100">
+                        <router-link to="/dolceMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/dolce.jpg" class="w-100">
 
-                        </div>
-
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/zara.png" class="w-100">
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/dolce.jpg" class="w-100">
-
-                        </div>
+                                </div>
+                            </transition>
+                        </router-link>
 
                     </div>
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/pra.png" class="w-100">
+                        <router-link to="/pradaMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/pra.png" class="w-100">
 
-                        </div>
+                                </div>
+                            </transition>
+                        </router-link>
 
                     </div>
 
                     <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                        <div class="collection-img position-relative">
-                            <img src="../fashion_store/images/calvin.png" class="w-100">
+                        <router-link to="/calvinKleinMainPage">
+                            <transition name="fade" mode="out-in">
+                                <div class="collection-img position-relative">
+                                    <img src="../fashion_store/images/calvin.png" class="w-100">
 
-                        </div>
+                                </div>
+                            </transition>
+                        </router-link>
 
                     </div>
                     <div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
