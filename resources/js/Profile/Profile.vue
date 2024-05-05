@@ -279,7 +279,7 @@ export default {
   mounted() {
     this.$store.state.isAbsolute = true;
     setNavPills();
-    
+
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";

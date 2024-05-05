@@ -31,6 +31,7 @@ class User extends Authenticatable implements JWTSubject
         'image',
         'phone_number',
         'image',
+        'employee_code'
     ];
 
     /**

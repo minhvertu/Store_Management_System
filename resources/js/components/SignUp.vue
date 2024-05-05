@@ -135,7 +135,7 @@ export default {
                 localStorage.setItem('authToken', token);
 
                 // Điều hướng người dùng đến trang khác (ví dụ: trang chủ)
-                this.$router.push('/');
+                this.$router.push('/login');
 
                 alert('Registration successful!');
             } catch (error) {

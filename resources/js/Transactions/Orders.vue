@@ -83,7 +83,7 @@
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary ">{{ order.user.name }}</span>
+                                    <span v-if="order.user" class="text-secondary">{{ order.user.name }}</span>
                                 </td>
 
                                 <td class="align-middle text-center">
@@ -138,13 +138,20 @@
                                                         <div class="row">
                                                             <div class="col-xl-8">
                                                                 <ul class="list-unstyled">
-                                                                    <li class="text-muted">To: <span
-                                                                            style="color:#5d9fc5 ;">{{ order.user.name }}</span>
+                                                                    <li class="text-muted">To:
+                                                                        <span v-if="order.client" style="color:#5d9fc5;">{{ order.client.name }}</span>
+                                                                        <span v-else style="color:#5d9fc5;">{{ order.client_name }}</span>
                                                                     </li>
-                                                                    <li class="text-muted">Street, City</li>
-                                                                    <li class="text-muted">State, Country</li>
+                                                                    <li class="text-muted">
+                                                                        <span v-if="order.client">{{ order.client.address }}</span>
+                                                                        <span v-else>{{ order.address }}</span>
+                                                                    </li>
+                                                                    <!-- <li class="text-muted">State, Country</li> -->
+                                                                    <li class="text-muted"><span v-if="order.client">{{ order.client.email }}</span></li>
                                                                     <li class="text-muted"><i class="fas fa-phone"></i>
-                                                                        123-456-789</li>
+                                                                        <span v-if="order.client">{{ order.client.phone_number }}</span>
+                                                                        <span v-else>{{ order.phone_number }}</span>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-xl-4">
@@ -155,7 +162,7 @@
                                                                             class="fw-bold">ID:</span>{{ order.order_code }}</li>
                                                                     <li class="text-muted"><i class="fas fa-circle"
                                                                             style="color:#84B0CA ;"></i> <span
-                                                                            class="fw-bold">Creation Date: </span>{{ order.created_at }}
+                                                                            class="fw-bold">Creation Date: </span>{{ formatDate(order.created_at) }}
                                                                     </li>
                                                                     <li class="text-muted"><i class="fas fa-circle"
                                                                             style="color:#84B0CA ;"></i> <span
@@ -254,6 +261,10 @@ export default {
                 client_id: '',
                 user_id: '',
                 status: '',
+                client_id: '',
+                client_name: '',
+                phone_number: '',
+                address: '',
 
             },
             products: [{
@@ -278,6 +289,19 @@ export default {
 
     },
     methods: {
+
+        formatDate(datetime) {
+        // Tạo đối tượng Date từ chuỗi thời gian
+        const date = new Date(datetime);
+
+        // Lấy thông tin ngày, tháng, năm
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Tháng trong JavaScript là 0-based, nên cần +1
+        const year = date.getFullYear();
+
+        // Định dạng ngày tháng theo kiểu 'dd/mm/yyyy' hoặc bạn có thể tùy chỉnh theo định dạng mong muốn
+        return `${day}/${month}/${year}`;
+    },
 
         createOrder() {
             // Gửi request POST đến backend để tạo đơn hàng và thêm sản phẩm

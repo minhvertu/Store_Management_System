@@ -19,6 +19,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductSizeAmountController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DescriptionImageController;
+use App\Http\Controllers\OrderOnlineController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -138,4 +139,10 @@ Route::resource('product_size_amounts', ProductSizeAmountController::class);
 Route::resource('descriptionImages', DescriptionImageController::class);
 
 
+Route::resource('orderOnline', OrderOnlineController::class);
+
+
+Route::get('/client-profile/{client}', [ClientController::class, 'show']);
+
+Route::resource('editClientProfile', ClientController::class);
 

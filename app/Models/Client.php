@@ -53,4 +53,9 @@ class Client extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     }
+
+    public function clientPermissions()
+    {
+        return $this->belongsToMany(Permission::class, 'clients_permissions', 'client_id', 'permission_id');
+    }
 }

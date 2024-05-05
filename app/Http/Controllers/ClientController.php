@@ -13,7 +13,7 @@ class ClientController extends Controller
 
      public function __construct()
     {
-        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+        $this->middleware('auth:client'); //bắt buộc khi sử dụng phải đăng nhập
     }
     public function index()
     {

@@ -58,7 +58,7 @@
         </li>
     </div>
     </li>
-      
+
 
   <div v-if="roleId =='2'">
     <li class="nav-item ">
@@ -273,6 +273,8 @@ export default {
         localStorage.removeItem('id');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('permission_id');
+        localStorage.removeItem('role_id');
+        localStorage.removeItem('shop_id');
         this.$router.push('/login');
       }).catch(error => {
         if (error.status === 302 || 401) {

@@ -32,5 +32,5 @@ class ProductSizeAmount extends Model
         return $this->belongsTo(Storage::class);
     }
 
-    
+
 }

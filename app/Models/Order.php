@@ -14,7 +14,7 @@ class Order extends Model
         'price',
         'detail',
         'order_code',
-    
+        'client_id',
         'user_id',
         'status',
     ];
@@ -27,6 +27,10 @@ class Order extends Model
     public function order_product()
     {
         return $this->hasMany(OrderProduct::class);
+    }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 }
 

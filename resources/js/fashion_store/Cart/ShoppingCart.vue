@@ -194,7 +194,7 @@ export default {
             }));
 
             // Gửi đơn hàng lên server
-            axios.post('/api/orders', this.order)
+            axios.post('/api/orderOnline', this.order)
                 .then(response => {
 
                     console.log('Order submitted successfully:', response.data);

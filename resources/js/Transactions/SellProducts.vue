@@ -1,6 +1,6 @@
 <template>
     <div class="shoppingCart">
-      
+
         <section class="h-100 h-custom">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -96,6 +96,27 @@
                                                     placeholder="Enter your details">
                                             </div>
 
+                                            <h5 class="text-uppercase mb-3">Enter Name</h5>
+                                            <div class="mb-4 pb-2">
+                                                <input type="text" id="client_name" v-model="orderClientName"
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Enter your name">
+                                            </div>
+
+                                            <h5 class="text-uppercase mb-3">Enter Address</h5>
+                                            <div class="mb-4 pb-2">
+                                                <input type="text" id="address" v-model="orderAddress"
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Enter your address">
+                                            </div>
+
+                                            <h5 class="text-uppercase mb-3">Enter Contacts</h5>
+                                            <div class="mb-4 pb-2">
+                                                <input type="text" id="phone_number" v-model="orderPhoneNumber"
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Enter your Contacts">
+                                            </div>
+
                                             <!-- Total price -->
                                             <hr class="my-4">
                                             <div class="d-flex justify-content-between mb-5">
@@ -116,7 +137,7 @@
                 </div>
             </div>
         </section>
-       
+
     </div>
 </template>
 
@@ -147,9 +168,15 @@ export default {
                 user_id: '',
                 status: '',
                 products: [],
+                client_name: '',
+                address: '',
+                phone_number: '',
 
             },
             orderDetail: '',
+            orderClientName: '',
+            orderPhoneNumber: '',
+            orderAddress: '',
 
         }
     },
@@ -182,6 +209,9 @@ export default {
 
             this.order.price = this.getTotalPrice();
             this.order.detail = this.orderDetail; //
+            this.order.client_name = this.orderClientName; //
+            this.order.address = this.orderAddress; //
+            this.order.phone_number = this.orderPhoneNumber; //
 
 
             this.order.products = this.cartItems.map(item => ({
@@ -207,7 +237,7 @@ export default {
         }
     },
 
-   
+
 
     created() {
         const savedCart = localStorage.getItem('cart');

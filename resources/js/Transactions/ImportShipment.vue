@@ -248,7 +248,7 @@
                         <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + product_size_amountIndex"
                             aria-expanded="false" aria-controls="collapseExample">
                             <td class="center-text">{{ product_size_amount.id }}</td>
-                            <td class="center-text">{{ product_size_amount.created_at }}</td>
+                            <td class="center-text">{{ formatDate(product_size_amount.created_at) }}</td>
                             <td class="center-text">{{ product_size_amount.import_code }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined me-2">
@@ -282,7 +282,7 @@
                                                 <p class="me-3"><strong>Total Cost: </strong> {{ product_size_amount.import_cost }}</p>
                                             </div>
                                             <div class="col me-6">
-                                                <p class="me-3"><strong>Total Cost: </strong> {{ product_size_amount.storage.product_id }}</p>
+                                                <p class="me-3"><strong>Product: </strong> {{ getProductName(product_size_amount.storage.product_id) }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -400,6 +400,27 @@ export default {
     },
 
     methods: {
+
+        formatDate(datetime) {
+        // Tạo đối tượng Date từ chuỗi thời gian
+        const date = new Date(datetime);
+
+        // Lấy thông tin ngày, tháng, năm
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Tháng trong JavaScript là 0-based, nên cần +1
+        const year = date.getFullYear();
+
+        // Định dạng ngày tháng theo kiểu 'dd/mm/yyyy' hoặc bạn có thể tùy chỉnh theo định dạng mong muốn
+        return `${day}/${month}/${year}`;
+    },
+
+        getProductName(productId) {
+        // Tìm kiếm sản phẩm trong danh sách products
+        const product = this.products.find(product => product.id === productId);
+        // Trả về tên sản phẩm nếu tìm thấy, nếu không thì trả về chuỗi trống hoặc giá trị mặc định khác
+        return product ? product.name : 'Unknown Product';
+    },
+
         getSizeName(sizeId) {
             const size = this.sizes.find(size => size.id === sizeId);
             return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy

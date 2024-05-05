@@ -14,6 +14,7 @@ import EditProduct from './Products/EditProduct.vue';
 import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
+import LoginShop from './components/LoginShop.vue';
 import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
 import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
@@ -35,6 +36,9 @@ import SellProducts from './Transactions/SellProducts.vue';
 import InvoiceTest from  './Transactions/InvoiceTest.vue';
 import ShopDetail from './Transactions/ShopDetail.vue';
 import ProductPage from './Transactions/ProductPage.vue';
+import ClientProfile from './fashion_store/ClientProfile/ClientProfile.vue';
+import Profile2 from './Profile/Profile2.vue';
+
 
 export const routes = [
     {
@@ -65,11 +69,11 @@ export const routes = [
         path: '/signup',
         component: SignUp,
     },
-    {
-        name: 'profile',
-        path: '/profile',
-        component: Profile,
-    },
+    // {
+    //     name: 'profile',
+    //     path: '/profile',
+    //     component: Profile,
+    // },
     {
         name: 'editProfile',
         path: '/users/:id/edit',
@@ -244,6 +248,25 @@ export const routes = [
         path: '/calvinKleinMainPage',
         component: CalvinKleinMainpage,
     },
+
+    {
+        name: 'loginShop',
+        path: '/loginShop',
+        component: LoginShop,
+    },
+
+    {
+        name: 'clientProfile',
+        path: '/clientProfile',
+        component: ClientProfile,
+    },
+
+    {
+        name: 'profile',
+        path: '/profile',
+        component: Profile2,
+    },
+
 
 
 

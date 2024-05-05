@@ -83,6 +83,7 @@ export default {
     const token = localStorage.getItem('authToken');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const id = localStorage.getItem('id');
+    const client_id = localStorage.getItem('client_id');
     if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
       this.$router.push('/fashion');
     } else {

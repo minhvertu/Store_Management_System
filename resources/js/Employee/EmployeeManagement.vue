@@ -17,9 +17,9 @@
       </div>
       <div class="col">
         <div class="text-end">
-          <button class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
+          <!-- <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
             data-bs-target="#addEmployeeModal" data-bs-whatever="@mdo" v-if="addPermission">Add
-            Employees</button>
+            Employees</button> -->
           <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
             @click="exportEmployees">
             Export Data
@@ -93,7 +93,7 @@
               <span class="arrow" :class="sortOrders['phone_number'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
             <th scope="col" class="center-text  text-uppercase" @click="sortBy('salary_code')">
-              Salary Code
+              Email
               <span class="arrow" :class="sortOrders['salary_code'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
             <th scope="col" class="center-text text-uppercase" @click="sortBy('card_id')">

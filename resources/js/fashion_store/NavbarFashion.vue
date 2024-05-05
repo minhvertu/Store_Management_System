@@ -1,7 +1,7 @@
 <template>
     <div class="navbar_fashion">
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top"> -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="index.html">
                 <img src="../fashion_store/images/Vertu-logo.jpg" alt="site icon" style="height:  20px;">
@@ -57,6 +57,23 @@
         <li>
             <router-link to="/login" class="dropdown-item">Login</router-link>
         </li>
+
+        <li>
+            <router-link to="/signUp" class="dropdown-item">Sign Up</router-link>
+        </li>
+
+        <li>
+            <router-link to="/clientProfile" class="dropdown-item">Profile</router-link>
+        </li>
+
+
+        <li>
+            <router-link to="/loginShop" class="dropdown-item">Shop</router-link>
+        </li>
+
+        <li>
+            <a @click.prevent="logout" class="dropdown-item">Log Out</a>
+        </li>
         <!-- Bạn có thể thêm các mục khác ở đây nếu cần -->
     </ul>
 </li>
@@ -72,6 +89,28 @@
 <script>
  export default {
     name: "navbar_fashion",
+
+    methods: {
+        logout: function () {
+      axios.post('/api/logout').then(response => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('permission_id');
+        localStorage.removeItem('role_id');
+        localStorage.removeItem('shop_id');
+        this.$router.push('/loginShop');
+      }).catch(error => {
+        if (error.status === 302 || 401) {
+          // document.location.href = '/login'
+          this.$router.push('/loginShop');
+        }
+        else {
+          // throw error and go to catch block
+        }
+      })
+    },
+    },
  }
 
 </script>

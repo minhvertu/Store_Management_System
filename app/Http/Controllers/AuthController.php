@@ -25,6 +25,7 @@ class AuthController extends Controller
         'password' => 'required|string|min:6',
     ]);
 
+
     // Lấy email và kiểm tra định dạng
     $email = $request->email;
     $name = $request->name;
@@ -32,14 +33,19 @@ class AuthController extends Controller
     $token = null;
     $responseData = [];
 
-    if (str_contains($email, '@employee.com')) {
+    if (str_contains($email, '@Shop1employee.com')) {
         // Tạo user với role_id = 1
+        $employeeCode = $this->generateEmployeeCode();
         $roleId = 1;
+        $shopId = 2;
         $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => $password,
+            'employee_code' => $employeeCode,
             'role_id' => $roleId,
+            'shop_id' => $shopId,
+
         ]);
 
         // Đăng nhập người dùng và tạo token
@@ -51,14 +57,43 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ],
         ];
-    } elseif (str_contains($email, '@manager.com')) {
+    } else if (str_contains($email, '@Shop2employee.com')) {
+        // Tạo user với role_id = 1
+        $employeeCode = $this->generateEmployeeCode();
+        $roleId = 1;
+        $shopId = 3;
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'employee_code' => $employeeCode,
+            'role_id' => $roleId,
+            'shop_id' => $shopId,
+
+        ]);
+
+        // Đăng nhập người dùng và tạo token
+        $token = Auth::guard('api')->login($user);
+        $responseData = [
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ],
+        ];
+    }
+     elseif (str_contains($email, '@Shop1manager.com')) {
         // Tạo user với role_id = 2
         $roleId = 2;
+        $shopId = 2;
+        $employeeCode = $this->generateEmployeeCode();
         $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => $password,
+            'employee_code' => $employeeCode,
             'role_id' => $roleId,
+            'shop_id' => $shopId,
         ]);
 
         // Đăng nhập người dùng và tạo token
@@ -70,7 +105,31 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ],
         ];
-    } else {
+    } elseif (str_contains($email, '@Shop2manager.com')) {
+        // Tạo user với role_id = 2
+        $roleId = 2;
+        $shopId = 3;
+        $employeeCode = $this->generateEmployeeCode();
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'employee_code' => $employeeCode,
+            'role_id' => $roleId,
+            'shop_id' => $shopId,
+        ]);
+
+        // Đăng nhập người dùng và tạo token
+        $token = Auth::guard('api')->login($user);
+        $responseData = [
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ],
+        ];
+    }
+     else {
         // Tạo client
         $client = Client::create([
             'name' => $name,
@@ -174,6 +233,26 @@ public function login(Request $request)
             ]
         ]);
     }
+
+    public function generateEmployeeCode()
+    {
+        $digits = 3; // Số lượng chữ số
+        $letters = 2; // Số lượng chữ cái
+
+        $numbers = '';
+        for ($i = 0; $i < $digits; $i++) {
+            $numbers .= mt_rand(0, 9); // Tạo ngẫu nhiên chữ số từ 0 đến 9
+        }
+
+        $characters = '';
+        $lettersRange = range('A', 'Z'); // Mảng chứa các chữ cái từ A đến Z
+        for ($i = 0; $i < $letters; $i++) {
+            $characters .= $lettersRange[array_rand($lettersRange)]; // Chọn ngẫu nhiên một chữ cái từ mảng
+        }
+
+        return 'EMP' . $numbers . $characters;
+    }
+
 
 
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\DemoMail;
 use App\Models\Order;
+use App\Mail\DemoMail;
 use App\Models\Product;
 use App\Models\ProductSizeAmount;
 use App\Models\Storage;
@@ -11,8 +11,7 @@ use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-
-class OrderController extends Controller
+class OrderOnlineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,39 +19,24 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-        // $this->middleware('auth:client'); //bắt buộc khi sử dụng phải đăng nhập
+        // $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+        $this->middleware('auth:client'); //bắt buộc khi sử dụng phải đăng nhập
     }
 
     public function index(Request $request)
 {
     // Lấy shop_id từ người dùng đang đăng nhập
-    $shopId = $request->user()->shop_id;
+    // $shopId = $request->user()->shop_id;
 
-    // Khởi tạo truy vấn để lấy các đơn hàng
-    $ordersQuery = Order::with(['user', 'order_product.product', 'client']);
-
-    // Thêm điều kiện lọc theo shop_id nếu có user_id hoặc không có client_id
-    $ordersQuery->where(function ($query) use ($shopId) {
-        // Nếu có user_id, lọc theo shop_id của user
-        $query->where(function ($subQuery) use ($shopId) {
-            $subQuery->whereNotNull('user_id')
-                ->whereHas('user', function ($userQuery) use ($shopId) {
-                    $userQuery->where('shop_id', $shopId);
-                });
-        });
-
-        // Điều kiện cho các đơn hàng có client_id và không có user_id
-        if ($shopId == 2) {
-            $query->orWhere(function ($subQuery) {
-                $subQuery->whereNull('user_id')
-                    ->whereNotNull('client_id');
-            });
-        }
-    });
-
-    // Lấy danh sách các đơn hàng từ truy vấn
-    $orders = $ordersQuery->get();
+    // // Lọc các đơn hàng mà có user_id thuộc về shop_id của người dùng đang đăng nhập
+    // $orders = Order::with(['user', 'order_product.product'])
+    //     ->whereHas('user', function ($query) use ($shopId) {
+    //         // Lọc theo shop_id trong mối quan hệ với user
+    //         $query->where('shop_id', $shopId);
+    //     })
+    //     ->get();
+    $orders = Order::with ([ 'user','order_product.product', 'client'
+    ])->get();
 
     // Cập nhật sell_price của order_product dựa trên product
     foreach ($orders as $order) {
@@ -65,9 +49,6 @@ class OrderController extends Controller
     // Trả về danh sách các đơn hàng được lọc dưới dạng JSON
     return response()->json($orders);
 }
-
-
-
 
 
 
@@ -93,7 +74,7 @@ class OrderController extends Controller
             // Kiểm tra nếu người dùng đã đăng nhập
             if ($request->user()) {
                 // Lấy `user_id` từ người dùng đang đăng nhập
-                $order->user_id = $request->user()->id;
+                $order->client_id = $request->user()->id;
             } else {
                 // Nếu `user_id` là null, để trống `user_id`
                 $order->user_id = null;
@@ -148,10 +129,7 @@ class OrderController extends Controller
             // Lưu tổng giá vào đơn hàng
             $order->price = $totalPrice;
             $order->detail = $request->detail;
-            $order->phone_number = $request->phone_number;
-            $order->client_name = $request->client_name;
-            $order->address = $request->address;
-            // Mail::to($request->user()->email)->send(new DemoMail($order));
+            Mail::to($request->user()->email)->send(new DemoMail($order));
             $order->save();
 
             // Trả về đơn hàng dưới dạng JSON

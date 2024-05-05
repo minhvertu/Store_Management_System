@@ -38,14 +38,14 @@ class OrderProductController extends Controller
     public function store(Request $request)
     {
         //
-        if ($request->user()->can('create-orders')) {
+
             $order_product = new OrderProduct();
             $order_product->amount = $request->input('amount');
             $order_product->product_id = $request->input('product_id');
             $order_product->order_id = $request->input('order_id');
             $order_product->save();
             return response()->json($order_product);
-        }
+        
         return response([
             'status' => false,
             'message' => 'You don\'t have permission to create Order!'
