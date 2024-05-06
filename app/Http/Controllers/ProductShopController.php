@@ -7,16 +7,8 @@ use App\Models\DescriptionImage;
 use Illuminate\Http\Request;
 use App\Exports\ProductExport;
 use Maatwebsite\Excel\Facades\Excel;
-class ProductController extends Controller
+class ProductShopController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-        
-    // }
-
-    
 
 
     /**

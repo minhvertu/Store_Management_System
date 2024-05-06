@@ -308,28 +308,64 @@ class OrderController extends Controller
 
     public function calculateShopRevenue(Request $request)
     {
-        // Lấy shop_id từ người dùng đang đăng nhập
+       
         $shopId = $request->user()->shop_id;
 
-        // Kiểm tra nếu người dùng không có shop_id
+       
         if (!$shopId) {
             return response()->json(['error' => 'User does not belong to any shop'], 400);
         }
 
-        // Tính tổng doanh thu của cửa hàng bằng cách lấy tổng tiền của các đơn hàng
-        // mà user (người bán) có shop_id bằng shopId của người dùng đang đăng nhập
-        // và có trạng thái là 'paid' hoặc 'shipping'
+      
         $totalShopRevenue = Order::whereHas('user', function ($query) use ($shopId) {
             $query->where('shop_id', $shopId);
         })
         ->whereIn('status', ['paid', 'shipping'])
         ->sum('price');
 
-        // Trả về doanh thu của cửa hàng dưới dạng JSON
+       
         return response()->json([
             'shop_id' => $shopId,
             'totalShopRevenue' => $totalShopRevenue
         ]);
     }
+
+
+    public function calculateMonthlyShopRevenue(Request $request)
+{
+   
+    $shopId = $request->user()->shop_id;
+
+   
+    if (!$shopId) {
+        return response()->json(['error' => 'User does not belong to any shop'], 400);
+    }
+
+    // Truy vấn doanh thu theo tháng của cửa hàng
+    $monthlyShopRevenue = Order::selectRaw('MONTH(created_at) as month, SUM(price) as total_revenue')
+        ->whereHas('user', function ($query) use ($shopId) {
+            $query->where('shop_id', $shopId);
+        })
+        ->whereIn('status', ['paid', 'shipping'])
+        ->groupBy('month')
+        ->get();
+
+    // Tạo mảng trống với 12 phần tử (từ tháng 1 đến tháng 12)
+    $monthlyRevenue = array_fill(0, 12, 0);
+
+    // Điền doanh thu theo tháng vào mảng
+    foreach ($monthlyShopRevenue as $item) {
+        // Lưu ý rằng `month` là giá trị số của tháng (1 đến 12)
+        $monthIndex = $item->month - 1; // Chuyển đổi tháng sang chỉ mục mảng
+        $monthlyRevenue[$monthIndex] = $item->total_revenue;
+    }
+
+  
+    return response()->json([
+        'monthlyShopRevenue' => $monthlyRevenue
+    ]);
+}
+
+   
 
 }

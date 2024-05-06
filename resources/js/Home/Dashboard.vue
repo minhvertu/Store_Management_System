@@ -42,7 +42,7 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <card
                             :title="stats.sales.title"
-                            :value="totalShopImportCost"
+                            :value="`$${totalShopImportCost}`"
                             :percentage="stats.sales.percentage"
                             :iconClass="stats.sales.iconClass"
                             :iconBackground="stats.sales.iconBackground"
@@ -54,7 +54,7 @@
                         <p class="h3">Doanh thu</p>
                     </div>
                     <div class="col">
-                        <Bar
+                        <Bar v-if="load"
                             id="my-chart-id"
                             :options="chartOptions"
                             :data="chartData"
@@ -86,6 +86,7 @@ export default {
     },
     data() {
         return {
+            load: false,
             totalOrderPrice: 0,
             totalCustomer: 0,
             totalOrder: 0,
@@ -109,9 +110,10 @@ export default {
                 ],
                 datasets: [
                     {
-                        label: "Data One",
+                        label: "Revenue By Month",
                         backgroundColor: "#70e6de",
-                        data: [40, 39, 10, 40, 39, 80, 40, 100, 200, 0, 15, 19],
+                        data: [],
+                        
                     },
                 ],
             },
@@ -124,7 +126,7 @@ export default {
                     title: "Total Revenue",
                     value: "$53,000",
                     percentage: "+55%",
-                    iconClass: "fa-regular fa-money-bill-1",
+                    iconClass: "fa-solid fa-arrow-trend-up fa-bounce", 
                     detail: "since yesterday",
                     iconBackground: "bg-gradient-primary",
                 },
@@ -132,7 +134,7 @@ export default {
                     title: "Total Orders",
                     value:  "2300",
                     percentage: "+3%",
-                    iconClass: "fa-solid fa-cart-shopping",
+                    iconClass: "fa-solid fa-cart-shopping fa-bounce",
                     iconBackground: "bg-gradient-danger",
                     detail: "since last week",
                 },
@@ -146,10 +148,10 @@ export default {
                     detail: "since last quarter",
                 },
                 sales: {
-                    title: "Sales",
+                    title: "Import Cost",
                     value: "$103,430",
                     percentage: "+5%",
-                    iconClass: "fa-solid fa-arrow-trend-up",
+                    iconClass: "fa-regular fa-money-bill-1",
                     iconBackground: "bg-gradient-warning",
                     detail: "than last month",
                 },
@@ -166,10 +168,69 @@ export default {
     this.getTotalOrder();
     this.getShopRevenue();
     this.getShopImportCost();
+    // this.getMonthShopImportCost();
+    this.getMonthShopRevenue();
     },
 
     methods: {
 
+        async getMonthShopRevenue() {
+    try {
+        
+        const revenueResponse = await axios.get('/api/orders/monthly-revenue-shop');
+
+        
+        const importCostResponse = await axios.get('/api/storages/monthly-import-cost');
+
+      
+        const monthlyShopRevenue = revenueResponse.data.monthlyShopRevenue;
+        const monthlyShopImportCost = importCostResponse.data.monthlyShopImportCost;
+
+        
+        const monthlyNetRevenue = [];
+
+        
+        for (let i = 0; i < monthlyShopRevenue.length; i++) {
+            const netRevenue = monthlyShopRevenue[i] - monthlyShopImportCost[i];
+            monthlyNetRevenue.push(netRevenue);
+        }
+
+       
+        this.chartData.datasets[0].data = monthlyNetRevenue;
+
+        this.load = true;
+    } catch (error) {
+        console.error(error);
+    }
+},
+
+
+        // async getMonthShopRevenue() {
+        //     try {
+        //         const response = await axios.get('/api/orders/monthly-revenue-shop');
+
+        //         // this.datasets.data = response.data.monthlyShopImportCost;
+        //         this.chartData.datasets[0].data = response.data.monthlyShopRevenue;
+                
+        //         this.load = true;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
+
+        // async getMonthShopImportCost() {
+        //     try {
+        //         const response = await axios.get('/api/storages/monthly-import-cost');
+
+        //         // this.datasets.data = response.data.monthlyShopImportCost;
+        //         this.chartData.datasets[0].data = response.data.monthlyShopImportCost;
+                
+        //         this.load = true;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
+        
         async getShopImportCost() {
             try {
                 const response = await axios.get('/api/storages/total-import_cost-shop');

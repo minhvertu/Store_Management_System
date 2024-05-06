@@ -190,10 +190,10 @@ class StorageController extends Controller
     // }
     public function calculateTotalImportCost(Request $request)
     {
-        // Truy vấn để lấy tổng chi phí nhập hàng (import_cost) từ bảng ProductSizeAmount
+
         $totalImportCost = ProductSizeAmount::sum('import_cost');
 
-        // Trả về tổng chi phí nhập hàng dưới dạng JSON
+       
         return response()->json(['totalImportCost' => $totalImportCost]);
     }
 
@@ -240,6 +240,39 @@ class StorageController extends Controller
         ]);
     }
 
+
+    public function calculateMonthlyShopImportCost(Request $request)
+{
+   
+    $shopId = $request->user()->shop_id;
+
+   
+    if (!$shopId) {
+        return response()->json(['error' => 'User does not belong to any shop'], 400);
+    }
+
+    // Truy vấn tổng chi phí nhập hàng theo tháng của cửa hàng
+    $monthlyShopImportCost = ProductSizeAmount::selectRaw('MONTH(created_at) as month, SUM(import_cost) as total_import_cost')
+        ->whereHas('storage', function ($query) use ($shopId) {
+            $query->where('shop_id', $shopId);
+        })
+        ->groupBy('month')
+        ->get();
+
+    // Khởi tạo mảng với 12 phần tử (từ tháng 1 đến tháng 12) với giá trị mặc định là 0
+    $monthlyData = array_fill(0, 12, 0);
+
+    // Cập nhật tổng chi phí nhập hàng theo tháng trong mảng
+    foreach ($monthlyShopImportCost as $item) {
+        // Đảo ngược phần tử của mảng để định dạng dữ liệu theo thứ tự của tháng (0-11)
+        $monthlyData[$item->month - 1] = $item->total_import_cost;
+    }
+
+  
+    return response()->json([
+        'monthlyShopImportCost' => $monthlyData,
+    ]);
+}
 
 
 }

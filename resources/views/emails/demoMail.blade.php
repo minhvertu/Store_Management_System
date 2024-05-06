@@ -45,7 +45,7 @@
         .image-container {
             width: 100px; /* Tăng kích thước của hình ảnh */
             height: 100px;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
         .image-container img {
             width: 100%;
@@ -63,7 +63,7 @@
 </head>
 <body>
     <div class="container mb-5 mt-3">
-        <div class="invoice-container">
+        <div class="invoice-container"  style="text-align: center;">
             <!-- Invoice Header -->
             <div class="invoice-header">
                 <div class="row">
@@ -91,8 +91,8 @@
             </div>
 
             <!-- Product List -->
-            <div class="table-responsive">
-                <table class="table table-striped table-borderless invoice-table">
+            <div class="table-responsive" >
+                <table class="table table-striped table-borderless invoice-table"   style="margin: 0 auto; text-align: center;">
                     <thead style="background-color:#84B0CA;" class="text-white">
                         <tr>
                             <th>Product Image</th>
@@ -107,11 +107,12 @@
                             <tr>
                                 <td>
                                     <div class="image-container">
-                                        <img src="/storage/{{ $order_product->product->image }}" alt="Product Image">
+                                        {{-- <img src="/storage/{{ $order_product->product->image }}" alt="Product Image"> --}}
+                                        <img src="{{ $message->embed('storage/' . $order_product->product->image) }}" alt="Product Image">
                                     </div>
                                 </td>
                                 <td>{{ $order_product->product->name }}</td>
-                                <td>{{ $order_product->amount }}</td>
+                                <td >{{ $order_product->amount }}</td>
                                 <td>{{ $order->detail }}</td>
                                 <td>${{ number_format($order_product->product->sell_price, 2) }}</td>
                             </tr>
@@ -133,6 +134,13 @@
                     <p class="total-amount">
                         <strong>Total Amount:</strong> ${{ number_format($order->price, 2) }}
                     </p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <p><strong>Cảm ơn quý khách đã lựa chọn mua hàng tại cửa hàng của chúng tôi.</strong> Chúng tôi hy vọng sẽ tiếp tục được phục vụ quý khách trong những lần mua hàng tiếp theo.</p>
+                    <p>Nếu quý khách cần hỗ trợ thêm, vui lòng liên hệ với chúng tôi qua số điện thoại hoặc email.</p>
                 </div>
             </div>
         </div>

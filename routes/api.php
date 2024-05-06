@@ -20,6 +20,8 @@ use App\Http\Controllers\ProductSizeAmountController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DescriptionImageController;
 use App\Http\Controllers\OrderOnlineController;
+use App\Http\Controllers\ProductShopController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -94,6 +96,9 @@ Route::resource('suppliers', SupplierController::class);
 
 Route::get('/storages/total-import-cost', [StorageController::class, 'calculateTotalImportCost']);
 
+Route::get('/storages/monthly-import-cost', [StorageController::class, 'calculateMonthlyShopImportCost']);
+
+
 Route::get('/storages/total-import_cost-shop', [StorageController::class, 'calculateShopImportCost']);
 
 Route::resource('storages', StorageController::class);
@@ -107,6 +112,8 @@ Route::resource('categories', CategoryController::class);
 
 //Orders
 Route::get('/orders/total-revenue-shop', [OrderController::class, 'calculateShopRevenue']);
+
+Route::get('/orders/monthly-revenue-shop', [OrderController::class, 'calculateMonthlyShopRevenue']);
 
 
 
@@ -146,3 +153,5 @@ Route::get('/client-profile/{client}', [ClientController::class, 'show']);
 
 Route::resource('editClientProfile', ClientController::class);
 
+
+Route::resource('productShop', ProductShopController::class);

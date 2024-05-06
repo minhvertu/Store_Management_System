@@ -55,7 +55,7 @@
                             <i class="fas fa-envelope"></i>
                         </span>
                         <span class="fw-light">
-                            Vertu.support@gmail.com
+                            VertuPhanBoutique@gmail.com
                         </span>
                     </div>
                     <div class="d-flex justify-content-start align-items-start my-2 text-muted">
@@ -63,7 +63,7 @@
                             <i class="fas fa-phone-alt"></i>
                         </span>
                         <span class="fw-light">
-                            +9786 6776 236
+                            +84 865 950 520
                         </span>
                     </div>
                 </div>
@@ -73,17 +73,17 @@
                     <div>
                         <ul class="list-unstyled d-flex">
                             <li>
-                                <a href="#" class="text-white text-decoration-none text-muted fs-4 me-4">
+                                <a href="https://www.facebook.com/GUCCI/?locale=vi_VN" class="text-white text-decoration-none text-muted fs-4 me-4">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="text-white text-decoration-none text-muted fs-4 me-4">
+                                <a href="https://www.harrods.com/en-gr" class="text-white text-decoration-none text-muted fs-4 me-4">
                                     <i class="fab fa-twitter"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="text-white text-decoration-none text-muted fs-4 me-4">
+                                <a href="https://www.instagram.com/gucci/" class="text-white text-decoration-none text-muted fs-4 me-4">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             </li>

@@ -128,14 +128,11 @@ export default {
                     password: this.formData.password,
                 });
 
-                // Xử lý phản hồi thành công
                 const { token } = response.data.authorisation;
-
-                // Lưu token vào localStorage
+             
                 localStorage.setItem('authToken', token);
-
-                // Điều hướng người dùng đến trang khác (ví dụ: trang chủ)
-                this.$router.push('/login');
+              
+                this.$router.push('/fashion');
 
                 alert('Registration successful!');
             } catch (error) {

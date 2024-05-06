@@ -54,6 +54,12 @@
                                             v-model="product.sell_price" />
                                     </div>
 
+                                    <div class="mb-3">
+                                        <label for="detail" class="form-label">Detail</label>
+                                        <input class="form-control" type="text" id="detail"
+                                            v-model="product.detail" />
+                                    </div>
+
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="product.gender_item_code">
                                         <option disabled value="">Select Gender</option>
@@ -333,7 +339,7 @@ export default {
                 import_price: '',
                 sell_price: '',
                 gender_item_code: '',
-
+                detail: '',
                 brand_id: '',
                 category_id: '',
                 image: '',
@@ -345,7 +351,7 @@ export default {
                 import_price: '',
                 sell_price: '',
                 gender_item_code: '',
-
+                detail: '',
                 brand_id: '',
                 category_id: '',
                 image: '',
@@ -441,6 +447,7 @@ export default {
                 import_price: product.import_price,
                 sell_price: product.sell_price,
                 gender_item_code: product.gender_item_code,
+                detail: product.detail,
 
                 brand_id: product.brand_id,
                 category_id: product.category_id,
@@ -490,6 +497,7 @@ export default {
                 formData.append('name', this.product.name);
                 formData.append('import_price', this.product.import_price);
                 formData.append('sell_price', this.product.sell_price);
+                formData.append('detail', this.product.detail);
 
                 formData.append('gender_item_code', this.product.gender_item_code);
                 formData.append('brand_id', this.product.brand_id);

@@ -57,7 +57,7 @@
                                     (Additional tax may apply on checkout)
                                 </p>
                                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                    v-model="products.size_id" style="width: 150px;">
+                                    v-model="products.size_id" style="width: 100px;">
                                     <option disabled value="">Select Sizes</option>
                                     <option v-for="size in sizes" :key="size.id" :value="size.id">
                                         {{ size.name }}
@@ -90,10 +90,11 @@
                                 Product Details
                             </p>
                             <p class="description">
-                                Lorem ipsum dolor sit amet consectetur
+                                <!-- Lorem ipsum dolor sit amet consectetur
                                 adipisicing elit. Placeat excepturi odio
                                 recusandae aliquid ad impedit autem commodi
-                                earum voluptatem laboriosam?
+                                earum voluptatem laboriosam? -->
+                                {{products.detail }}
                             </p>
                         </div>
 
@@ -189,14 +190,13 @@
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="title text-center pt-3 pb-5">
                         <h2 class="position-relative d-inline-block ms-4">
-                            Newsletter Subscription
+                            Inspiration Quote
                         </h2>
                     </div>
 
                     <p class="text-center text-muted">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Possimus rem officia accusantium maiores quisquam
-                        dolorum?
+                        "Sự tuân thủ là tội ác thực sự đối với thời trang. 
+                        Lựa chọn không mặc theo cá tính của chính mình mà bán rẻ linh hồn để giống hệt một nhóm người chính là hành động đầu hàng trước chủ nghĩa phát-xít của thời trang." - Simon Doonan
                     </p>
                 </div>
             </div>
