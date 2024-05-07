@@ -17,7 +17,7 @@
         }
         .invoice-container {
             background-color: #fff;
-            padding: 40px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Tạo bóng mờ */
         }
@@ -68,7 +68,7 @@
             <div class="invoice-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2 class="invoice-title">Vertu Invoice</h2>
+                        <img src="{{ $message->embed('storage/images/vertu_logo2.jpg') }}" alt="Logo" style="width: 100px; height: auto;">
                         <p class="invoice-details">Invoice ID: {{ $order->order_code }}</p>
                         <p class="invoice-details">Date: {{ \Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</p>
                     </div>

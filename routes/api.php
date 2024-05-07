@@ -21,6 +21,12 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DescriptionImageController;
 use App\Http\Controllers\OrderOnlineController;
 use App\Http\Controllers\ProductShopController;
+use App\Http\Controllers\UserPermissionController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\RoleController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -155,3 +161,14 @@ Route::resource('editClientProfile', ClientController::class);
 
 
 Route::resource('productShop', ProductShopController::class);
+
+Route::resource('userPermissions', UserPermissionController::class);
+
+Route::resource('permissions', PermissionController::class);
+
+Route::resource('userRoles', UserRoleController::class);
+
+Route::resource('roles', RoleController::class);
+
+
+

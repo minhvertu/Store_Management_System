@@ -8,7 +8,7 @@
                 <div class="col">
                     <div class="input-group rounded" style="width: 55%;">
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                            aria-describedby="search-addon" v-model="searchKeyword" @input="searchEmployees" />
+                            aria-describedby="search-addon" v-model="searchKeyword" @input="searchOrders" />
                     </div>
                 </div>
                 <div class="col">
@@ -72,7 +72,7 @@
                     </thead>
 
                     <tbody>
-                        <template v-for="(order, index) in orders" :key="'order-' + index">
+                        <template v-for="(order, index) in  filteredOrders" :key="'order-' + index">
                             <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index"
                                 aria-expanded="false" aria-controls="collapseExample">
                                 <td class="align-middle text-center text-sm">
@@ -239,6 +239,19 @@
                         </template>
                     </tbody>
                 </table>
+                <div v-if="showPagination">
+        <ul class="pagination justify-content-end" style="font-size: 80%">
+          <li :class="{ 'disabled': currentPage === 1 }">
+            <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
+          </li>
+          <li v-for="page in totalPages" :key="page" :class="{ 'active': currentPage === page }">
+            <a class="page-link" href="#" @click.prevent="goToPage(page)">{{ page }}</a>
+          </li>
+          <li :class="{ 'disabled': currentPage === totalPages }">
+            <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
+          </li>
+        </ul>
+      </div>
             </div>
         </div>
 </template>
@@ -278,6 +291,12 @@ export default {
             error: {
                 message: ''
             },
+            searchKeyword: '',
+            listView: true,
+            currentPage: 1,
+            pageSize: 10,
+            sortKey: "", // Cột hiện tại được sắp xếp
+            sortOrders: {}, // Hướng sắp xếp của các cột
 
         }
     },
@@ -288,7 +307,64 @@ export default {
         this.shopId = localStorage.getItem('shop_id');
 
     },
+
+
+  mounted() {
+    this.getOrders();
+  },
     methods: {
+
+        goToPage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+
+    searchOrders() {
+      const keyword = this.searchKeyword.toLowerCase();
+      this.filteredOrders = this.orders.filter(order => {
+        return (
+            order.price.toLowerCase().includes(keyword) ||
+            // order.phone_number.includes(keyword) ||
+            // order.detail.toLowerCase().includes(keyword) ||
+            order.status.toLowerCase().includes(keyword) ||
+            // order.client_name.toLowerCase().includes(keyword) ||
+            // order.email.toLowerCase().includes(keyword) ||
+            order.order_code.toLowerCase().includes(keyword)
+        );
+      });
+    },
+    toggleListView() {
+      this.listView = !this.listView;
+    },
+
+    sortBy(key) {
+      // Kiểm tra xem cột hiện tại có phải là cột đang được sắp xếp không
+      if (this.sortKey === key) {
+        // Đảo hướng sắp xếp
+        this.sortOrders[key] = this.sortOrders[key] * -1;
+      } else {
+        // Nếu không phải, đặt cột hiện tại và hướng sắp xếp mới
+        this.sortKey = key;
+        this.sortOrders[key] = 1;
+      }
+
+      // Sắp xếp dữ liệu
+      this.filteredOrders.sort((a, b) => {
+        let modifier = this.sortOrders[key];
+        if (a[key] < b[key]) return -1 * modifier;
+        if (a[key] > b[key]) return 1 * modifier;
+        return 0;
+      });
+    },
 
         formatDate(datetime) {
         // Tạo đối tượng Date từ chuỗi thời gian
@@ -374,6 +450,40 @@ export default {
                 });
         },
     },
+
+    computed: {
+    filteredOrders() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      const keyword = this.searchKeyword.toLowerCase();
+      const filteredOrders = this.orders.filter(order => {
+        return (
+        //   order.name.toLowerCase().includes(keyword) ||
+            order.price.toLowerCase().includes(keyword) ||
+            // order.phone_number.includes(keyword) ||
+            // order.detail.toLowerCase().includes(keyword) ||
+            order.status.toLowerCase().includes(keyword) ||
+            // order.client_name.toLowerCase().includes(keyword) ||
+            // order.email.toLowerCase().includes(keyword) ||
+            order.order_code.toLowerCase().includes(keyword)
+        );
+      });
+      return filteredOrders.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      return Math.ceil(this.orders.length / this.pageSize);
+    },
+    showPagination() {
+      if (this.filteredOrders.length >= 4 || this.nextPage > 1) {
+        return true;
+
+      } else if (this.filteredOrders.length < 5 && this.nextPage == 1) {
+        return false;
+      }
+      return true;
+    },
+
+  },
 
 }
 </script>

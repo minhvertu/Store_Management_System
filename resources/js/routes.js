@@ -15,6 +15,8 @@ import NotFoundPage from './Error/NotFoundPage.vue';
 import App from './components/App.vue';
 import SignUp from './components/SignUp.vue';
 import LoginShop from './components/LoginShop.vue';
+import AdminPermissions from './components/AdminPermissions.vue';
+import UserRoles from './components/UserRoles.vue';
 import Dashboard from './Home/Dashboard.vue';
 import FashionMainPage from './fashion_store/FashionMainPage.vue';
 import YSLMainpage from './fashion_store/YSL/YSLMainpage.vue';
@@ -266,6 +268,19 @@ export const routes = [
         path: '/profile',
         component: Profile2,
     },
+
+    {
+        name: 'adminPermissions',
+        path: '/adminPermissions',
+        component: AdminPermissions,
+    },
+
+    {
+        name: 'userRoles',
+        path: '/userRoles',
+        component: UserRoles,
+    },
+
 
 
 

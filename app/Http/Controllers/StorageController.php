@@ -25,11 +25,11 @@ class StorageController extends Controller
         //
         $shopId = $request->user()->shop_id;
         $roleId = $request->user()->role_id;
-        if ($roleId == '2') {
+        if ($roleId == '4') {
             $storage = Storage::with ([ 'shop','product', 'product_size_amount'
             ])->get();
             return response()->json($storage);
-        } else if ( $roleId !='2') {
+        } else if ( $roleId !='4') {
             $storage = Storage::with(['shop', 'product', 'product_size_amount'])
             ->where('shop_id', $shopId) // Lọc theo shop_id
             ->get();
@@ -193,7 +193,7 @@ class StorageController extends Controller
 
         $totalImportCost = ProductSizeAmount::sum('import_cost');
 
-       
+
         return response()->json(['totalImportCost' => $totalImportCost]);
     }
 
@@ -243,10 +243,10 @@ class StorageController extends Controller
 
     public function calculateMonthlyShopImportCost(Request $request)
 {
-   
+
     $shopId = $request->user()->shop_id;
 
-   
+
     if (!$shopId) {
         return response()->json(['error' => 'User does not belong to any shop'], 400);
     }
@@ -268,7 +268,7 @@ class StorageController extends Controller
         $monthlyData[$item->month - 1] = $item->total_import_cost;
     }
 
-  
+
     return response()->json([
         'monthlyShopImportCost' => $monthlyData,
     ]);

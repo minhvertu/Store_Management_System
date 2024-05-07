@@ -17,15 +17,52 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
-        <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''" :navText="'User'">
 
-          <template v-slot:icon>
-            <span class="material-symbols-outlined">group</span>
-          </template>
-        </sidenav-item>
-      </li>
 
+
+    <div v-if="roleId == '4' ">
+        <li class="nav-item">
+            <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
+                aria-controls="applicationsExamples" role="button" aria-expanded="false">
+                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                <span class="material-symbols-outlined ">admin_panel_settings</span>
+                </div>
+                <span class="nav-link-text ms-1">Admin</span>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
+
+            <li>
+            <sidenav-item url="/adminPermissions" :class="getRoute() === '/adminPermissions' ? 'active' : ''"
+                :navText="'User Permissions'">
+
+                <template v-slot:icon>
+                <span class="material-symbols-outlined fa-lg">verified_user</span>
+                </template>
+            </sidenav-item>
+            </li>
+            <li>
+            <sidenav-item url="/userRoles" :class="getRoute() === '/userRoles' ? 'active' : ''"
+                :navText="'User Roles'">
+
+                <template v-slot:icon>
+                <span class="material-symbols-outlined fa-lg">shield_person</span>
+                </template>
+            </sidenav-item>
+            </li>
+
+            <li >
+                <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''" :navText="'User'">
+
+                <template v-slot:icon>
+                    <span class="material-symbols-outlined">group</span>
+                </template>
+                </sidenav-item>
+            </li>
+
+        </div>
+        </li>
+    </div>
 
         <li class="nav-item">
           <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
@@ -60,7 +97,7 @@
     </li>
 
 
-  <div v-if="roleId =='2'">
+  <div v-if="roleId == '2' || roleId == '4'">
     <li class="nav-item ">
       <a data-bs-toggle="dropdown" href="#applicationsExamples" class="nav-link dropdown-toggle"
         aria-controls="applicationsExamples" role="button" aria-expanded="false">

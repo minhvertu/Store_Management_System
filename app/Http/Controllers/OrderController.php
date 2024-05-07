@@ -25,46 +25,55 @@ class OrderController extends Controller
     }
 
     public function index(Request $request)
-{
-    // Lấy shop_id từ người dùng đang đăng nhập
-    $shopId = $request->user()->shop_id;
+    {
+        // Lấy role_id của người dùng đang đăng nhập
+        $roleId = $request->user()->role_id;
 
-    // Khởi tạo truy vấn để lấy các đơn hàng
-    $ordersQuery = Order::with(['user', 'order_product.product', 'client']);
+        // Khởi tạo truy vấn để lấy các đơn hàng
+        $ordersQuery = Order::with(['user', 'order_product.product', 'client']);
 
-    // Thêm điều kiện lọc theo shop_id nếu có user_id hoặc không có client_id
-    $ordersQuery->where(function ($query) use ($shopId) {
-        // Nếu có user_id, lọc theo shop_id của user
-        $query->where(function ($subQuery) use ($shopId) {
-            $subQuery->whereNotNull('user_id')
-                ->whereHas('user', function ($userQuery) use ($shopId) {
-                    $userQuery->where('shop_id', $shopId);
+        // Kiểm tra vai trò của người dùng
+        if ($roleId == 4) {
+            // Nếu người dùng có role_id là 4, truy vấn toàn bộ các đơn hàng
+            $orders = $ordersQuery->get();
+        } else {
+            // Nếu người dùng không có role_id là 4, thực hiện các điều kiện lọc theo shop_id
+            $shopId = $request->user()->shop_id;
+
+            // Thêm điều kiện lọc theo shop_id nếu có user_id hoặc không có client_id
+            $ordersQuery->where(function ($query) use ($shopId) {
+                // Nếu có user_id, lọc theo shop_id của user
+                $query->where(function ($subQuery) use ($shopId) {
+                    $subQuery->whereNotNull('user_id')
+                        ->whereHas('user', function ($userQuery) use ($shopId) {
+                            $userQuery->where('shop_id', $shopId);
+                        });
                 });
-        });
 
-        // Điều kiện cho các đơn hàng có client_id và không có user_id
-        if ($shopId == 2) {
-            $query->orWhere(function ($subQuery) {
-                $subQuery->whereNull('user_id')
-                    ->whereNotNull('client_id');
+                // Điều kiện cho các đơn hàng có client_id và không có user_id
+                if ($shopId == 2) {
+                    $query->orWhere(function ($subQuery) {
+                        $subQuery->whereNull('user_id')
+                            ->whereNotNull('client_id');
+                    });
+                }
             });
-        }
-    });
 
-    // Lấy danh sách các đơn hàng từ truy vấn
-    $orders = $ordersQuery->get();
-
-    // Cập nhật sell_price của order_product dựa trên product
-    foreach ($orders as $order) {
-        foreach ($order->order_product as $orderProduct) {
-            $product = $orderProduct->product;
-            $orderProduct->sell_price = $product->sell_price;
+            // Lấy danh sách các đơn hàng từ truy vấn
+            $orders = $ordersQuery->get();
         }
+
+        // Cập nhật sell_price của order_product dựa trên product
+        foreach ($orders as $order) {
+            foreach ($order->order_product as $orderProduct) {
+                $product = $orderProduct->product;
+                $orderProduct->sell_price = $product->sell_price;
+            }
+        }
+
+        // Trả về danh sách các đơn hàng được lọc dưới dạng JSON
+        return response()->json($orders);
     }
-
-    // Trả về danh sách các đơn hàng được lọc dưới dạng JSON
-    return response()->json($orders);
-}
 
 
 
@@ -308,22 +317,22 @@ class OrderController extends Controller
 
     public function calculateShopRevenue(Request $request)
     {
-       
+
         $shopId = $request->user()->shop_id;
 
-       
+
         if (!$shopId) {
             return response()->json(['error' => 'User does not belong to any shop'], 400);
         }
 
-      
+
         $totalShopRevenue = Order::whereHas('user', function ($query) use ($shopId) {
             $query->where('shop_id', $shopId);
         })
         ->whereIn('status', ['paid', 'shipping'])
         ->sum('price');
 
-       
+
         return response()->json([
             'shop_id' => $shopId,
             'totalShopRevenue' => $totalShopRevenue
@@ -333,10 +342,10 @@ class OrderController extends Controller
 
     public function calculateMonthlyShopRevenue(Request $request)
 {
-   
+
     $shopId = $request->user()->shop_id;
 
-   
+
     if (!$shopId) {
         return response()->json(['error' => 'User does not belong to any shop'], 400);
     }
@@ -360,12 +369,12 @@ class OrderController extends Controller
         $monthlyRevenue[$monthIndex] = $item->total_revenue;
     }
 
-  
+
     return response()->json([
         'monthlyShopRevenue' => $monthlyRevenue
     ]);
 }
 
-   
+
 
 }

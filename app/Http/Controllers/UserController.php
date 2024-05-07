@@ -126,22 +126,29 @@ class UserController extends Controller
 
 public function countEmployee(Request $request)
 {
-    // Lấy shop_id từ người dùng đang đăng nhập
-    $shopId = $request->user()->shop_id;
+    // Lấy role_id của người dùng đang đăng nhập
     $roleId = $request->user()->role_id;
 
-    // Kiểm tra vai trò của người dùng
+    // Biến để lưu danh sách người dùng
+    $users = collect();
+
     if ($roleId == 2) {
         // Nếu người dùng có role_id là 2 (quản lý hoặc chủ cửa hàng)
-        // Truy vấn tất cả người dùng thuộc cửa hàng đó
+        // Truy vấn tất cả người dùng thuộc cửa hàng đó, ngoại trừ quản lý
+        $shopId = $request->user()->shop_id;
         $users = User::where('shop_id', $shopId)
-        ->where('role_id', '!=', 2)
-        ->get();
-        // Trả về danh sách người dùng dưới dạng JSON
-        return response()->json($users);
+                     ->where('role_id', '!=', 2)
+                     ->get();
+    } elseif ($roleId == 4) {
+        // Nếu người dùng có role_id là 4
+        // Truy vấn toàn bộ người dùng (bao gồm cả nhân viên và quản lý) mà không cần xét đến shop_id
+        $users = User::all();
     } else {
-        // Nếu người dùng không có quyền quản lý cửa hàng, trả về lỗi 403
+        // Nếu người dùng không có quyền quản lý hoặc quyền của role_id không phải là 2 hoặc 4
         return response()->json(['error' => 'You do not have permission to view this data'], 403);
     }
+
+    // Trả về danh sách người dùng dưới dạng JSON
+    return response()->json($users);
 }
 }

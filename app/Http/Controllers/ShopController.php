@@ -22,9 +22,9 @@ class ShopController extends Controller
         $roleId = $request->user()->role_id;
 
 
-        if ($roleId == 2) {
+        if ($roleId == 4) {
             return response()->json(Shop::all());
-        } else if ($roleId != '2') {
+        } else if ($roleId != '4') {
 
         $shops = Shop::where('id', $shopId)->get();
         }
