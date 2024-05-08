@@ -224,5 +224,19 @@ public function uploadDescriptionImages(Request $request)
     return response()->json(['message' => 'Images uploaded successfully'], 200);
 }
 
+public function getProductsByBrand(Request $request)
+{
+    
+    $products = Product::select('brand_id', \DB::raw('MIN(id) as id'))
+        ->groupBy('brand_id')
+        ->get();
+
+    
+    $products = Product::whereIn('id', $products->pluck('id'))->get();
+
+   
+    return response()->json($products);
+}
+
 
 }

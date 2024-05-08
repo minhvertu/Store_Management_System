@@ -159,8 +159,11 @@ Route::get('/client-profile/{client}', [ClientController::class, 'show']);
 
 Route::resource('editClientProfile', ClientController::class);
 
-
 Route::resource('productShop', ProductShopController::class);
+
+
+Route::get('/get1products', [ProductShopController::class, 'getProductsByBrand']);
+
 
 Route::resource('userPermissions', UserPermissionController::class);
 

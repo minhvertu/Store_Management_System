@@ -51,14 +51,16 @@
             </sidenav-item>
             </li>
 
-            <li >
-                <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''" :navText="'User'">
+            <li>
+            <sidenav-item url="/users" :class="getRoute() === '/users' ? 'active' : ''"
+                :navText="'Users'">
 
                 <template v-slot:icon>
-                    <span class="material-symbols-outlined">group</span>
+                <span class="material-symbols-outlined fa-lg">group</span>
                 </template>
-                </sidenav-item>
+            </sidenav-item>
             </li>
+
 
         </div>
         </li>

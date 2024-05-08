@@ -132,6 +132,29 @@
                             </div>
                         </div>
 
+                        <template v-for="(product, index) in products" :key="'product-' + index">
+                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" >
+                            <router-link :to="`/products/productDetail/${product.id}`">
+                                <div class="collection-img position-relative">
+                                    <img :src="'/storage/' + product.image" class="w-100">
+                                    <span
+                                        class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
+                                </div>
+                            </router-link>
+                            <div class="text-center">
+                                <div class="rating mt-3">
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                </div>
+                                <p class="text-capitalize my-1">{{product.name}}</p>
+                                <span class="fw-bold">$ {{product.sell_price}}</span>
+                            </div>
+                        </div>
+                    </template>
+
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
                             <div class="collection-img position-relative">
                                 <img src="../fashion_store/images/c_pant_girl.png" class="w-100">
@@ -431,12 +454,9 @@
                         <div class="title pt-3 pb-5">
                             <h2 class="position-relative d-inline-block ms-4">About Us</h2>
                         </div>
-                        <p class="lead text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis,
-                            ipsam.
+                        <p class="lead text-muted">Tạo dấu ấn cá nhân với phong cách thời trang độc đáo và tinh tế
                         </p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem fuga blanditiis, modi
-                            exercitationem quae quam eveniet! Minus labore voluptatibus corporis recusandae accusantium
-                            velit, nemo, nobis, nulla ullam pariatur totam quos.</p>
+                        <p>Nâng tầm phong cách với những lựa chọn đẳng cấp và tinh tế.</p>
                     </div>
                     <div class="col-lg-6 order-lg-0">
                         <img src="../fashion_store/images/about_us_luxury.jpg" alt="" class="img-fluid">
@@ -538,16 +558,15 @@
             <div class="container">
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="title text-center pt-3 pb-5">
-                        <h2 class="position-relative d-inline-block ms-4">Newsletter Subscription</h2>
+                        <h2 class="position-relative d-inline-block ms-4">
+                            Inspiration Quote
+                        </h2>
                     </div>
 
-                    <p class="text-center text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-                        rem
-                        officia accusantium maiores quisquam dolorum?</p>
-                    <!-- <div class = "input-group mb-3 mt-3">
-                    <input type = "text" class = "form-control" placeholder="Enter Your Email ...">
-                    <button class = "btn btn-primary" type = "submit">Subscribe</button>
-                </div> -->
+                    <p class="text-center text-muted">
+                        "Sự tuân thủ là tội ác thực sự đối với thời trang. 
+                        Lựa chọn không mặc theo cá tính của chính mình mà bán rẻ linh hồn để giống hệt một nhóm người chính là hành động đầu hàng trước chủ nghĩa phát-xít của thời trang." - Simon Doonan
+                    </p>
                 </div>
             </div>
         </section>
@@ -572,6 +591,63 @@ export default {
         navbar_fashion,
         header_fashion,
         footer_fashion,
+    },
+
+    data() {
+        return {
+            products: [],
+            product: {
+                id: '',
+                name: '',
+                amount: '',
+                product_type: '',
+                sell_price: '',
+                gender_item_code: '',
+                size: '',
+                brand_id: '',
+                category_id: '',
+                image: '',
+            },
+            storages: [],
+            storage: {
+                id: '',
+                product_id: '',
+                shop_id: '',
+                size_id:'',
+
+                amount: '',
+            },
+            product_size_amounts: [],
+            product_size_amount: {
+                id: '',
+                amount: '',
+                storage_id: '',
+                size_id: '',
+
+            },
+            imageUrl: null,
+        }
+    },
+
+    created() {
+        this.getProducts();
+
+    },
+
+    methods: {
+
+        getProducts() {
+            axios.get('api/get1products')
+                .then(response => {
+                    this.products = response.data;
+                    console.log(this.products);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
     },
 
 }

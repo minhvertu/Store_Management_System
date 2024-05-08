@@ -10,11 +10,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProductController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-        
-    // }
+    public function __construct()
+{
+    $this->middleware('auth:api')->except(['index', 'show']); // Loại trừ index và show khỏi yêu cầu xác thực
+}
 
     
 

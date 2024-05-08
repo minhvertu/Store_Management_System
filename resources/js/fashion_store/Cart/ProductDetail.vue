@@ -54,7 +54,7 @@
                                     ${{ products.sell_price }}
                                 </p>
                                 <p class="text-secondary mb-1">
-                                    (Additional tax may apply on checkout)
+                                    (Additional tax may apply on checkout. If you want to purchase products, please login. Thank You)
                                 </p>
                                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                     v-model="products.size_id" style="width: 100px;">
