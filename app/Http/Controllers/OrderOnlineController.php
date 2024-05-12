@@ -64,84 +64,98 @@ class OrderOnlineController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // Kiểm tra xem người dùng có quyền tạo đơn hàng không
+{
+    // Kiểm tra xem người dùng có quyền tạo đơn hàng không
 
-            // Tạo đơn hàng mới
-            $order = new Order();
-            $order->order_code = $this->generateOrderCode();
+        // Tạo đơn hàng mới
+        $order = new Order();
+        $order->order_code = $this->generateOrderCode();
 
-            // Kiểm tra nếu người dùng đã đăng nhập
-            if ($request->user()) {
-                // Lấy `user_id` từ người dùng đang đăng nhập
-                $order->client_id = $request->user()->id;
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if ($request->user()) {
+            // Lấy `user_id` từ người dùng đang đăng nhập
+            $order->client_id = $request->user()->id;
+        } else {
+            // Nếu `user_id` là null, để trống `user_id`
+            $order->user_id = null;
+        }
+
+        // Mảng chứa các trạng thái có thể
+        $statuses = ['shipping'];
+
+        // Chọn ngẫu nhiên một trạng thái từ mảng
+        $randomStatus = $statuses[array_rand($statuses)];
+        $order->status = $randomStatus;
+        $order->save();
+
+        $totalPrice = 0;
+
+        // Xử lý các sản phẩm trong đơn hàng
+        foreach ($request->input('products') as $product) {
+            $orderProduct = new OrderProduct();
+
+            $orderProduct->order_id = $order->id;
+            $orderProduct->product_id = $product['id'];
+            $orderProduct->amount = $product['amount'];
+
+            // Kiểm tra xem sản phẩm có size_id không
+            if (isset($product['size_id'])) {
+                $orderProduct->size_id = $product['size_id'];
             } else {
-                // Nếu `user_id` là null, để trống `user_id`
-                $order->user_id = null;
+                $orderProduct->size_id = null; // hoặc giá trị mặc định khác phù hợp với ứng dụng của bạn
             }
 
-            // Mảng chứa các trạng thái có thể
-            $statuses = ['pending', 'paid', 'shipping', 'cancelled'];
+            // Tìm storage_id từ bảng storages dựa trên product_id
+            $storage = Storage::where('product_id', $product['id'])->first();
 
-            // Chọn ngẫu nhiên một trạng thái từ mảng
-            $randomStatus = $statuses[array_rand($statuses)];
-            $order->status = $randomStatus;
-            $order->save();
+            // Nếu trạng thái là "shipping" hoặc "paid", cập nhật số lượng
+            if ($order->status === 'shipping' || $order->status === 'paid') {
+                if ($storage) {
+                    // Kiểm tra size_id trước khi sử dụng trong truy vấn
+                    $productSizeAmountQuery = ProductSizeAmount::where('storage_id', $storage->id);
+                    if (isset($product['size_id'])) {
+                        $productSizeAmountQuery->where('size_id', $product['size_id']);
+                    }
+                    $productSizeAmount = $productSizeAmountQuery->first();
 
-            $totalPrice = 0;
-
-            // Xử lý các sản phẩm trong đơn hàng
-            foreach ($request->input('products') as $product) {
-                $orderProduct = new OrderProduct();
-
-                $orderProduct->order_id = $order->id;
-                $orderProduct->product_id = $product['id'];
-                $orderProduct->amount = $product['amount'];
-                $orderProduct->size_id = $product['size_id'];
-
-                // Tìm storage_id từ bảng storages dựa trên product_id
-                $storage = Storage::where('product_id', $product['id'])->first();
-
-                // Nếu trạng thái là "shipping" hoặc "paid", cập nhật số lượng
-                if ($order->status === 'shipping' || $order->status === 'paid') {
-                    if ($storage) {
-                        $productSizeAmount = ProductSizeAmount::where([
-                            ['storage_id', '=', $storage->id],
-                            ['size_id', '=', $product['size_id']]
-                        ])->first();
-
-                        if ($productSizeAmount) {
-                            $productSizeAmount->amount -= $product['amount'];
-                            $productSizeAmount->save();
-                        }
+                    if ($productSizeAmount) {
+                        $productSizeAmount->amount -= $product['amount'];
+                        $productSizeAmount->save();
+                    } elseif (!isset($product['size_id'])) {
+                        // Trừ số lượng khi không có size_id
+                        $productSizeAmount = new ProductSizeAmount();
+                        $productSizeAmount->storage_id = $storage->id;
+                        $productSizeAmount->amount -= $product['amount'];
+                        $productSizeAmount->save();
                     }
                 }
-
-                // Tính giá sản phẩm và tổng giá
-                $productSellPrice = Product::find($product['id'])->sell_price;
-                $productTotalPrice = $productSellPrice * $orderProduct->amount;
-                $totalPrice += $productTotalPrice;
-
-                // Lưu OrderProduct
-                $order->order_product()->save($orderProduct);
             }
 
-            // Lưu tổng giá vào đơn hàng
-            $order->price = $totalPrice;
-            $order->detail = $request->detail;
-            Mail::to($request->user()->email)->send(new DemoMail($order));
-            $order->save();
+            // Tính giá sản phẩm và tổng giá
+            $productSellPrice = Product::find($product['id'])->sell_price;
+            $productTotalPrice = $productSellPrice * $orderProduct->amount;
+            $totalPrice += $productTotalPrice;
 
-            // Trả về đơn hàng dưới dạng JSON
-            return response()->json($order);
+            // Lưu OrderProduct
+            $order->order_product()->save($orderProduct);
+        }
+
+        // Lưu tổng giá vào đơn hàng
+        $order->price = $totalPrice;
+        $order->detail = $request->detail;
+        Mail::to($request->user()->email)->send(new DemoMail($order));
+        $order->save();
+
+        // Trả về đơn hàng dưới dạng JSON
+        return response()->json($order);
 
 
-        // Nếu người dùng không có quyền tạo đơn hàng
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to create Order!'
-        ], 404);
-    }
+    // Nếu người dùng không có quyền tạo đơn hàng
+    return response([
+        'status' => false,
+        'message' => 'You don\'t have permission to create Order!'
+    ], 404);
+}
 
 
     public function getTotalOrderPrice()

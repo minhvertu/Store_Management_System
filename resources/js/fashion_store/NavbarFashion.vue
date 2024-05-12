@@ -61,12 +61,7 @@
         <li>
             <router-link to="/signUp" class="dropdown-item">Sign Up</router-link>
         </li>
-
-        <li>
-            <router-link to="/clientProfile" class="dropdown-item">Profile</router-link>
-        </li>
-
-
+        
         <li>
             <router-link to="/loginShop" class="dropdown-item">Shop</router-link>
         </li>
@@ -76,6 +71,9 @@
         </li>
         <!-- Bạn có thể thêm các mục khác ở đây nếu cần -->
     </ul>
+</li>
+<li class="nav-item px-2 py-2 border-0">
+    <router-link to="/clientProfile" class="nav-link text-uppercase text-dark" href="#popular">Profile</router-link>
 </li>
                 </ul>
             </div>

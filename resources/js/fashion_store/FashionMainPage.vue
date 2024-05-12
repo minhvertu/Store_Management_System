@@ -52,7 +52,7 @@
                         <router-link to="/chanelMainPage">
                             <transition name="fade" mode="out-in">
                                 <div class="collection-img position-relative">
-                                    <img src="../fashion_store/images/chanel.jpg" class="w-100">
+                                    <img src="../fashion_store/images/balenciaga.png" class="w-100">
 
                                 </div>
                             </transition>
@@ -63,7 +63,7 @@
                         <router-link to="/zaraMainPage">
                             <transition name="fade" mode="out-in">
                                 <div class="collection-img position-relative">
-                                    <img src="../fashion_store/images/zara.png" class="w-100">
+                                    <img src="../fashion_store/images/Giorgio-Armani-logo.jpg" class="w-100">
 
                                 </div>
                             </transition>
@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="collection-list mt-4 row gx-0 gy-3">
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
+                        <!-- <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
                             <div class="collection-img position-relative">
                                 <img src="../fashion_store/images/c_formal_gray_shirt.png" class="w-100">
                                 <span
@@ -130,7 +130,7 @@
                                 <p class="text-capitalize my-1">gray shirt</p>
                                 <span class="fw-bold">$ 45.50</span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <template v-for="(product, index) in products" :key="'product-' + index">
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" >
@@ -155,26 +155,9 @@
                         </div>
                     </template>
 
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
-                            <div class="collection-img position-relative">
-                                <img src="../fashion_store/images/c_pant_girl.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
 
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
+
+                        <!-- <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
                             <div class="collection-img position-relative">
                                 <img src="../fashion_store/images/c_polo-shirt.png" class="w-100">
                                 <span
@@ -212,24 +195,6 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
-                            <div class="collection-img position-relative">
-                                <img src="../fashion_store/images/c_t-shirt_men.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
 
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
                             <div class="collection-img position-relative">
@@ -267,26 +232,9 @@
                                 <p class="text-capitalize my-1">gray shirt</p>
                                 <span class="fw-bold">$ 45.50</span>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
-                            <div class="collection-img position-relative">
-                                <img src="../fashion_store/images/c_western-shirt.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -564,7 +512,7 @@
                     </div>
 
                     <p class="text-center text-muted">
-                        "Sự tuân thủ là tội ác thực sự đối với thời trang. 
+                        "Sự tuân thủ là tội ác thực sự đối với thời trang.
                         Lựa chọn không mặc theo cá tính của chính mình mà bán rẻ linh hồn để giống hệt một nhóm người chính là hành động đầu hàng trước chủ nghĩa phát-xít của thời trang." - Simon Doonan
                     </p>
                 </div>
@@ -602,7 +550,7 @@ export default {
                 amount: '',
                 product_type: '',
                 sell_price: '',
-                gender_item_code: '',
+                gender_id: '',
                 size: '',
                 brand_id: '',
                 category_id: '',

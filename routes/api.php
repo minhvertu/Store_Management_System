@@ -25,8 +25,8 @@ use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\RoleController;
-
-
+use App\Http\Controllers\GenderController;
+use App\Models\ProductSizeAmount;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +122,9 @@ Route::get('/orders/total-revenue-shop', [OrderController::class, 'calculateShop
 Route::get('/orders/monthly-revenue-shop', [OrderController::class, 'calculateMonthlyShopRevenue']);
 
 
+Route::get('/orders/total-online-revenue-shop', [OrderController::class, 'calculateOnlineOrders']);
+
+
 
 
 Route::get('/orders/total-order', [OrderController::class, 'getTotalOrder']);
@@ -173,5 +176,10 @@ Route::resource('userRoles', UserRoleController::class);
 
 Route::resource('roles', RoleController::class);
 
+
+Route::resource('genders', GenderController::class);
+
+
+Route::get('/products/sizes', [ProductController::class, 'getProductSizes']);
 
 

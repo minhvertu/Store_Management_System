@@ -18,7 +18,7 @@ class ProductShopController extends Controller
     public function index()
     {
         //
-        $product = Product::with ([ 'brand','category', 'descriptionImages'
+        $product = Product::with ([ 'brand','category', 'descriptionImages', 'gender'
         ])->get();
         // return response()->json([
         //     "id" => $product->id,
@@ -26,7 +26,7 @@ class ProductShopController extends Controller
         //     "product_code" => $product->product_code,
         //     "import_price" => $product->import_price,
         //     "sell_price" => $product->sell_price,
-        //     "gender_item_code" => $product->gender_item_code,
+        //     "gender_id" => $product->gender_id,
         //     "brand_id" => $product->brand_id,
         //     "brand_name" => $product->brand->name,
         //     "category_id" => $product->category_id,
@@ -56,7 +56,7 @@ class ProductShopController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required',
-            'gender_item_code' => 'required',
+            'gender_id' => 'required',
             'import_price' => 'required',
             'sell_price' => 'required',
             'detail' => 'required',
@@ -73,7 +73,7 @@ class ProductShopController extends Controller
         $product = new Product();
         $product->name = $request->input('name');
         $product->product_code = $this->generateProductCode();
-        $product->gender_item_code = $request->input('gender_item_code');
+        $product->gender_id = $request->input('gender_id');
         $product->import_price = $request->input('import_price');
         $product->detail = $request->input('detail');
         $product->sell_price = $request->input('sell_price');
@@ -226,15 +226,15 @@ public function uploadDescriptionImages(Request $request)
 
 public function getProductsByBrand(Request $request)
 {
-    
+
     $products = Product::select('brand_id', \DB::raw('MIN(id) as id'))
         ->groupBy('brand_id')
         ->get();
 
-    
+
     $products = Product::whereIn('id', $products->pluck('id'))->get();
 
-   
+
     return response()->json($products);
 }
 

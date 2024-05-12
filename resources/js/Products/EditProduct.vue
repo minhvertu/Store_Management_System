@@ -29,7 +29,7 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Gender</label>
-                <input class="form-control" id="gender_item_code" v-model="product.gender_item_code" />
+                <input class="form-control" id="gender_id" v-model="product.gender_id" />
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Size</label>
@@ -43,10 +43,10 @@
         </form>
     </div>
   </template>
-  
+
   <script>
   import axios from 'axios';
-  
+
   export default {
     data() {
       return {

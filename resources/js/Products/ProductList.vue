@@ -61,10 +61,10 @@
                                     </div>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.gender_item_code">
+                                        v-model="product.gender_id">
                                         <option disabled value="">Select Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
+                                        <option v-for="gender in genders" :key="gender.id" :value="gender.id">{{ gender.name
+                                            }}</option>
                                     </select>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
@@ -124,10 +124,10 @@
                                     </div>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="editedProduct.gender_item_code">
+                                        v-model="editedProduct.gender_id">
                                         <option disabled value="">Select Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
+                                        <option v-for="gender in genders" :key="gender.id" :value="gender.id">{{ gender.name
+                                            }}</option>
                                     </select>
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
@@ -221,9 +221,9 @@
                             Sell Price
                             <span class="arrow" :class="sortOrders['sell_price'] > 0 ? 'asc' : 'dsc'"></span>
                         </th>
-                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('gender_item_code')">
+                        <th scope="col" class="center-text  text-uppercase" @click="sortBy('gender_id')">
                             Gender
-                            <span class="arrow" :class="sortOrders['gender_item_code'] > 0 ? 'asc' : 'dsc'"></span>
+                            <span class="arrow" :class="sortOrders['gender_id'] > 0 ? 'asc' : 'dsc'"></span>
                         </th> -->
                         <th scope="col" class="center-text  text-uppercase" @click="sortBy('brand.name')">
                             Brand
@@ -248,7 +248,7 @@
                             <!-- <td class="center-text">{{ product.category.name }}</td>
                             <td class="center-text">{{ product.import_price }}</td>
                             <td class="center-text">{{ product.sell_price }}</td>
-                            <td class="center-text">{{ genderLabel(product.gender_item_code) }}</td> -->
+                            <td class="center-text">{{ genderLabel(product.gender_id) }}</td> -->
                             <td class="center-text">{{ product.brand.name }}</td>
                             <td class="center-text">
                                 <span class="material-symbols-outlined me-2">
@@ -288,7 +288,7 @@
                     <div class="col me-6">
                         <p class="me-3"><strong>Product Code:</strong> {{ product.product_code }}</p>
                         <p class="me-3"><strong>Category:</strong> {{ product.category.name }}</p>
-                        <p class="me-3"><strong>Gender:</strong> {{ genderLabel(product.gender_item_code) }}</p>
+                        <p class="me-3"><strong>Gender:</strong> {{ genderLabel(product.gender_id) }}</p>
                     </div>
 
                     <div class="col me-6">
@@ -338,7 +338,7 @@ export default {
                 product_type: '',
                 import_price: '',
                 sell_price: '',
-                gender_item_code: '',
+                gender_id: '',
                 detail: '',
                 brand_id: '',
                 category_id: '',
@@ -350,7 +350,7 @@ export default {
                 name: '',
                 import_price: '',
                 sell_price: '',
-                gender_item_code: '',
+                gender_id: '',
                 detail: '',
                 brand_id: '',
                 category_id: '',
@@ -364,12 +364,13 @@ export default {
             sortOrders: {}, // Hướng sắp xếp của các cột
 
             brands: [],
+            genders: [],
             categories: [],
             searchKeyword: '',
             addPermission: true,
             listView: true,
             currentPage: 1, // Trang hiện tại
-            pageSize: 10, // Số lượng nhân viên trên mỗi trang
+            pageSize: 15, // Số lượng nhân viên trên mỗi trang
             error: {
                 message: ''
             },
@@ -378,8 +379,14 @@ export default {
         }
     },
     created() {
+
+        const savedPage = localStorage.getItem('currentPage');
+        if (savedPage) {
+            this.currentPage = parseInt(savedPage, 10);
+        }
         this.getProducts();
         this.getBrands();
+        this.getGenders();
         this.getCategories();
 
         this.blockAddPermission();
@@ -446,7 +453,7 @@ export default {
                 name: product.name,
                 import_price: product.import_price,
                 sell_price: product.sell_price,
-                gender_item_code: product.gender_item_code,
+                gender_id: product.gender_id,
                 detail: product.detail,
 
                 brand_id: product.brand_id,
@@ -499,7 +506,7 @@ export default {
                 formData.append('sell_price', this.product.sell_price);
                 formData.append('detail', this.product.detail);
 
-                formData.append('gender_item_code', this.product.gender_item_code);
+                formData.append('gender_id', this.product.gender_id);
                 formData.append('brand_id', this.product.brand_id);
                 formData.append('category_id', this.product.category_id);
 
@@ -520,6 +527,18 @@ export default {
             } else {
                 return "Female";
             }
+        },
+
+        getGenders() {
+            axios.get('api/genders')
+                .then(response => {
+                    this.genders = response.data;
+                    console.log(this.genders);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
 
         getBrands() {
@@ -564,9 +583,11 @@ export default {
                         setTimeout(() => {
                             this.error.message = '';
                         }, 3000);
+
                     } else {
                         this.products.splice(index, 1);
                     }
+                    alert('Delete Product Successfully!');
                 })
                 .catch(error => {
                     console.log(error);
@@ -574,6 +595,7 @@ export default {
         },
         goToPage(page) {
             this.currentPage = page;
+            localStorage.setItem('currentPage', page);
         },
         nextPage() {
             if (this.currentPage < this.totalPages) {
@@ -590,9 +612,9 @@ export default {
             const keyword = this.searchKeyword.toLowerCase();
             this.filteredProducts = this.products.filter(product => {
 
-                if ((keyword === 'male' && product.gender_item_code == 1) || (keyword === 'female' && product.gender_item_code == 2)) {
-                    return true;
-                }
+                // if ((keyword === 'male' && product.gender_id == 1) || (keyword === 'female' && product.gender_id == 2)) {
+                //     return true;
+                // }
 
                 return (
                     product.name.toLowerCase().includes(keyword) ||
@@ -600,7 +622,8 @@ export default {
                     product.brand.name.toLowerCase().includes(keyword) ||
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
-                    product.sell_price.toLowerCase().includes(keyword)
+                    product.sell_price.toLowerCase().includes(keyword) 
+                    // product.gender_id.toLowerCase().includes(keyword)
                 );
             });
         },
@@ -643,7 +666,7 @@ export default {
             const endIndex = startIndex + this.pageSize;
             const keyword = this.searchKeyword.toLowerCase();
             const filteredProducts = this.products.filter(product => {
-                if ((keyword === 'male' && product.gender_item_code == 1) || (keyword === 'female' && product.gender_item_code == 2)) {
+                if ((keyword === 'male' && product.gender_id == 1) || (keyword === 'female' && product.gender_id == 2)) {
                     return true;
                 }
                 return (
@@ -653,8 +676,8 @@ export default {
                     product.brand.name.toLowerCase().includes(keyword) ||
                     product.product_code.toLowerCase().includes(keyword) ||
                     product.import_price.includes(keyword) ||
-                    product.sell_price.toLowerCase().includes(keyword) ||
-                    product.gender_item_code.toLowerCase().includes(keyword)
+                    product.sell_price.toLowerCase().includes(keyword)
+                    // product.gender_id.toLowerCase().includes(keyword)
                 );
             });
             return filteredProducts.slice(startIndex, endIndex);
@@ -673,9 +696,9 @@ export default {
         },
 
     },
-    async mounted() {
-        this.imageUrl = response.data.image;
-    },
+    // async mounted() {
+    //     this.imageUrl = response.data.image;
+    // },
 }
 </script>
 

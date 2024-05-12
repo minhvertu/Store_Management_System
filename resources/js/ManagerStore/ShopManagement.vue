@@ -58,20 +58,6 @@
                                             v-model="shop.phone_number" />
                                     </div>
 
-                                    <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.gender_item_code">
-                                        <option disabled value="">Select Gender</option>
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
-                                    </select>
-
-                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.category_id">
-                                        <option disabled value="">Select Category</option>
-                                        <option v-for="category in categories" :key="category.id" :value="category.id">
-                                            {{ category.name }}</option>
-                                    </select> -->
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -280,6 +266,13 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="input-group rounded" style="width: 40%;">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                        aria-describedby="search-addon" v-model="searchKeyword2" @input="searchProducts" />
+                    <span class="input-group-text bg-dark text-light" id="search-addon">
+                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                    </span>
+                </div>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead class="table-dark">
@@ -293,6 +286,7 @@
                                <tbody>
     <template v-for="(storage, storageIndex) in storages" :key="'storage-' + storageIndex">
         <template v-if="storage.shop_id === shop.id">
+
             <tr>
                 <td class="center-text">
                     <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
@@ -314,6 +308,7 @@
 </tbody>
 
                             </table>
+                           
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -15,7 +15,7 @@ class ProductController extends Controller
     $this->middleware('auth:api')->except(['index', 'show']); // Loại trừ index và show khỏi yêu cầu xác thực
 }
 
-    
+
 
 
     /**
@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $product = Product::with ([ 'brand','category', 'descriptionImages'
+        $product = Product::with ([ 'brand','category', 'descriptionImages' ,'gender', 'storages'
         ])->get();
         // return response()->json([
         //     "id" => $product->id,
@@ -33,7 +33,7 @@ class ProductController extends Controller
         //     "product_code" => $product->product_code,
         //     "import_price" => $product->import_price,
         //     "sell_price" => $product->sell_price,
-        //     "gender_item_code" => $product->gender_item_code,
+        //     "gender_id" => $product->gender_id,
         //     "brand_id" => $product->brand_id,
         //     "brand_name" => $product->brand->name,
         //     "category_id" => $product->category_id,
@@ -63,7 +63,7 @@ class ProductController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required',
-            'gender_item_code' => 'required',
+            'gender_id' => 'required',
             'import_price' => 'required',
             'sell_price' => 'required',
             'detail' => 'required',
@@ -80,7 +80,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = $request->input('name');
         $product->product_code = $this->generateProductCode();
-        $product->gender_item_code = $request->input('gender_item_code');
+        $product->gender_id = $request->input('gender_id');
         $product->import_price = $request->input('import_price');
         $product->detail = $request->input('detail');
         $product->sell_price = $request->input('sell_price');
@@ -103,22 +103,26 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show(Product $product)
-    {
-        //
-        $product->load('category', 'brand');
+{
+    // Load thông tin về category và brand của sản phẩm
+    $product->load('category', 'brand');
 
-    // Trả về product kèm theo thông tin category.name và brand.name
+    // Load thông tin về product_size_amount của sản phẩm
+    $product->load('storages.product_size_amount');
+
+    // Trả về thông tin sản phẩm kèm theo thông tin về category, brand và product_size_amount
     return response()->json([
-        'product' => $product,
-        'id'=>$product->id,
-        'image'=>$product->image,
-        'name' =>$product->name,
-        'detail' =>$product->detail,
-        'sell_price' =>$product->sell_price,
+        // 'product' => $product,
+        'id' => $product->id,
+        'image' => $product->image,
+        'name' => $product->name,
+        'detail' => $product->detail,
+        'sell_price' => $product->sell_price,
         'category_name' => $product->category->name, // Lấy tên của danh mục
         'brand_name' => $product->brand->name, // Lấy tên của thương hiệu
+        'storages' => $product->storages // Thêm thông tin về product_size_amount
     ]);
-    }
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -148,7 +152,7 @@ class ProductController extends Controller
     public function destroy(Request $request, $id)
     {
         //
-        if ($request->user()->can('delete-products')) {
+        // if ($request->user()->can('delete-products')) {
             $product = Product::find($id);
             $product->delete();
             return response([
@@ -156,11 +160,11 @@ class ProductController extends Controller
             ], 200);
         }
 
-        return response([
-            'status' => false,
-            'message' => 'You don\'t have permission to delete Product!'
-        ], 200);
-    }
+    //     return response([
+    //         'status' => false,
+    //         'message' => 'You don\'t have permission to delete Product!'
+    //     ], 200);
+    // }
 
 
 
@@ -230,6 +234,30 @@ public function uploadDescriptionImages(Request $request)
     // Trả về phản hồi JSON cho biết thành công
     return response()->json(['message' => 'Images uploaded successfully'], 200);
 }
+
+public function getProductSizes()
+    {
+        // Lấy tất cả sản phẩm
+        $products = Product::with('product_size_amount')->get();
+
+        // Tạo một mảng để lưu thông tin về số lượng size của mỗi sản phẩm
+        $productSizes = [];
+
+        // Duyệt qua từng sản phẩm
+        foreach ($products as $product) {
+            // Đếm số lượng size của sản phẩm
+            $numberOfSizes = $product->productSizeAmount->count();
+
+            // Lưu thông tin vào mảng
+            $productSizes[] = [
+                'product_name' => $product->name,
+                'number_of_sizes' => $numberOfSizes
+            ];
+        }
+
+        // Trả về dữ liệu
+        return response()->json($productSizes);
+    }
 
 
 }

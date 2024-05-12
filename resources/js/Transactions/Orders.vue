@@ -15,8 +15,8 @@
                     <div class="text-end">
                         <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn ">Add
                             Employee</router-link>
-                        <!-- <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Order</button> -->
+                        <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Order</button>
                         <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
                             @click="exportEmployees">
                             Export Data
@@ -52,6 +52,61 @@
                             </div>
                         </div>
                     </form>
+
+                    <form @submit.prevent="updateOrder">
+                    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="updateModalLabel">Update Order</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <!-- Hiển thị dữ liệu sản phẩm hiện tại -->
+                                    <div class="mb-3">
+                                        <label for="updatePrice" class="form-label">Price</label>
+                                        <input class="form-control" type="text" id="updatePrice"
+                                            v-model="editedOrder.price" />
+                                    </div>
+                                    <div class="mb-3">
+    <label for="updateStatus" class="form-label">Status</label>
+    <select class="form-select" id="updateStatus" v-model="editedOrder.status">
+        <option value="pending">Pending</option>
+        <option value="shipping">Shipping</option>
+        <option value="paid">Paid</option>
+        <option value="cancelled">Cancelled</option>
+    </select>
+</div>
+
+                                    <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedOrder.gender_id">
+                                        <option disabled value="">Select Gender</option>
+                                        <option v-for="gender in genders" :key="gender.id" :value="gender.id">{{ gender.name
+                                            }}</option>
+                                    </select>
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedOrder.brand_id">
+                                        <option disabled value="">Select Brand</option>
+                                        <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name
+                                            }}</option>
+                                    </select> -->
+                                    <!-- Các trường thông tin khác -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update Product</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
                 </div>
             </div>
             <div class="table-responsive p-0">
@@ -97,8 +152,8 @@
                                     </span>
                                     <span class="material-symbols-outlined">
                                         <button type="button" class="btn btn-info" data-mdb-ripple-init
-                                            data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
-                                            @click="openUpdateModal(order)">edit</button>
+                                        data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                        @click="openUpdateModal(order)">edit</button>
                                     </span>
                                 </td>
                             </tr>
@@ -280,6 +335,18 @@ export default {
                 address: '',
 
             },
+
+            editedOrder: {
+                id: '',
+                price: '',
+                email: '',
+                status: '',
+                client_name: '',
+                phone_number: '',
+                detail: '',
+
+            },
+
             products: [{
             id: '', amount: ''
             }],
@@ -313,6 +380,32 @@ export default {
     this.getOrders();
   },
     methods: {
+
+        async updateOrder() {
+            try {
+                await axios.put(`/api/orders/${this.editedOrder.id}`, this.editedOrder);
+                alert('Updated Order Successfully');
+                window.location.href = '/orders';
+            } catch (error) {
+                console.error(error);
+
+            }
+        },
+
+        openUpdateModal(order) {
+            // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
+            this.editedOrder = {
+                id: order.id,
+                price: order.price,
+                detail: order.detail,
+                client_name: order.client_name,
+                phone_number: order.phone_number,
+                email: order.email,
+                status: order.status,
+            };
+            // Mở modal cập nhật sản phẩm
+            $('#updateModal').modal('show');
+        },
 
         goToPage(page) {
       this.currentPage = page;

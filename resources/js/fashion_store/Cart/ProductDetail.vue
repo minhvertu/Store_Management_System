@@ -56,13 +56,18 @@
                                 <p class="text-secondary mb-1">
                                     (Additional tax may apply on checkout. If you want to purchase products, please login. Thank You)
                                 </p>
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                    v-model="products.size_id" style="width: 100px;">
+                                <select v-if="filteredSizes.length > 0" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    v-model="products.size_id" style="width: 150px;">
                                     <option disabled value="">Select Sizes</option>
-                                    <option v-for="size in sizes" :key="size.id" :value="size.id">
+                                    <option v-for="size in filteredSizes" :key="size.id" :value="size.id">
                                         {{ size.name }}
                                     </option>
                                 </select>
+
+                                <div v-else-if="products.storages && products.storages.length === 0">
+                                    <p class="text-danger mb-1">Out of stock</p>
+                                </div>
+
                             </div>
 
 
@@ -71,11 +76,15 @@
                                     <div class="block">
                                         <a href="#" class="shadow btn custom-btn">Wishlist</a>
                                     </div>
+
+                                    <div v-if="products.storages && products.storages.length !== 0">
                                     <div class="block">
-                                        <button class="shadow btn custom-btn" @click="addToCart">
-                                            Add To Cart
-                                        </button>
+                                            <button class="shadow btn custom-btn" @click="addToCart">
+                                                Add To Cart
+                                            </button>
                                     </div>
+                                    </div>
+
 
                                     <!-- <div class="block quantity">
                                         <input type="number" class="form-control" id="cart_quantity" value="1" min="0"
@@ -195,7 +204,7 @@
                     </div>
 
                     <p class="text-center text-muted">
-                        "Sự tuân thủ là tội ác thực sự đối với thời trang. 
+                        "Sự tuân thủ là tội ác thực sự đối với thời trang.
                         Lựa chọn không mặc theo cá tính của chính mình mà bán rẻ linh hồn để giống hệt một nhóm người chính là hành động đầu hàng trước chủ nghĩa phát-xít của thời trang." - Simon Doonan
                     </p>
                 </div>
@@ -218,6 +227,10 @@ export default {
     data() {
         return {
             products: [],
+            product : {
+                id: '',
+                name: '',
+            },
             imageUrl: null,
             order: {
                 user_id: '',
@@ -226,6 +239,8 @@ export default {
 
                 ],
             },
+            product_size_amounts: [],
+            storages: [],
             descriptionImages: [],
             sizes: [],
 
@@ -233,6 +248,8 @@ export default {
                 id: '',
                 name: '',
             },
+
+            filteredSizes: [],
 
         };
     },
@@ -248,11 +265,34 @@ export default {
         this.getProducts();
         this.getSizes();
         this.getDescriptionImages(),
-
         this.$store.state.showSidenav = false;
     },
 
     computed: {
+        filteredSizes() {
+    // Kiểm tra xem sản phẩm đã được tải lên chưa và sản phẩm có size_id không
+    if (!this.products || !this.products.storages || this.products.size_id === null) {
+        return [];
+    }
+
+    // Lọc danh sách các kích thước duy nhất từ dữ liệu storages của sản phẩm
+    const uniqueSizes = new Set();
+    this.products.storages.forEach(storage => {
+        storage.product_size_amount.forEach(item => {
+            uniqueSizes.add(item.size_id);
+        });
+    });
+
+    // Chuyển đổi Set thành mảng và sắp xếp theo thứ tự tăng dần
+    const sortedUniqueSizes = [...uniqueSizes].sort((a, b) => a - b);
+
+    // Lấy thông tin đầy đủ của các kích thước từ mảng sizes
+    return sortedUniqueSizes.map(sizeId => {
+        const size = this.sizes.find(size => size.id === sizeId);
+        return size ? size : null;
+    }).filter(Boolean); // Loại bỏ các phần tử null
+},
+
     // Lọc danh sách description_images để chỉ bao gồm những hình ảnh có product_id khớp với products.id
     filteredDescriptionImages() {
         return this.descriptionImages.filter(
@@ -262,6 +302,10 @@ export default {
 },
 
     methods: {
+
+
+
+
 
         getDescriptionImages() {
             axios.get('/api/descriptionImages')

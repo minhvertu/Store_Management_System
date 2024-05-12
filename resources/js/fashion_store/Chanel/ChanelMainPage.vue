@@ -1,17 +1,12 @@
 <template>
-
     <div class="chanelPage">
-
-
-        <!-- navbar -->
+        <!-- Navbar -->
         <navbar_fashion></navbar_fashion>
-        <!-- end of navbar -->
 
-        <!-- header -->
+        <!-- Header -->
         <header_chanel></header_chanel>
-        <!-- end of header -->
 
-
+        <!-- Section: Collection -->
         <section id="collection" class="py-5">
             <div class="container">
                 <div class="title text-center">
@@ -19,181 +14,81 @@
                 </div>
 
                 <div class="row g-0">
-                    <div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
-                        <button type="button" class="btn m-2 text-dark active-filter-btn" data-filter="*">All</button>
-                        <button type="button" class="btn m-2 text-dark" data-filter=".best">Best Sellers</button>
-                        <button type="button" class="btn m-2 text-dark" data-filter=".feat">Featured</button>
-                        <button type="button" class="btn m-2 text-dark" data-filter=".new">New Arrival</button>
+                    <!-- Sidebar -->
+                    <div class="col-lg-2">
+                        <!-- Category Filter -->
+                        <h2 class="sidebar-title">Category</h2>
+                        <ul class="list-group list-group-flush sidebar">
+                            <li class="list-group-item" @click="currentCategory = 'all'" :class="{ active: currentCategory === 'all' }">
+                                All
+                            </li>
+                            <li v-for="category in categories" :key="category.id" class="list-group-item" @click="currentCategory = category.id" :class="{ active: currentCategory === category.id }">
+                                {{ category.name }}
+                            </li>
+                        </ul>
+
+                        <!-- Gender Filter -->
+                        <h2 class="sidebar-title">Gender</h2>
+                        <ul class="list-group list-group-flush sidebar">
+                            <li class="list-group-item" @click="currentGender = 'all'" :class="{ active: currentGender === 'all' }">
+                                All
+                            </li>
+                            <li v-for="gender in genders" :key="gender.id" class="list-group-item" @click="currentGender = gender.id" :class="{ active: currentGender === gender.id }">
+                                {{ gender.name }}
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="collection-list mt-4 row gx-0 gy-3 ">
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_formal_gray_shirt.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                    <!-- Product List -->
+                    <div class="col">
+                        <div class="collection-list mt-4 row gx-0 gy-3">
+                            <template v-for="product in filteredProducts()" :key="product.id">
+                                <div class="col-md-6 col-lg-4 col-xl-3 p-2">
+                                    <router-link :to="`/products/productDetail/${product.id}`">
+                                        <div class="collection-img position-relative">
+                                            <img :src="'/storage/' + product.image" class="w-100" alt="Product Image">
+                                            <!-- <span class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span> -->
+                                        </div>
+                                    </router-link>
+                                    <div class="text-center">
+                                        <div class="rating mt-3">
+                                            <!-- <span v-for="star in 5" :key="star" class="text-primary">
+                                                <i class="fas fa-star"></i>
+                                            </span> -->
+                                        </div>
+                                        <p class="text-capitalize my-1">{{ product.name }}</p>
+                                        <span class="fw-bold">${{ product.sell_price }}</span>
+                                    </div>
                                 </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-                    <template v-for="(product, index) in products" :key="'product-' + index">
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat" >
-                            <router-link :to="`/products/productDetail/${product.id}`">
-                                <div class="collection-img position-relative">
-                                    <img :src="'/storage/' + product.image" class="w-100">
-                                    <span
-                                        class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                                </div>
-                            </router-link>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">{{product.name}}</p>
-                                <span class="fw-bold">$ {{product.sell_price}}</span>
-                            </div>
-                        </div>
-                    </template>
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_polo-shirt.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_shirt-girl.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_t-shirt_men.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 new">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_tunic-shirt_girl.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 best">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_undershirt.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-4 col-xl-3 p-2 feat">
-                            <div class="collection-img position-relative">
-                                <img src="../../fashion_store/images/c_western-shirt.png" class="w-100">
-                                <span
-                                    class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="rating mt-3">
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                    <span class="text-primary"><i class="fas fa-star"></i></span>
-                                </div>
-                                <p class="text-capitalize my-1">gray shirt</p>
-                                <span class="fw-bold">$ 45.50</span>
-                            </div>
+                            </template>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer_fashion></footer_fashion>
+        <!-- Pagination -->
+        <div v-if="showPagination">
+            <ul class="pagination justify-content-end" style="font-size: 80%;">
+                <li :class="{ 'disabled': currentPage === 1 }">
+                    <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
+                </li>
+                <li v-for="page in totalPages" :key="page" :class="{ 'active': currentPage === page }">
+                    <a class="page-link" href="#" @click.prevent="goToPage(page)">{{ page }}</a>
+                </li>
+                <li :class="{ 'disabled': currentPage === totalPages }">
+                    <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
+                </li>
+            </ul>
+        </div>
 
+        <!-- Footer -->
+        <footer_fashion></footer_fashion>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import navbar_fashion from '../../fashion_store/NavbarFashion.vue';
 import header_chanel from '../../fashion_store/Chanel/HeaderChanel.vue';
 import footer_fashion from '../../fashion_store/FooterFashion.vue';
@@ -207,71 +102,43 @@ export default {
     },
     data() {
         return {
+            currentCategory: 'all', // Danh mục hiện tại
+            currentGender: 'all', // Giới tính được chọn ('all' cho tất cả hoặc gender_id)
             products: [],
-            product: {
-                id: '',
-                name: '',
-                amount: '',
-                product_type: '',
-                sell_price: '',
-                gender_item_code: '',
-                size: '',
-                brand_id: '',
-                category_id: '',
-                image: '',
-            },
-            storages: [],
-            storage: {
-                id: '',
-                product_id: '',
-                shop_id: '',
-                size_id:'',
-
-                amount: '',
-            },
-            product_size_amounts: [],
-            product_size_amount: {
-                id: '',
-                amount: '',
-                storage_id: '',
-                size_id: '',
-
-            },
-            imageUrl: null,
-        }
+            categories: [],
+            genders: [],
+            currentPage: 1,
+            pageSize: 12,
+        };
     },
     created() {
+        const savedPage = localStorage.getItem('currentPage');
+        if (savedPage) {
+            this.currentPage = parseInt(savedPage, 10);
+        }
         this.getProducts();
-        this.getStorages();
-        this.getProductSizeAmounts();
-
-    this.$store.state.showSidenav = false;
-    this.$store.state.showNavbar = false;
+        this.getCategories();
+        this.getGenders();
+        this.$store.state.showSidenav = false;
+        this.$store.state.showNavbar = false;
     },
-
     methods: {
-        getProductSizeAmounts() {
-            axios.get('api/product_size_amounts')
-                .then(response => {
-                    this.product_size_amounts = response.data;
-                    console.log(this.product_size_amounts);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        goToPage(page) {
+            this.currentPage = page;
+            localStorage.setItem('currentPage', page);
         },
-        getStorages() {
-            axios.get('api/storages')
-                .then(response => {
-                    this.storages = response.data;
-                    console.log(this.storages);
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
         },
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+
+        // Lấy danh sách sản phẩm từ API
         getProducts() {
             axios.get('api/products')
                 .then(response => {
@@ -284,16 +151,69 @@ export default {
                 });
         },
 
+        // Lấy danh sách danh mục từ API
+        getCategories() {
+            axios.get('/api/categories')
+                .then(response => {
+                    this.categories = response.data;
+                    console.log('Categories:', this.categories);
+                })
+                .catch(error => {
+                    console.error('Error fetching categories:', error);
+                });
+        },
+
+        // Lấy danh sách giới tính từ API
+        getGenders() {
+            axios.get('/api/genders')
+                .then(response => {
+                    this.genders = response.data;
+                    console.log('Genders:', this.genders);
+                })
+                .catch(error => {
+                    console.error('Error fetching genders:', error);
+                });
+        },
+
+        // Lọc sản phẩm dựa trên danh mục và giới tính hiện tại
+        filteredProducts() {
+            let filtered = this.products;
+
+            // Lọc theo danh mục nếu không phải là 'all'
+            if (this.currentCategory !== 'all') {
+                filtered = filtered.filter(product => product.category_id === this.currentCategory);
+            }
+
+            // Lọc theo giới tính nếu không phải là 'all'
+            if (this.currentGender !== 'all') {
+                filtered = filtered.filter(product => product.gender_id === this.currentGender);
+            }
+
+            // Tính toán chỉ số bắt đầu và kết thúc cho phân trang
+            const startIndex = (this.currentPage - 1) * this.pageSize;
+            const endIndex = startIndex + this.pageSize;
+
+            // Trả về danh sách sản phẩm dựa trên trang hiện tại và kích thước trang
+            return filtered.slice(startIndex, endIndex);
+        },
     },
+    computed: {
+        totalPages() {
+            return Math.ceil(this.products.length / this.pageSize);
+        },
+        showPagination() {
+            if (this.filteredProducts.length >= 4 || this.nextPage > 1) {
+                return true;
 
-    async mounted() {
-        this.imageUrl = response.data.image;
+            } else if (this.filteredProducts.length < 5 && this.nextPage == 1) {
+                return false;
+            }
+            return true;
+        },
     },
-
-
-
-}
+};
 </script>
+
 
 <style>
 @font-face {
@@ -520,6 +440,63 @@ export default {
     .bg-dark {
         background-color: #212529 !important;
     }
+
+    .sidebar {
+    width: 70%; /* Chiều rộng của sidebar */
+    margin-right: 20px; /* Khoảng cách giữa sidebar và nội dung chính */
+    border-right: 1px solid #ddd; /* Đường phân cách giữa sidebar và nội dung chính */
+}
+
+/* Định dạng cho danh sách nhóm trong sidebar */
+.list-group {
+    border: none; /* Xóa đường viền xung quanh list group */
+    padding: 0;
+    margin-bottom: 20px; /* Khoảng cách phía dưới list group */
+}
+
+/* Định dạng cho các mục trong list group */
+.list-group-item {
+    cursor: pointer; /* Cho phép các mục được nhấp chuột */
+    padding: 10px 15px; /* Tăng khoảng trống bên trong các mục */
+    border: none; /* Xóa đường viền xung quanh mục */
+
+    background-color: transparent; /* Đặt màu nền là trong suốt */
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển đổi màu nền và chữ khi hover */
+}
+
+.list-group-item.active {
+    background-color: transparent; /* Không thay đổi màu nền cho mục được chọn */
+    color: #333; /* Màu chữ thông thường */
+    font-weight: bold; /* Đậm chữ */
+}
+
+/* Định dạng khi hover (di chuột qua) các mục */
+.list-group-item:hover {
+    background-color: #f0f0f0; /* Màu nền nhẹ khi hover */
+}
+
+
+/* Định dạng cho khu vực danh sách sản phẩm */
+.collection-list {
+    flex-grow: 1; /* Cho phép khu vực danh sách sản phẩm chiếm phần còn lại của chiều rộng */
+}
+
+.sidebar-title {
+    font-weight: bold; /* Chữ đậm */
+    margin-bottom: 10px; /* Khoảng cách phía dưới tiêu đề */
+    color: #333; /* Màu chữ */
+}
+
+.pagination li a,
+.pagination li span {
+    border-radius: 20px;
+    padding: 8px 16px;
+}
+
+.pagination {
+    margin-right: 65px; /* Dịch phần tử sang bên trái */
+}
+
 
 }
 </style>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductSizeAmount;
 use App\Models\Storage;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductSizeAmountController extends Controller
@@ -11,7 +12,7 @@ class ProductSizeAmountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index()
     {
         //
@@ -110,5 +111,18 @@ class ProductSizeAmountController extends Controller
     public function destroy(ProductSizeAmount $productAmountSize)
     {
         //
+    }
+
+    public function getProductSizes(Request $request)
+    {
+        $productId = $request->input('id');
+
+        // Truy vấn database để lấy danh sách các size có sẵn cho sản phẩm
+        $availableSizes = ProductSizeAmount::whereHas('storage.product', function ($query) use ($productId) {
+            $query->where('id', $productId);
+        })->with('size')->get();
+
+        // Trả về danh sách các size có sẵn
+        return response()->json(['sizes' => $availableSizes]);
     }
 }

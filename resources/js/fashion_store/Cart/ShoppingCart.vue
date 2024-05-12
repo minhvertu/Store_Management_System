@@ -206,6 +206,9 @@ export default {
                 .catch(error => {
 
                     console.error('Error submitting order:', error);
+                    alert("Sorry, there are none of this sizes left");
+                    this.$store.commit('removeAllFromCart');
+
                 });
         }
     },

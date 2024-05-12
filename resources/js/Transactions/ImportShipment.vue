@@ -53,19 +53,14 @@
                                             v-model="shop.phone_number" />
                                     </div>
 
-                                    <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                        v-model="product.gender_item_code">
-                                        <option disabled value="">Select Gender</option>
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
-                                    </select>
+
 
                                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                         v-model="product.category_id">
                                         <option disabled value="">Select Category</option>
                                         <option v-for="category in categories" :key="category.id" :value="category.id">
                                             {{ category.name }}</option>
-                                    </select> -->
+                                    </select> 
 
                                 </div>
                                 <div class="modal-footer">
