@@ -129,6 +129,28 @@ class AuthController extends Controller
             ],
         ];
     }
+    elseif (str_contains($email, '@branch-manager.com')) {
+        // Tạo user với role_id = 2
+        $roleId = 5;
+        $employeeCode = $this->generateEmployeeCode();
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'employee_code' => $employeeCode,
+            'role_id' => $roleId,
+        ]);
+
+        // Đăng nhập người dùng và tạo token
+        $token = Auth::guard('api')->login($user);
+        $responseData = [
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ],
+        ];
+    }
      else {
         // Tạo client
         $client = Client::create([

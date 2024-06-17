@@ -84,11 +84,11 @@ export default {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const id = localStorage.getItem('id');
     const client_id = localStorage.getItem('client_id');
-    if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
-      this.$router.push('/fashion');
-    } else {
+    // if (!isLoggedIn || isLoggedIn !== 'true' || id == null) {
+    //   this.$router.push('/fashion');
+    // } else {
 
-    }
+    // }
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     this.loaded = true; // Đánh dấu trang đã được load
     window.addEventListener('beforeunload', this.clearLocalStorageOnClose);
@@ -99,11 +99,11 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleConfigurator", "navbarMinimize"]),
-    checkLogin() {
-      if (this.loaded && this.isLoggedIn) {
-        this.$router.push('/');
-      }
-    },
+    // checkLogin() {
+    //   if (this.loaded && this.isLoggedIn) {
+    //     this.$router.push('/');
+    //   }
+    // },
     clearLocalStorageOnClose(event) {
       // Kiểm tra nếu trang không được làm mới và không có action là /login
       if (!this.loaded && this.$route.path !== '/login') {

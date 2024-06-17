@@ -5,10 +5,10 @@
         <div class="row">
             <div class="col-12">
                 <!-- Page title -->
-                <div class="my-5">
+                <!-- <div class="my-5">
                     <h3>My Profile</h3>
                     <hr>
-                </div>
+                </div> -->
                 <!-- Form START -->
                 <form @submit.prevent="submitForm">
                     <div class="row mb-5 gx-5">
@@ -30,9 +30,8 @@
                                     <!-- Phone number -->
                                     <div class="col-md-6">
                                         <label class="form-label">Date of Birth</label>
-                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="" v-model="users.birth_day">
+                                        <input type="date" class="form-control" aria-label="Date of Birth" v-model="users.birth_day">
                                     </div>
-
                                     <!-- Mobile number -->
                                     <div class="col-md-6">
                                         <label class="form-label">Phone number *</label>
@@ -69,7 +68,7 @@
 
                                         <label class="btn btn-success me-2" >Upload</label>
                                         </button>
-                                        <button type="button" class="btn btn-danger">Remove</button>
+                                        <!-- <button type="button" class="btn btn-danger">Remove</button> -->
                                         <!-- Content -->
                                         <p class="text-muted mt-3 mb-0"><span class="me-1">Note:</span>Minimum size 300px x 300px</p>
                                     </div>
@@ -116,6 +115,30 @@
     </div>
 
     </main>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="updateToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Update Profile Successfully
+                        </div>
+                    </div>
+                </div>
   </template>
 
 
@@ -139,6 +162,13 @@
     components: { ProfileCard, ArgonInput, ArgonButton },
 
     methods: {
+
+        showUpdateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("updateToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
       openFileInput() {
         document.getElementById('loadFile').click();
       },
@@ -147,7 +177,7 @@
         try {
           console.log(this.users);
           await axios.put(`/api/editProfile/${id}`, this.users);
-          alert('Update Successfully');
+        this.showUpdateToast();
         } catch (error) {
           console.error(error);
         }

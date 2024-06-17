@@ -11,6 +11,9 @@ use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
+use App\Exports\OrderExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class OrderController extends Controller
 {
@@ -33,7 +36,7 @@ class OrderController extends Controller
         $ordersQuery = Order::with(['user', 'order_product.product', 'client']);
 
         // Kiểm tra vai trò của người dùng
-        if ($roleId == 4) {
+        if ($roleId == 4 || $roleId == 5) {
             // Nếu người dùng có role_id là 4, truy vấn toàn bộ các đơn hàng
             $orders = $ordersQuery->get();
         } else {
@@ -73,6 +76,7 @@ class OrderController extends Controller
 
         // Trả về danh sách các đơn hàng được lọc dưới dạng JSON
         return response()->json($orders);
+
     }
 
 
@@ -108,6 +112,7 @@ class OrderController extends Controller
         $order->user_id = null;
         $order->status = 'shipping';
     }
+    $order->save();
 
     $totalPrice = 0;
 
@@ -118,7 +123,7 @@ class OrderController extends Controller
         $orderProduct->order_id = $order->id;
         $orderProduct->product_id = $product['id'];
         $orderProduct->amount = $product['amount'];
-        $orderProduct->size_id = $product['size_id'];
+        $orderProduct->size_id = isset($product['size_id']) ? $product['size_id'] : null;
 
         // Tìm `storage_id` từ bảng storages dựa trên `product_id`
         $storage = Storage::where('product_id', $product['id'])->first();
@@ -126,10 +131,17 @@ class OrderController extends Controller
         // Nếu trạng thái là "shipping" hoặc "paid", cập nhật số lượng
         if ($order->status === 'shipping' || $order->status === 'paid') {
             if ($storage) {
-                $productSizeAmount = ProductSizeAmount::where([
-                    ['storage_id', '=', $storage->id],
-                    ['size_id', '=', $product['size_id']]
-                ])->first();
+                // Kiểm tra xem sản phẩm có `size_id` không
+                if (isset($product['size_id'])) {
+                    // Nếu có `size_id`, tìm `ProductSizeAmount` dựa trên `storage_id` và `size_id`
+                    $productSizeAmount = ProductSizeAmount::where([
+                        ['storage_id', '=', $storage->id],
+                        ['size_id', '=', $product['size_id']]
+                    ])->first();
+                } else {
+                    // Nếu không có `size_id`, tìm `ProductSizeAmount` dựa trên `storage_id`
+                    $productSizeAmount = ProductSizeAmount::where('storage_id', '=', $storage->id)->first();
+                }
 
                 if ($productSizeAmount) {
                     $productSizeAmount->amount -= $product['amount'];
@@ -191,13 +203,22 @@ class OrderController extends Controller
     $shopId = $request->user()->shop_id;
 
     // Đếm tổng số đơn hàng theo `shop_id`
-    $totalOrder = Order::whereHas('user', function ($query) use ($shopId) {
+    $totalOrder = 0;
+
+    // Kiểm tra nếu `shop_id` của người dùng là 2, đếm cả những đơn hàng không có `user_id`
+    if ($shopId == 2) {
+        $totalOrder += Order::whereNull('user_id')->count();
+    }
+
+    // Đếm số đơn hàng có `user_id` trùng với `shop_id`
+    $totalOrder += Order::whereHas('user', function ($query) use ($shopId) {
         $query->where('shop_id', $shopId);
     })->count();
 
     // Trả về kết quả dưới dạng JSON
     return response()->json(['totalOrder' => $totalOrder]);
 }
+
 
 
 
@@ -284,13 +305,13 @@ class OrderController extends Controller
     public function destroy(Request $request, $id)
     {
         //
-        if ($request->user()->can('delete-orders')) {
+
             $order = Order::find($id);
             $order->delete();
             return response([
                 'status' => true,
             ], 200);
-        }
+      
 
         return response([
             'status' => false,
@@ -413,6 +434,14 @@ public function calculateMonthlyShopRevenue(Request $request)
     ]);
 }
 
+public function get_order_data()
+    {
 
+
+        return Excel::download(new OrderExport, 'orders.xlsx');
+
+
+
+}
 
 }

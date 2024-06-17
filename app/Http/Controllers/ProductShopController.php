@@ -238,5 +238,64 @@ public function getProductsByBrand(Request $request)
     return response()->json($products);
 }
 
+public function getTopFourExpensiveProducts()
+{
+    // Lấy 4 sản phẩm có giá bán cao nhất sử dụng câu truy vấn SQL
+    $topFourExpensiveProducts = Product::orderByRaw('CAST(sell_price AS DECIMAL(10, 2)) DESC')
+                                        ->limit(4)
+                                        ->get();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json($topFourExpensiveProducts);
+}
+
+public function getTopFourCheapProducts()
+{
+    // Lấy 4 sản phẩm có giá bán cao nhất sử dụng câu truy vấn SQL
+    $topFourCheapProducts = Product::orderByRaw('CAST(sell_price AS DECIMAL(10, 2)) ASC')
+                                        ->limit(4)
+                                        ->get();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json($topFourCheapProducts);
+}
+
+public function getRandomFourGlassesProducts()
+{
+    // Lấy ngẫu nhiên 4 sản phẩm có category là "glasses"
+    $randomFourGlassesProducts = Product::whereHas('category', function ($query) {
+                                        $query->where('name', 'glasses');
+                                    })
+                                    ->limit(4)
+                                    ->get();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json($randomFourGlassesProducts);
+}
+
+public function getRandomFourAccessoriesProducts()
+{
+    // Lấy ngẫu nhiên 4 sản phẩm có category là "glasses"
+    $randomFourAccessoriesProducts = Product::whereHas('category', function ($query) {
+                                        $query->where('name', 'accessories');
+                                    })
+                                    ->limit(4)
+                                    ->get();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json($randomFourAccessoriesProducts);
+}
+
+public function getRandomProducts()
+{
+    // Lấy ngẫu nhiên 4 sản phẩm từ cơ sở dữ liệu
+    $randomProducts = Product::inRandomOrder()
+                             ->limit(4)
+                             ->get();
+
+    // Trả về kết quả dưới dạng JSON
+    return response()->json($randomProducts);
+}
+
 
 }

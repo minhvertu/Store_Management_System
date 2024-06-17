@@ -18,7 +18,10 @@ class UserRole extends Model
 
     protected $table = 'users_roles';
 
+    protected $primaryKey = null;
+    public $incrementing = false;
 
+    
     public function user()
     {
         return $this->belongsTo(User::class);

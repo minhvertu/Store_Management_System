@@ -79,6 +79,54 @@
         </div>
       </section>
     </main>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="loginToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Login Successfully
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="errorToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                           Error! Please Try Again.
+                        </div>
+                    </div>
+                </div>
   </template>
 
   <script>
@@ -119,23 +167,35 @@
       this.$store.state.showNavbar = true;
     },
     methods: {
+        showLoginToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("loginToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+        showErrorToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("errorToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
       loginUser() {
         axios.post('/api/login', this.user)
           .then(({ data }) => {
             console.log(data);
             try {
               if (data.status === 'success') {
-                alert('Login Successfully');
+                this.showLoginToast();
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
                 localStorage.setItem('authToken', data.authorisation.token);
                 localStorage.setItem('id', data.client.id);
                 localStorage.setItem('isLoggedIn', true);
                 this.$router.push('/fashion');
               } else {
-                alert('Login failed');
+                this.showLoginToast();
               }
             } catch (err) {
-              alert('Error, please try again');
+                this.showLoginToast();
             }
           })
           .catch(error => {

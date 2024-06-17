@@ -162,12 +162,36 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Import Products</button>
+                                    <button type="submit" class="btn btn-primary"  @click="showCreateToast">Import Products</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="createToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Import Product Successfully
+                        </div>
+                    </div>
+                </div>
 
 
                 <div class="modal fade" id="productCheckModal" tabindex="-1" aria-labelledby="productCheckModalLabel"
@@ -233,93 +257,92 @@
                     </tr>
                 </thead>
                 <tbody>
-    <template v-for="(shop, shopIndex) in filteredShops" :key="'shop-' + shopIndex">
-        <tr>
-            <td class="center-text">{{ shop.name }}</td>
-            <td class="center-text">{{ shop.address }}</td>
-            <td class="center-text">{{ shop.phone_number }}</td>
-            <td class="center-text">
-                <span class="material-symbols-outlined me-2">
-                    <button @click="deleteShop(shop, shopIndex)" type="button" class="btn btn-danger"
-                        data-mdb-ripple-init>delete_forever</button>
-                </span>
-                <span class="material-symbols-outlined me-2">
-                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                        data-bs-toggle="modal" data-bs-target="'#productCollapse-' + shopIndex" data-bs-whatever="@mdo"
-                        @click="openUpdateModal(shop)">edit</button>
-                </span>
-                <span class="material-symbols-outlined">
-                    <button type="button" class="btn btn-info" data-mdb-ripple-init
-                        data-bs-toggle="modal" :data-bs-target="'#productCollapse-' + shopIndex" data-bs-whatever="@mdo"
-                        >visibility</button>
-                </span>
-            </td>
-        </tr>
-        <!-- Modal for products in shop's inventory -->
-        <div class="modal fade" :id="'productCollapse-' + shopIndex" tabindex="-1" :aria-labelledby="'productCollapseLabel-' + shopIndex"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" :id="'productCollapseLabel-' + shopIndex">Product Check</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="input-group rounded" style="width: 40%;">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                        aria-describedby="search-addon" v-model="searchKeyword2" @input="searchProducts" />
-                    <span class="input-group-text bg-dark text-light" id="search-addon">
-                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-                    </span>
-                </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col" class="center-text"></th>
-                                        <th scope="col" class="center-text">Name</th>
-                                        <th scope="col" class="center-text">Product Code</th>
-                                        <th scope="col" class="center-text">Detail</th>
-                                    </tr>
-                                </thead>
-                               <tbody>
-    <template v-for="(storage, storageIndex) in storages" :key="'storage-' + storageIndex">
-        <template v-if="storage.shop_id === shop.id">
+                    <template v-for="(shop, shopIndex) in filteredShops" :key="'shop-' + shopIndex">
+                        <tr>
+                            <td class="align-middle text-center">{{ shop.name }}</td>
+                            <td class="align-middle text-center">{{ shop.address }}</td>
+                            <td class="align-middle text-center">{{ shop.phone_number }}</td>
+                            <td class="align-middle text-center">
+                                <span class="material-symbols-outlined me-2">
+                                    <!-- <button @click="deleteShop(shop, shopIndex)" type="button" class="btn btn-danger m-1"
+                                        data-mdb-ripple-init>delete_forever</button> -->
+                                </span>
+                                <span class="material-symbols-outlined me-2">
+                                    <button type="button" class="btn btn-warning m-1" data-mdb-ripple-init
+                                        data-bs-toggle="modal"  data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                        @click="openUpdateModal(shop)">edit</button>
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    <button type="button" class="btn btn-info m-1" data-mdb-ripple-init
+                                        data-bs-toggle="modal" :data-bs-target="'#productCollapse-' + shopIndex" data-bs-whatever="@mdo"
+                                        >visibility</button>
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- Modal for products in shop's inventory -->
+                        <div class="modal fade" :id="'productCollapse-' + shopIndex" tabindex="-1" :aria-labelledby="'productCollapseLabel-' + shopIndex"
+                            aria-hidden="true">
+                            <div class="modal-dialog custom-modal-size modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" :id="'productCollapseLabel-' + shopIndex">Product Check</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <div class="input-group rounded" style="width: 40%;">
+                                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                                                aria-describedby="search-addon" v-model="searchKeyword2" @input="searchProducts" />
+                                            <span class="input-group-text bg-dark text-light" id="search-addon">
+                                                <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                                            </span>
+                                        </div> -->
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col" class="center-text"></th>
+                                                        <th scope="col" class="center-text">Name</th>
+                                                        <th scope="col" class="center-text">Product Code</th>
+                                                        <th scope="col" class="center-text">Detail</th>
+                                                    </tr>
+                                                </thead>
+                                            <tbody>
+                                                        <template v-for="(storage, storageIndex) in storages" :key="'storage-' + storageIndex">
+                                                            <template v-if="storage.shop_id === shop.id">
 
-            <tr>
-                <td class="center-text">
-                    <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
-                        <img :src="'/storage/' + storage.product.image"
-                            alt="Product Image" class="shadow-sm border-radius-lg border border-1"
-                            style="width: 100%; height: 100%; object-fit: cover;" />
-                    </div>
-                </td>
-                <td class="center-text">{{ storage.product.name }}</td>
-                <td class="center-text">{{ storage.product.product_code }}</td>
-                <td class="center-text">
-                    <template v-for="(productSizeAmount, psaIndex) in storage.product_size_amount" :key="'psa-' + psaIndex">
-                        <div> Size: {{ getSizeName(productSizeAmount.size_id) }} - Amount: {{ productSizeAmount.amount }}</div>
-                    </template>
-                </td>
-            </tr>
-        </template>
-    </template>
-</tbody>
+                                                                <tr>
+                                                                    <td class="align-middle text-center">
+                                                                        <div class="image-container" style="width: 50px; height: 50px; overflow: hidden;">
+                                                                            <img :src="'/storage/' + storage.product.image"
+                                                                                alt="Product Image" class="shadow-sm border-radius-lg border border-1"
+                                                                                style="width: 100%; height: 100%; object-fit: cover;" />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="align-middle text-center">{{ storage.product.name }}</td>
+                                                                    <td class="align-middle text-center">{{ storage.product.product_code }}</td>
+                                                                    <td class="align-middle text-center">
+                                                                        <template v-for="(productSizeAmount, psaIndex) in storage.product_size_amount" :key="'psa-' + psaIndex">
+                                                                            <div> Size: {{ getSizeName(productSizeAmount.size_id) }} - Amount: {{ productSizeAmount.amount }}</div>
+                                                                        </template>
+                                                                    </td>
+                                                                </tr>
+                                                            </template>
+                                                        </template>
+                                                    </tbody>
 
-                            </table>
-                           
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-</tbody>
-
+                    </template>
+                </tbody>
             </table>
 
 
@@ -341,7 +364,29 @@
         </div>
 
 
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="updateToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
 
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Update Shop Successfully
+                        </div>
+                    </div>
+                </div>
 
     </div>
 
@@ -428,6 +473,33 @@ export default {
     },
 
     methods: {
+        hideUpdateModal() {
+            const modalEl = document.getElementById("updateModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        },
+
+        showCreateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("createToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showUpdateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("updateToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        hideModal() {
+            const modalEl = document.getElementById("importProducts");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        },
+
+
         getSizeName(sizeId) {
         const size = this.sizes.find(size => size.id === sizeId);
         return size ? size.name : 'Unknown'; // Trả về tên kích thước hoặc 'Unknown' nếu không tìm thấy
@@ -497,9 +569,13 @@ export default {
 
         async updateShop() {
             try {
-                await axios.put(`/api/shops/${this.editedShop.id}`, this.editedShop);
-                alert('Updated Shop Successfully');
-                window.location.href = '/shopManagement';
+                await axios.put(`/api/shops/${this.editedShop.id}`, this.editedShop)
+                .then((response) => {
+                        this.getStorages(); // Cập nhật danh sách sản phẩm
+                        this.getShops();
+                        this.hideUpdateModal();
+                        this.showUpdateToast(); // Hiển thị toast message
+                    });
             } catch (error) {
                 console.error(error);
 
@@ -507,9 +583,7 @@ export default {
         },
 
         getShops() {
-            const currentShopId = localStorage.getItem('shop_id');
-            const currentRoleId = localStorage.getItem('role_id');
-            if (currentRoleId == '2') {
+
                 axios.get('api/shops')
                 .then(response => {
                     this.shops = response.data;
@@ -519,17 +593,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-            } else if (currentRoleId != '2') {
-                axios.get(`api/shops?shop_id=${currentShopId}`)
-                .then(response => {
-                    this.shops = response.data;
-                    console.log(this.shops);
 
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            }
 
         },
 
@@ -578,10 +642,13 @@ export default {
                     header: {
                         'content-Type': 'multipart/form-data'
                     }
-                });
-                alert('Add Shop Successfully');
-                // this.$router.push('/productList');
-                window.location.href = '/shopManagement';
+                })  .then((response) => {
+                        this.getStorages(); // Cập nhật danh sách sản phẩm
+                        this.getShops();
+                        this.hideModal();
+                        this.showCreateToast(); // Hiển thị toast message
+                    });
+
             } catch (error) {
                 console.error(error);
             }
@@ -628,10 +695,12 @@ async importProductForm() {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        });
-        alert('Import Product Successfully');
-        // this.$router.push('/productList');
-        window.location.href = '/shopManagement';
+        }) .then((response) => {
+                        this.getStorages(); // Cập nhật danh sách sản phẩm
+                        this.hideModal();
+                        this.showCreateToast(); // Hiển thị toast message
+                    });
+
     } catch (error) {
         console.error(error);
     }
@@ -781,4 +850,8 @@ async importProductForm() {
     transform: scale(1.2);
     transition: transform 0.3s ease;
 }
+
+.custom-modal-size {
+        max-width: 59%;
+    }
 </style>

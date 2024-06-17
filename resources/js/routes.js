@@ -27,7 +27,7 @@ import ZaraMainpage from './fashion_store/Zara/ZaraMainPage.vue';
 import DolceMainpage from './fashion_store/Dolce/DolceMainPage.vue';
 import PradaMainpage from './fashion_store/Prada/PradaMainPage.vue';
 import CalvinKleinMainpage from './fashion_store/CalvinKlein/CalvinKleinMainPage.vue';
-import DataTablesTest from './components/DataTablesTest.vue';
+import UserManagement from './components/UserManagement.vue';
 import Orders from './Transactions/Orders.vue';
 import ProductDetail from './fashion_store/Cart/ProductDetail.vue';
 import ShopManagement from './ManagerStore/ShopManagement.vue';
@@ -38,8 +38,75 @@ import SellProducts from './Transactions/SellProducts.vue';
 import InvoiceTest from  './Transactions/InvoiceTest.vue';
 import ShopDetail from './Transactions/ShopDetail.vue';
 import ProductPage from './Transactions/ProductPage.vue';
+import ProductDetailOffline from './Transactions/ProductDetailOffline.vue';
 import ClientProfile from './fashion_store/ClientProfile/ClientProfile.vue';
+
+import FashionBlog from './fashion_store/FashionBlog/FashionBlog.vue';
+
 import Profile2 from './Profile/Profile2.vue';
+
+
+
+
+const getUserRole = () => {
+    // Lấy dữ liệu từ localStorage
+    const userRole = localStorage.getItem('role_id');
+    // Trả về vai trò của người dùng
+    return userRole;
+};
+
+const isBranchManager = (to, from, next) => {
+    // Thực hiện kiểm tra vai trò của người dùng
+    const userRole = getUserRole();
+
+    // Kiểm tra nếu người dùng có vai trò là admin
+    if (userRole === '4' || userRole === '5') {
+        next(); // Cho phép điều hướng tiếp theo
+    } else {
+        // Nếu người dùng không phải là admin, điều hướng về trang không tìm thấy hoặc trang khác
+        next('/not-found');
+    }
+};
+
+const isAdmin = (to, from, next) => {
+    // Thực hiện kiểm tra vai trò của người dùng
+    const userRole = getUserRole();
+
+    // Kiểm tra nếu người dùng có vai trò là admin
+    if (userRole === '4') {
+        next(); // Cho phép điều hướng tiếp theo
+    } else {
+        // Nếu người dùng không phải là admin, điều hướng về trang không tìm thấy hoặc trang khác
+        next('/not-found');
+    }
+};
+
+const isEmployee = (to, from, next) => {
+    // Thực hiện kiểm tra vai trò của người dùng
+    const userRole = getUserRole();
+
+    // Kiểm tra nếu người dùng có vai trò là admin
+    if (userRole === '1' || userRole === '4' || userRole === '2' || userRole === '5') {
+        next(); // Cho phép điều hướng tiếp theo
+    } else {
+        // Nếu người dùng không phải là admin, điều hướng về trang không tìm thấy hoặc trang khác
+        next('/not-found');
+    }
+};
+
+// Khai báo hàm middleware kiểm tra vai trò của người dùng
+const isManager = (to, from, next) => {
+    // Thực hiện kiểm tra vai trò của người dùng
+    const userRole = getUserRole();
+
+    // Kiểm tra nếu người dùng có vai trò là admin hoặc manager
+    if (userRole === '4' || userRole === '2' || userRole === '5') {
+        next(); // Cho phép điều hướng tiếp theo
+    } else {
+        // Nếu người dùng không phải là admin hoặc manager, điều hướng về trang không tìm thấy hoặc trang khác
+        next('/not-found');
+    }
+};
 
 
 export const routes = [
@@ -52,6 +119,7 @@ export const routes = [
         name: 'user',
         path: '/users',
         component: User,
+        beforeEnter: isAdmin,
     },
     {
         name: 'task',
@@ -85,11 +153,13 @@ export const routes = [
         name: 'employeeList',
         path: '/employeeList',
         component: EmployeeList,
+        beforeEnter: isManager,
     },
     {
         name: 'employeeManagement',
         path: '/employeeManagement',
         component: EmployeeManagement,
+        beforeEnter: isManager,
     },
     {
         name: 'editEmployee',
@@ -100,11 +170,13 @@ export const routes = [
         name: 'createEmployee',
         path: '/employees/create',
         component: EditEmployee,
+
     },
     {
         name: 'productList',
         path: '/productList',
         component: ProductList,
+        beforeEnter: isEmployee,
     },
     {
         name: 'createProduct',
@@ -124,12 +196,13 @@ export const routes = [
     {
         name: 'a/',
         path: '/',
-        redirect: "/dashboard-default",
+        redirect: "/fashion",
     },
     {
         name: 'dashboard',
         path: '/dashboard-default',
         component: Dashboard,
+        beforeEnter: isEmployee,
     },
     {
         name: 'fashion',
@@ -150,15 +223,16 @@ export const routes = [
     },
 
     {
-        name: 'dataTablesTest',
-        path: '/dataTablesTest',
-        component: DataTablesTest,
+        name: 'userManagement',
+        path: '/userManagement',
+        component: UserManagement,
     },
 
     {
         name: 'orders',
         path: '/orders',
         component: Orders,
+        beforeEnter: isEmployee,
     },
 
     {
@@ -171,6 +245,7 @@ export const routes = [
         name: 'shopManagement',
         path: '/shopManagement',
         component: ShopManagement,
+        beforeEnter: isEmployee,
     },
 
     {
@@ -189,6 +264,7 @@ export const routes = [
         name: 'importShipment',
         path: '/importShipment',
         component: ImportShipment,
+        beforeEnter: isEmployee,
     },
 
     {
@@ -267,24 +343,35 @@ export const routes = [
         name: 'profile',
         path: '/profile',
         component: Profile2,
+        beforeEnter: isEmployee,
     },
 
     {
         name: 'adminPermissions',
         path: '/adminPermissions',
         component: AdminPermissions,
+        beforeEnter: isAdmin,
     },
 
     {
         name: 'userRoles',
         path: '/userRoles',
         component: UserRoles,
+        beforeEnter: isAdmin,
     },
 
+    {
+        name: 'productDetailOffline',
+        path: '/products/productDetailOffline/:id/',
+        component: ProductDetailOffline,
+        beforeEnter: isEmployee,
+    },
 
-
-
-
+    {
+        name: 'fashionBlog',
+        path: '/fashionBlog',
+        component: FashionBlog,
+    },
 
 
 ]

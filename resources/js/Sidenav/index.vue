@@ -5,12 +5,12 @@
     :class="`${this.$store.state.darkMode ? 'bg-transparent' : 'bg-success'}`"
   />  -->
   <aside
-    class="overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+    class="overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs "
     :class="`${
       this.$store.state.isRTL
         ? 'me-3 rotate-caret fixed-end'
         : 'fixed-start '
-    } 
+    }
     ${
       this.$store.state.layout === 'landing'
         ? 'bg-transparent shadow-none'
@@ -35,7 +35,7 @@
           class="navbar-brand-img h-100"
           alt="main_logo"
         />
-        <span class="ms-2 font-weight-bold me-2">Thoi Trang Viet </span>
+        <span class="ms-2 font-weight-bold me-2">Vertu Phan Boutique</span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />
@@ -44,7 +44,7 @@
 </template>
 <script>
 import SidenavList from "../Sidenav/SidenavList.vue";
-import logo from "../../assets/img/logo-ct-dark.png";
+import logo from "../fashion_store/images/Vertu-logo.jpg";
 import logoWhite from "../../assets/img/logo-ct.png";
 import sharingan from "../../assets/img/sharingan.png";
 import kamui from "../../assets/img/kamui.gif";

@@ -13,10 +13,6 @@
                 </div>
                 <div class="col">
                     <div class="text-end">
-                        <router-link to="/employees/create" v-if="addPermission" class="p-2 col border btn ">Add
-                            Employee</router-link>
-                        <button type="button" class="p-2 col border btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Order</button>
                         <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
                             @click="exportEmployees">
                             Export Data
@@ -66,11 +62,11 @@
 
                                 <div class="modal-body">
                                     <!-- Hiển thị dữ liệu sản phẩm hiện tại -->
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label for="updatePrice" class="form-label">Price</label>
                                         <input class="form-control" type="text" id="updatePrice"
                                             v-model="editedOrder.price" />
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3">
     <label for="updateStatus" class="form-label">Status</label>
     <select class="form-select" id="updateStatus" v-model="editedOrder.status">
@@ -99,13 +95,61 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Update Product</button>
+                                    <button type="submit" class="btn btn-primary" @click="showUpdateToast">Update Product</button>
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 </form>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="updateToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Update Orders Successfully
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="deleteToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Delete Order Successfully
+                        </div>
+                    </div>
+                </div>
 
                 </div>
             </div>
@@ -142,16 +186,27 @@
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary ">{{ order.status }}</span>
+                                        <span v-if="order.status === 'cancelled'" class="badge bg-warning text-black fw-bold">
+                                            {{ order.status }}
+                                        </span>
+                                        <span v-else-if="order.status === 'shipping'" class="badge bg-info text-black fw-bold">
+                                            {{ order.status }}
+                                        </span>
+                                        <span v-else-if="order.status === 'paid'" class="badge bg-success text-black fw-bold">
+                                            {{ order.status }}
+                                        </span>
+                                        <span v-else class="badge bg-secondary text-black fw-bold">
+                                            {{ order.status }}
+                                        </span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="material-symbols-outlined me-2">
+                                    <span class="material-symbols-outlined m-1">
                                         <button @click="deleteOrders(order, index)" type="button"
-                                            class="btn btn-danger " data-mdb-ripple-init>delete_forever
+                                            class="btn btn-danger m-1" data-mdb-ripple-init>delete_forever
                                         </button>
                                     </span>
                                     <span class="material-symbols-outlined">
-                                        <button type="button" class="btn btn-info" data-mdb-ripple-init
+                                        <button type="button" class="btn btn-info m-1" data-mdb-ripple-init
                                         data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
                                         @click="openUpdateModal(order)">edit</button>
                                     </span>
@@ -169,14 +224,14 @@
                                                                 <strong>ID: {{ order.order_code }}</strong></p>
                                                         </div>
                                                         <div class="col-xl-3 float-end">
-                                                            <a data-mdb-ripple-init
+                                                            <!-- <a data-mdb-ripple-init
                                                                 class="btn btn-light text-capitalize border-0"
                                                                 data-mdb-ripple-color="dark"><i
                                                                     class="fas fa-print text-primary"></i> Print</a>
                                                             <a data-mdb-ripple-init
                                                                 class="btn btn-light text-capitalize"
                                                                 data-mdb-ripple-color="dark"><i
-                                                                    class="far fa-file-pdf text-danger"></i> Export</a>
+                                                                    class="far fa-file-pdf text-danger"></i> Export</a> -->
                                                         </div>
                                                         <hr>
                                                     </div>
@@ -184,7 +239,7 @@
                                                     <div class="">
                                                         <div class="col-md-12">
                                                             <div class="text-center">
-                                                                <h2>Vertu Invoice</h2>
+                                                                <h2>Invoice</h2>
                                                             </div>
 
                                                         </div>
@@ -219,11 +274,21 @@
                                                                             style="color:#84B0CA ;"></i> <span
                                                                             class="fw-bold">Creation Date: </span>{{ formatDate(order.created_at) }}
                                                                     </li>
-                                                                    <li class="text-muted"><i class="fas fa-circle"
-                                                                            style="color:#84B0CA ;"></i> <span
-                                                                            class="me-1 fw-bold">Status:</span><span
-                                                                            class="badge bg-warning text-black fw-bold">
-                                                                            {{ order.status }}</span></li>
+                                                                    <li class="text-muted">
+                                                                        <i class="fas fa-circle" style="color:#84B0CA ;"></i> <span
+                                                                            class="me-1 fw-bold">Status:</span> <span v-if="order.status === 'cancelled'" class="badge bg-warning text-black fw-bold">
+                                                                            {{ order.status }}
+                                                                        </span>
+                                                                        <span v-else-if="order.status === 'shipping'" class="badge bg-info text-black fw-bold">
+                                                                            {{ order.status }}
+                                                                        </span>
+                                                                        <span v-else-if="order.status === 'paid'" class="badge bg-success text-black fw-bold">
+                                                                            {{ order.status }}
+                                                                        </span>
+                                                                        <span v-else class="badge bg-secondary text-black fw-bold">
+                                                                            {{ order.status }}
+                                                                        </span>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -234,26 +299,26 @@
                                                                         class="text-white">
                                                                         <tr>
                                                                             <th></th>
-                                                                            <th scope="col" class="center-text">Products</th>
-                                                                            <th scope="col" class="center-text">Amount</th>
-                                                                            <th scope="col" class="center-text">Detail</th>
-                                                                            <th scope="col" class="center-text">Price</th>
+                                                                            <th scope="col" class="center-text align-middle">Products</th>
+                                                                            <th scope="col" class="center-text align-middle">Amount</th>
+                                                                            <th scope="col" class="center-text align-middle">Detail</th>
+                                                                            <th scope="col" class="center-text align-middlet">Price</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr v-for="(order_products, index2) in order.order_product" :key="index2">
-                                                                            <td>
+                                                                            <td class="center-text align-middle">
                                                                                 <div class="image-container" style="width: 70px; height: 70px; overflow: hidden;">
                                                                                     <img :src="'/storage/' + order_products.product.image" alt="Product Image"
                                                                                         class="shadow-sm border-radius-lg border border-1"
                                                                                         style="width: 100%; height: 100%; object-fit: cover;">
                                                                                 </div>
                                                                             </td>
-                                                                            <td class="center-text"> {{ order_products.product.name }}</td>
-                                                                            <td class="center-text" >{{ order_products.amount }}</td>
+                                                                            <td class="center-text align-middle"> {{ order_products.product.name }}</td>
+                                                                            <td class="center-text align-middle" >{{ order_products.amount }}</td>
 
-                                                                            <td class="center-text">{{ order.detail }}</td>
-                                                                            <td class="center-text">${{ order_products.product.sell_price }}</td>
+                                                                            <td class="center-text align-middle">{{ order.detail }}</td>
+                                                                            <td class="center-text align-middle">${{ order_products.product.sell_price }}</td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
@@ -267,10 +332,10 @@
                                                             <div class="col-xl-3">
                                                                 <ul class="list-unstyled">
                                                                     <li class="text-muted ms-3"><span
-                                                                            class="text-black me-4">SubTotal</span>$1110
+                                                                            class="text-black me-4">SubTotal</span>$0
                                                                     </li>
                                                                     <li class="text-muted ms-3 mt-2"><span
-                                                                            class="text-black me-4">Tax(15%)</span>$111
+                                                                            class="text-black me-4">Tax(0%)</span>$0
                                                                     </li>
                                                                 </ul>
                                                                 <p class="text-black float-start"><span
@@ -308,7 +373,35 @@
         </ul>
       </div>
             </div>
+
+
         </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="exportToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Export Data Successfully
+                        </div>
+                    </div>
+                </div>
+
+
 </template>
 <script>
 export default {
@@ -380,12 +473,57 @@ export default {
     this.getOrders();
   },
     methods: {
+        showExportToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("exportToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        exportEmployees() {
+      axios.get('/api/orders_export', { responseType: 'arraybuffer' })
+        .then(response => {
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+          var fileLink = document.createElement('a');
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', 'orders.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+            this.showExportToast();
+        })
+        .catch(error => {
+          console.error('Export failed:', error);
+          alert('Failed to export data. Please try again later.');
+        });
+    },
+
+        hideModal() {
+            const modalEl = document.getElementById("updateModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        },
+
+        showUpdateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("updateToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showDeleteToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("deleteToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
 
         async updateOrder() {
             try {
-                await axios.put(`/api/orders/${this.editedOrder.id}`, this.editedOrder);
-                alert('Updated Order Successfully');
-                window.location.href = '/orders';
+                await axios.put(`/api/orders/${this.editedOrder.id}`, this.editedOrder).then((response) => {
+                        this.getOrders();
+                        this.hideModal();
+
+                });
             } catch (error) {
                 console.error(error);
 
@@ -426,7 +564,7 @@ export default {
       this.filteredOrders = this.orders.filter(order => {
         return (
             order.price.toLowerCase().includes(keyword) ||
-            // order.phone_number.includes(keyword) ||
+            order.detail.includes(keyword) ||
             // order.detail.toLowerCase().includes(keyword) ||
             order.status.toLowerCase().includes(keyword) ||
             // order.client_name.toLowerCase().includes(keyword) ||
@@ -535,8 +673,9 @@ export default {
                         }, 3000);
                     } else {
                         this.orders.splice(index, 1);
+                        this.getOrders();
+                        this.showDeleteToast();
                     }
-                    alert('Orders deleted successfully!');
                 })
                 .catch(error => {
                     console.log(error);
@@ -553,6 +692,7 @@ export default {
         return (
         //   order.name.toLowerCase().includes(keyword) ||
             order.price.toLowerCase().includes(keyword) ||
+            order.detail.toLowerCase().includes(keyword) ||
             // order.phone_number.includes(keyword) ||
             // order.detail.toLowerCase().includes(keyword) ||
             order.status.toLowerCase().includes(keyword) ||

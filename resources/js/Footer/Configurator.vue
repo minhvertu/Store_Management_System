@@ -1,7 +1,11 @@
 <template>
     <div class="fixed-plugin">
-      <a
+      <!-- <a
         class="px-3 py-2 fixed-plugin-button text-dark position-fixed"
+        @click="toggle"
+      > -->
+      <a
+        class="px-3 py-2  text-dark position-fixed"
         @click="toggle"
       >
         <i class="py-2 fa fa-cog"></i>
@@ -120,7 +124,7 @@
               />
             </div>
           </div>
-  
+
           <hr class="horizontal dark my-4" />
           <div class="mt-2 mb-5 d-flex">
             <h6 class="mb-0" :class="this.$store.state.isRTL ? 'ms-2' : ''">
@@ -175,7 +179,7 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import { mapMutations } from "vuex";
   import { activateDarkMode, deactivateDarkMode } from "../../assets/js/dark-mode";
@@ -232,4 +236,3 @@
     }
   };
   </script>
-  

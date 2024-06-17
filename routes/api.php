@@ -26,7 +26,6 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GenderController;
-use App\Models\ProductSizeAmount;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +55,12 @@ Route::resource('tasks', TaskController::class);
 //* Users */
 
 //View Users
+// Route::get('/users/delete-employees/{users}', [UserController::class, 'destroy']);
+
+
+Route::get('users_export',[UserController::class, 'get_user_data'])->name('user.export');
+
+
 Route::get('/users/total-employees', [UserController::class, 'countEmployee']);
 
 Route::get('/users', [UserController::class, 'viewPermission']);
@@ -68,6 +73,9 @@ Route::post('/upload-image', [UserController::class, 'uploadImage']);
 //Profile
 Route::get('/profile/{user}', [UserController::class, 'show']);
 Route::resource('editProfile', UserController::class);
+Route::resource('users', UserController::class);
+
+
 
 //Upload Users Image
 
@@ -117,6 +125,10 @@ Route::resource('storages', StorageController::class);
 Route::resource('categories', CategoryController::class);
 
 //Orders
+
+Route::get('orders_export',[OrderController::class, 'get_order_data'])->name('order.export');
+
+
 Route::get('/orders/total-revenue-shop', [OrderController::class, 'calculateShopRevenue']);
 
 Route::get('/orders/monthly-revenue-shop', [OrderController::class, 'calculateMonthlyShopRevenue']);
@@ -149,6 +161,9 @@ Route::post('/cart/add{ product }', [CartController::class, ' addToCart']);
 
 Route::resource('sizes', SizeController::class);
 
+
+Route::get('/product_size_amounts_by_shop', [ProductSizeAmountController::class, 'getProductSizeAmountByShop']);
+
 Route::resource('product_size_amounts', ProductSizeAmountController::class);
 
 
@@ -166,13 +181,38 @@ Route::resource('productShop', ProductShopController::class);
 
 
 Route::get('/get1products', [ProductShopController::class, 'getProductsByBrand']);
+Route::get('/get-4-expensive-products', [ProductShopController::class, 'getTopFourExpensiveProducts']);
+Route::get('/get-4-cheap-products', [ProductShopController::class, 'getTopFourCheapProducts']);
+
+Route::get('/get-4-best-selling-products', [ProductShopController::class, 'getRandomFourGlassesProducts']);
+
+Route::get('/get-4-top-rated-products', [ProductShopController::class, 'getRandomFourAccessoriesProducts']);
+
+Route::get('/randomProducts', [ProductShopController::class, 'getRandomProducts']);
+
+
+Route::post('/userPermissionsUpdate', [UserPermissionController::class, 'update']);
 
 
 Route::resource('userPermissions', UserPermissionController::class);
 
 Route::resource('permissions', PermissionController::class);
 
-Route::resource('userRoles', UserRoleController::class);
+
+Route::post('/userRolesUpdate', [UserRoleController::class, 'update']);
+
+
+// Route::put('/userRoles/{userId}/{roleId}', [UserRoleController::class, 'update']);
+
+
+// Route::resource('userRoles', UserRoleController::class);
+// Route::put('/userRoles/{userId}', [UserRoleController::class, 'update']);
+
+
+Route::get('/userRoles', [UserRoleController::class, 'index']);
+
+
+
 
 Route::resource('roles', RoleController::class);
 
@@ -181,5 +221,8 @@ Route::resource('genders', GenderController::class);
 
 
 Route::get('/products/sizes', [ProductController::class, 'getProductSizes']);
+
+Route::delete('/userPermissions/{userId}/{permissionId}', [UserPermissionController::class, 'destroy']);
+
 
 

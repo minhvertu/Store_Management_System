@@ -12,6 +12,10 @@
                     <th scope="col">ID</th>
                     <th scope="col">User name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Shop</th>
+                    <th scope="col">Date of Birth</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -19,12 +23,15 @@
                         <th scope="row">{{ user.id }}</th>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
+                        <td>{{ user.role.name }}</td>
+                        <td>{{ user.shop.name}}</td>
+                        <td>{{ user.birth_day }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div> 
-    
+    </div>
+
 </template>
 
 <script>

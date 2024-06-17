@@ -21,9 +21,9 @@
                         data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
                     >Add Roles</button>
 
-                    <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
+                    <!-- <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark"
                         data-bs-toggle="modal" data-bs-target="#createRole" data-bs-whatever="@mdo"
-                    >Create Roles</button>
+                    >Create Roles</button> -->
                 </div>
 
 
@@ -64,37 +64,41 @@
                     </div>
                 </form>
 
-                <form @submit.prevent="createRole">
-                    <div class="modal fade" id="createRole" tabindex="-1" aria-labelledby="createRoleLabel"
+
+                <form @submit.prevent="updateUser">
+                    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Create Role Form</h5>
+                                    <h5 class="modal-title" id="updateModalLabel">Update Role</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Slug</label>
-                                        <input class="form-control" type="text" id="name" v-model="role.slug" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="sell_price" class="form-label">Name</label>
-                                        <input class="form-control" type="text" id="sell_price"
-                                            v-model="role.name" />
-                                    </div>
 
+                                <div class="modal-body">
+                                    <!-- Hiển thị dữ liệu sản phẩm hiện tại -->
+
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                        v-model="editedUser.role_id">
+                                        <option disabled value="">Select Role</option>
+                                        <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name
+                                            }}</option>
+                                    </select>
+
+                                    <!-- Các trường thông tin khác -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Create Role</button>
+                                    <button type="submit" class="btn btn-primary">Update Role</button>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </form>
+
 
 
             </div>
@@ -104,21 +108,132 @@
            <table class="table table-bordered">
                <thead>
                    <tr>
-                   <th scope="col">ID</th>
-                   <th scope="col">User name</th>
+                   <th scope="col">Name</th>
+                   <th scope="col">Email</th>
                    <th scope="col">Role</th>
                    </tr>
                </thead>
                <tbody>
-                   <tr v-for="(userRole, index) in userRoles" :key="'userRole-' + index">
-                       <th scope="row">{{ userRole.id }}</th>
-                       <td>{{ userRole.user.name }}</td>
-                       <td>{{ userRole.role.name }}</td>
+                   <tr v-for="(user) in users" :key="user.id">
+                       <td class="center-text align-middle">{{ user.name }}</td>
+                       <td class="center-text align-middle">{{ user.email }}</td>
+                       <td class="center-text align-middle">{{ user.role.name }}</td>
+
+                       <td class="center-text align-middle">
+                            <span class="material-symbols-outlined me-2">
+                                    <button @click="deleteUserPermission(userPermission)" type="button" class="btn btn-danger m-1 "
+                                        data-mdb-ripple-init>delete_forever</button>
+                             </span>
+                                <span class="material-symbols-outlined me-2">
+                                    <button type="button" class="btn btn-info m-1" data-mdb-ripple-init
+                                        data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="@mdo"
+                                        @click="openUpdateModal(user)">edit</button>
+                                </span>
+                       </td>
                    </tr>
                </tbody>
            </table>
        </div>
    </div>
+
+
+
+   <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="createToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Add Roles Successfully
+                        </div>
+                    </div>
+                </div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="updateToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Update Roles Successfully
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="updateToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Error
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="deleteToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Delete Roles Successfully
+                        </div>
+                    </div>
+                </div>
+
 
 </template>
 
@@ -132,8 +247,21 @@
                     user_id: '',
                     role_id: '',
                },
+
+               editedUser : {
+                id: '',
+                name: '',
+                role_id: '',
+               },
+               editedUserRole: {
+
+                role_id: '',
+                user_id: '',
+
+               },
                roles: [],
                role: {
+                id: '',
                     slug: '',
                     name: '',
                },
@@ -149,6 +277,101 @@
            this.getUsers()
        },
        methods: {
+
+        hideCreateModal() {
+            const modalEl = document.getElementById("exampleModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        },
+
+        hideUpdateModal() {
+            const modalEl = document.getElementById("updateModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        },
+
+        showDeleteToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("deleteToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showUpdateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("updateToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showCreateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("createToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showErrorToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("errorToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+
+//         async updateUserRole() {
+//     try {
+//         const response = await axios.post('/api/userRolesUpdate', this.editedUserRole);
+
+//         if (response.data.status) {
+//             alert('User Role updated successfully');
+
+//             this.editedUserRole = {
+//                 user_id: '',
+//                 role_id: ''
+//             };
+//             window.location.href = '/userRoles';
+
+
+//         } else {
+//             alert(response.data.message);
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         alert('An error occurred while updating user role.');
+//     }
+// },
+
+
+    async updateUser() {
+            try {
+                await axios.put(`/api/editProfile/${this.editedUser.id}`, this.editedUser)
+                .then((response) => {
+                        this.getUsers(); // Cập nhật danh sách sản phẩm
+                        this.hideUpdateModal();
+                        this.showUpdateToast(); // Hiển thị toast message
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+
+
+        openUpdateModal(user) {
+            // Điền dữ liệu sản phẩm hiện tại vào biến editedProduct
+            this.editedUser = {
+
+                id : user.id,
+                name : user.name,
+
+                role_id: user.role_id,
+
+            };
+            // Mở modal cập nhật sản phẩm
+            $('#updateModal').modal('show');
+        },
+
            getUserRoles () {
                axios.get('api/userRoles')
                .then(response => {

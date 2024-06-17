@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Employee;
+use App\Models\Employeez;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 
 class EmployeeExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
-{ 
+{
     /**
      * @return \Illuminate\Support\Collection
      */

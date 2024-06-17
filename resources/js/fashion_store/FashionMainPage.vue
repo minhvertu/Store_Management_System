@@ -249,52 +249,27 @@
                 </div>
 
                 <div class="special-list row g-0">
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2">
-                        <div class="special-img position-relative overflow-hidden">
-                            <img src="../fashion_store/images/special_product_1.jpg" class="w-100">
-                            <span
-                                class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                            <span class="fw-bold d-block">$ 45.50</span>
-                            <a href="#" class="btn btn-primary mt-3">Add to Cart</a>
-                        </div>
-                    </div>
+                    <template v-for="(expensive_product, index) in expensive_products" :key="'expensive_product-' + index">
 
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2">
-                        <div class="special-img position-relative overflow-hidden">
-                            <img src="../fashion_store/images/special_product_2.jpg" class="w-100">
-                            <span
-                                class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
-                                <i class="fas fa-heart"></i>
-                            </span>
+                        <div class="col-md-6 col-lg-4 col-xl-3 p-2">
+                            <router-link :to="`/products/productDetail/${expensive_product.id}`">
+                                <div class="special-img position-relative overflow-hidden">
+                                    <img :src="'/storage/' + expensive_product.image" class="w-100">
+                                    <span
+                                        class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
+                                        <i class="fas fa-heart"></i>
+                                    </span>
+                                </div>
+                            </router-link>
+                            <div class="text-center">
+                                <p class="text-capitalize mt-3 mb-1">{{ expensive_product.name }}</p>
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                            <span class="fw-bold d-block">$ 45.50</span>
-                            <a href="#" class="btn btn-primary mt-3">Add to Cart</a>
-                        </div>
-                    </div>
+                    </template>
 
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2">
-                        <div class="special-img position-relative overflow-hidden">
-                            <img src="../fashion_store/images/special_product_3.jpg" class="w-100">
-                            <span
-                                class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                            <span class="fw-bold d-block">$ 45.50</span>
-                            <a href="#" class="btn btn-primary mt-3">Add to Cart</a>
-                        </div>
-                    </div>
 
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2">
+
+                    <!-- <div class="col-md-6 col-lg-4 col-xl-3 p-2">
                         <div class="special-img position-relative overflow-hidden">
                             <img src="../fashion_store/images/special_product_4.jpg" class="w-100">
                             <span
@@ -307,7 +282,7 @@
                             <span class="fw-bold d-block">$ 45.50</span>
                             <a href="#" class="btn btn-primary mt-3">Add to Cart</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -336,54 +311,49 @@
                 </div>
 
                 <div class="row g-3">
+                        <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
+                            <div class="image-container">
+                                <img src="../fashion_store/images/tlv_elle.jpg" class="blog-image">
+                            </div>
+                            <div class="card-body px-0">
+                                <h4 class="card-title" style="text-align: justify;">GƯƠNG MẶT TRANG BÌA TOULIVER: NGƯỜI KIẾN TẠO TẦM NHÌN</h4>
+                                <p class="card-text  card-text-custom mt-3 text-muted" style="text-align: justify;">Nhiều năm trước, Touliver lập nên SpaceSpeakers với mong muốn có một nhóm để các thành viên cùng nhau tạo ra thế giới âm nhạc riêng. Quyết tâm ấy không phải một khát vọng tầm thường, bởi sau gần một thập kỷ kiên trì, “thế giới âm nhạc” ấy đã làm thay đổi toàn bộ nền âm nhạc Việt Nam hiện đại.</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <span class="fw-bold">Author: </span>Thai Khang Pham
+                                    </small>
+                                </p>
+                                <a href="https://mensfolio.vn/guong-mat-trang-bia-touliver-nguoi-kien-tao-tam-nhin/" class="btn">Read More</a>
+                            </div>
+                        </div>
+
                     <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                        <img src="../fashion_store/images/blog_1.jpg" alt="">
+                        <div class="image-container">
+                            <img src="../fashion_store/images/elle_cb3.jpg" alt="" class="blog-image">
+                        </div>
                         <div class="card-body px-0">
-                            <h4 class="card-title">Lorem ipsum, dolor sit amet consectetur adipisicing</h4>
-                            <p class="card-text mt-3 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing
-                                elit.
-                                Eveniet aspernatur repudiandae nostrum dolorem molestias odio. Sit fugit adipisci omnis
-                                quia
-                                itaque ratione iusto sapiente reiciendis, numquam officiis aliquid ipsam fuga.</p>
+                            <h4 class="card-title" style="text-align: justify;">ĐÃ BỚT VỘI VÃ NHƯNG VẪN HAY LO</h4>
+                            <p class="card-text card-text-custom mt-3 text-muted" style="text-align: justify;">Gặp lại Elle Việt Nam lần này, Châu Bùi mang một tâm thái bình yên lạ thường. Không chỉ trưởng thành về mặt phong cách hay suy nghĩ, cô nàng đa năng còn cho thấy thái độ cầu tiến và khiêm nhường của một người ý thức được những giá trị thực sự trong cuộc sống.</p>
                             <p class="card-text">
                                 <small class="text-muted">
-                                    <span class="fw-bold">Author: </span>John Doe
+                                    <span class="fw-bold">Author: </span>Minh Vertu
                                 </small>
                             </p>
-                            <a href="#" class="btn">Read More</a>
+                            <a href="https://marc.com.vn/blogs/mac-dep/high-fashion" class="btn">Read More</a>
                         </div>
                     </div>
 
                     <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                        <img src="../fashion_store/images/blog_2.jpg" alt="">
-                        <div class="card-body px-0">
-                            <h4 class="card-title">Lorem ipsum, dolor sit amet consectetur adipisicing</h4>
-                            <p class="card-text mt-3 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing
-                                elit.
-                                Eveniet aspernatur repudiandae nostrum dolorem molestias odio. Sit fugit adipisci omnis
-                                quia
-                                itaque ratione iusto sapiente reiciendis, numquam officiis aliquid ipsam fuga.</p>
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    <span class="fw-bold">Author: </span>John Doe
-                                </small>
-                            </p>
-                            <a href="#" class="btn">Read More</a>
+                        <div class="image-container">
+                            <img src="../fashion_store/images/elle_cb2.jpg" alt="" class="blog-image">
                         </div>
-                    </div>
-
-                    <div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-                        <img src="../fashion_store/images/blog_3.jpg" alt="">
                         <div class="card-body px-0">
-                            <h4 class="card-title">Lorem ipsum, dolor sit amet consectetur adipisicing</h4>
-                            <p class="card-text mt-3 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing
-                                elit.
-                                Eveniet aspernatur repudiandae nostrum dolorem molestias odio. Sit fugit adipisci omnis
-                                quia
-                                itaque ratione iusto sapiente reiciendis, numquam officiis aliquid ipsam fuga.</p>
+                            <h4 class="card-title" style="text-align: justify;">CHÂU BÙI – CƠ HỘI YÊU KHÔNG PHẢI LÚC NÀO CŨNG ĐẾN</h4>
+                            <p class="card-text card-text-custom mt-3 text-muted " style="text-align: justify;">ELLE Việt Nam đã hợp tác với Châu Bùi trong nhiều sự kiện, chương trình quảng bá, các dự án lớn, nhỏ khác nhau. Châu cũng có hai lần lên trang bìa Tạp chí ELLE và ở lần thứ ba này, sự kết nối giữa Châu và ê-kíp vẫn thật suôn sẻ, với nguồn năng lượng tích cực từ phòng thay đồ đến phông chụp.
+                            .</p>
                             <p class="card-text">
                                 <small class="text-muted">
-                                    <span class="fw-bold">Author: </span>John Doe
+                                    <span class="fw-bold">Author: </span>Thùy Trang
                                 </small>
                             </p>
                             <a href="#" class="btn">Read More</a>
@@ -395,7 +365,7 @@
         <!-- end of blogs -->
 
         <!-- about us -->
-        <section id="about" class="py-5">
+        <section id="about" class="py-5" >
             <div class="container">
                 <div class="row gy-lg-5 align-items-center">
                     <div class="col-lg-6 order-lg-1 text-center text-lg-start">
@@ -423,78 +393,50 @@
 
                 <div class="row">
                     <div class="col-md-6 col-lg-4 row g-3">
-                        <h3 class="fs-5">Top Rated</h3>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/top_rated_1.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/top_rated_2.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/top_rated_3.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 row g-3">
                         <h3 class="fs-5">Best Selling</h3>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/best_selling_1.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/best_selling_2.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/best_selling_3.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
+                        <template v-for="(top_rated_product, index) in top_rated_products" :key="'top_rated_product-' + index">
+                            <router-link :to="`/products/productDetail/${top_rated_product.id}`">
+                                <div class="d-flex align-items-start justify-content-start">
+                                    <img :src="'/storage/' + top_rated_product.image" alt="" class="img-fluid pe-3 w-25">
+                                    <div>
+                                        <p class="mb-0">{{ top_rated_product.name }}</p>
+                                        <span>$ {{ top_rated_product.sell_price }}</span>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </template>
                     </div>
 
                     <div class="col-md-6 col-lg-4 row g-3">
                         <h3 class="fs-5">On Sale</h3>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/on_sale_1.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/on_sale_2.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start justify-content-start">
-                            <img src="../fashion_store/images/on_sale_3.jpg" alt="" class="img-fluid pe-3 w-25">
-                            <div>
-                                <p class="mb-0">Blue Shirt</p>
-                                <span>$ 20.00</span>
-                            </div>
-                        </div>
+                        <template v-for="(cheap_product, index) in cheap_products" :key="'cheap_product-' + index">
+                            <router-link :to="`/products/productDetail/${cheap_product.id}`">
+
+                                <div class="d-flex align-items-start justify-content-start">
+                                    <img :src="'/storage/' + cheap_product.image" alt="" class="img-fluid pe-3 w-25">
+                                    <div>
+                                        <p class="mb-0">{{ cheap_product.name }}</p>
+                                        <span>$ {{ cheap_product.sell_price }}</span>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </template>
+
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 row g-3">
+                        <h3 class="fs-5">Best Selling</h3>
+                        <template v-for="(best_selling_product, index) in best_selling_products" :key="'best_selling_product-' + index">
+                            <router-link :to="`/products/productDetail/${best_selling_product.id}`">
+                                <div class="d-flex align-items-start justify-content-start">
+                                    <img :src="'/storage/' + best_selling_product.image" alt="" class="img-fluid pe-3 w-25">
+                                    <div>
+                                        <p class="mb-0">{{ best_selling_product.name }}</p>
+                                        <span>$ {{ best_selling_product.sell_price }}</span>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -544,6 +486,10 @@ export default {
     data() {
         return {
             products: [],
+            expensive_products: [],
+            cheap_products: [],
+            best_selling_products: [],
+            top_rated_products: [],
             product: {
                 id: '',
                 name: '',
@@ -579,6 +525,10 @@ export default {
 
     created() {
         this.getProducts();
+        this.getExpensiveProducts();
+        this.getCheapProducts();
+        this.getBestSellingProducts();
+        this.getTopRatedProducts();
 
     },
 
@@ -589,6 +539,54 @@ export default {
                 .then(response => {
                     this.products = response.data;
                     console.log(this.products);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getExpensiveProducts() {
+            axios.get('api/get-4-expensive-products')
+                .then(response => {
+                    this.expensive_products = response.data;
+                    console.log(this.expensive_products);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getCheapProducts() {
+            axios.get('api/get-4-cheap-products')
+                .then(response => {
+                    this.cheap_products = response.data;
+                    console.log(this.cheap_products);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getBestSellingProducts() {
+            axios.get('api/get-4-best-selling-products')
+                .then(response => {
+                    this.best_selling_products = response.data;
+                    console.log(this.best_selling_products);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        getTopRatedProducts() {
+            axios.get('api/get-4-top-rated-products')
+                .then(response => {
+                    this.top_rated_products = response.data;
+                    console.log(this.top_rated_products);
 
                 })
                 .catch(error => {
@@ -856,5 +854,31 @@ export default {
     .fade-leave-to {
         opacity: 0;
     }
+
+    .blog-image {
+        width: 100%; /* Độ rộng tối đa là 100% của khung chứa */
+    height: 100%; /* Độ cao tối đa là 100% của khung chứa */
+
+}
+
+.bg-transparent {
+    padding: 0 12px;
+}
+.card-body {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    height: 500px;
+}
+
+.card-title {
+    height: 100px;
+}
+.card-text-custom {
+    height: 200px;
+}
+
+.image-container {
+    height: 400px;
+}
 }
 </style>

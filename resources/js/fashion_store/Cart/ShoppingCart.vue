@@ -119,6 +119,54 @@
         </section>
         <footer_fashion></footer_fashion>
     </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="createToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Register Successfully
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="errorToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            "There are no items in the shopping cart. Please add items before submitting the order."
+                        </div>
+                    </div>
+                </div>
 </template>
 
 <script>
@@ -163,6 +211,19 @@ export default {
     },
 
     methods: {
+        showCreateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("createToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+
+        showErrorToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("errorToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
         removeFromCart(index) {
             this.$store.commit('removeFromCart', index);
         },
@@ -179,7 +240,7 @@ export default {
         },
         submitOrder() {
             if (this.cartItems.length === 0) {
-                alert("There are no items in the shopping cart. Please add items before submitting the order.");
+              this.showErrorToast();
                 return;
             }
 
@@ -200,7 +261,7 @@ export default {
                     console.log('Order submitted successfully:', response.data);
 
                     this.$store.commit('removeAllFromCart');
-                    alert("Order created successfully");
+                   this.showCreateToast();
                     window.location.href = '/regards';
                 })
                 .catch(error => {

@@ -17,20 +17,26 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
-        //
+        // Lấy shop_id và role_id từ người dùng đang đăng nhập
         $shopId = $request->user()->shop_id;
         $roleId = $request->user()->role_id;
 
+        // Khởi tạo biến $shops để tránh lỗi khi không có giá trị được gán
+        $shops = null;
 
-        if ($roleId == 4) {
-            return response()->json(Shop::all());
-        } else if ($roleId != '4') {
-
-        $shops = Shop::where('id', $shopId)->get();
+        // Kiểm tra role_id của người dùng
+        if ($roleId == 4 || $roleId == 5) {
+            // Nếu role_id là 4 hoặc 5, trả về tất cả cửa hàng
+            $shops = Shop::all();
+        } else {
+            // Nếu role_id không phải là 4 hoặc 5, lọc theo shop_id của người dùng
+            $shops = Shop::where('id', $shopId)->get();
         }
 
+        // Trả về danh sách cửa hàng
         return response()->json($shops);
     }
+
 
 
     /**

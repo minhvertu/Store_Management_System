@@ -58,7 +58,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
 {
-    if ($request->user()->can('create-products')) {
+    // if ($request->user()->can('create-products')) {
         // Kiểm tra và xác nhận hình ảnh được gửi lên
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -91,7 +91,7 @@ class ProductController extends Controller
         $product->save();
 
         return response()->json($product);
-    }
+    // }
 
     return response([
         'status' => false,

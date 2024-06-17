@@ -9,10 +9,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class EmployeeController extends Controller
 {
     //
-    public function __construct()
-    {
-        $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api'); //bắt buộc khi sử dụng phải đăng nhập
+    // }
 
     /**
      * Display a listing of the resource.

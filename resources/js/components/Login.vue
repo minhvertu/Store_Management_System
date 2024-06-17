@@ -79,6 +79,55 @@
       </div>
     </section>
   </main>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="loginToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Login Successfully
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="errorToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                           Error! Please Try Again.
+                        </div>
+                    </div>
+                </div>
+
 </template>
 
 <script>
@@ -119,13 +168,24 @@ export default {
     this.$store.state.showNavbar = true;
   },
   methods: {
+    showLoginToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("loginToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
+        showErrorToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("errorToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
     loginUser() {
       axios.post('/api/login', this.user)
         .then(({ data }) => {
           console.log(data);
           try {
             if (data.status === 'success') {
-              alert('Login Successfully');
 
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.authorisation.token;
               localStorage.setItem('authToken', data.authorisation.token);
@@ -134,22 +194,30 @@ export default {
               localStorage.setItem('shop_id', data.user.shop_id);
               localStorage.setItem('permission_id', JSON.stringify(data.permission_id));
               localStorage.setItem('isLoggedIn', true);
+              this.showLoginToast();
+
               console.log(data.permission_id);
               if (data.user.role_id == 3) {
                 this.$router.push('/fashion');
-              } else if (data.user.role_id !== 3) {
+              } else if (data.user.role_id == 1 || data.user.role_id == 2)  {
               this.$router.push('/dashboard-default');
               }
+              else if (data.user.role_id == 4)  {
+              this.$router.push('/userManagement');
+              }
+              else if (data.user.role_id == 5)  {
+              this.$router.push('/employeeManagement');
+              }
             } else {
-              alert('Login failed');
+                this.showLoginToast();
             }
           } catch (err) {
-            alert('Error, please try again');
+            this.showErrorToast();
           }
         })
         .catch(error => {
           console.error(error);
-          alert('An error occurred, please try again');
+          this.showErrorToast();
         });
     },
   },

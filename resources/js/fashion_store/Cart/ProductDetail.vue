@@ -143,37 +143,26 @@
 
             <div class="container similar-products my-4">
                 <hr />
-                <p class="display-5">Similar Products</p>
+                <p class="display-5">Other Products</p>
 
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="similar-product">
-                            <img class="w-100" src="https://source.unsplash.com/gsKdPcIyeGg" alt="Preview" />
-                            <p class="title">Lovely black dress</p>
-                            <p class="price">$100</p>
+                    <template v-for="(similarProduct, index) in similarProducts" :key="'similarProduct-' + index">
+                        <div class="col-md-3">
+                            <div class="similar-product">
+                                <img class="w-100" :src="'/storage/' + similarProduct.image" alt="Preview" />
+                                <p class="title" style="text-align: center" >{{ similarProduct.name }}</p>
+                                <p class="price" style="text-align: center">$ {{ similarProduct.sell_price }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="similar-product">
-                            <img class="w-100" src="https://source.unsplash.com/sg_gRhbYXhc" alt="Preview" />
-                            <p class="title">Lovely Dress with patterns</p>
-                            <p class="price">$85</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="similar-product">
-                            <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview" />
-                            <p class="title">Lovely fashion dress</p>
-                            <p class="price">$200</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    </template>
+
+                    <!-- <div class="col-md-3">
                         <div class="similar-product">
                             <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview" />
                             <p class="title">Lovely red dress</p>
                             <p class="price">$120</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -214,6 +203,30 @@
 
         <footer_fashion></footer_fashion>
     </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="createToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Add Product To Cart Successfully
+                        </div>
+                    </div>
+                </div>
 </template>
 
 
@@ -231,6 +244,7 @@ export default {
                 id: '',
                 name: '',
             },
+            similarProducts:[],
             imageUrl: null,
             order: {
                 user_id: '',
@@ -266,9 +280,16 @@ export default {
         this.getSizes();
         this.getDescriptionImages(),
         this.$store.state.showSidenav = false;
+        this.getSimilarProducts();
     },
 
     computed: {
+        showCreateToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("createToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
         filteredSizes() {
     // Kiểm tra xem sản phẩm đã được tải lên chưa và sản phẩm có size_id không
     if (!this.products || !this.products.storages || this.products.size_id === null) {
@@ -303,7 +324,17 @@ export default {
 
     methods: {
 
+        getSimilarProducts() {
 
+        axios.get('/api/randomProducts')
+            .then(response => {
+                this.similarProducts = response.data;
+                console.log(this.similarProducts); // Kiểm tra dữ liệu
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
 
 
 
@@ -358,7 +389,7 @@ export default {
 
             // Gọi action addToCart để thêm sản phẩm vào giỏ hàng
             this.$store.dispatch('addToCart', productToAdd);
-            alert('Product Added To Cart Succesfully');
+            this.showCreateToast();
             console.log(productToAdd);
         },
     },

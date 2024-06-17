@@ -25,11 +25,11 @@ class StorageController extends Controller
         //
         $shopId = $request->user()->shop_id;
         $roleId = $request->user()->role_id;
-        if ($roleId == '4') {
+        if ($roleId == '4' || $roleId == '5') {
             $storage = Storage::with ([ 'shop','product', 'product_size_amount'
             ])->get();
             return response()->json($storage);
-        } else if ( $roleId !='4') {
+        } else if ( $roleId =='1' || $roleId == '2' || $roleId == '3') {
             $storage = Storage::with(['shop', 'product', 'product_size_amount'])
             ->where('shop_id', $shopId) // Lọc theo shop_id
             ->get();

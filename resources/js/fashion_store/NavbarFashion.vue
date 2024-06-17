@@ -12,16 +12,16 @@
                 <router-link to="/shoppingCart">
                     <button type="button" class="btn position-relative">
                         <i class="fa fa-shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                       
                     </button>
                  </router-link>
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-heart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">2</span>
-                </button>
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-search"></i>
-                </button>
+                 <router-link to="/clientProfile">
+                    <button type="button" class="btn position-relative">
+                        <i class="fa fa-user"></i>
+
+                    </button>
+                </router-link>
+
             </div>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -48,6 +48,9 @@
                     <li class="nav-item px-2 py-2 border-0">
                         <a class="nav-link text-uppercase text-dark" href="#popular">popular</a>
                     </li>
+                    <li class="nav-item px-2 py-2">
+                        <router-link to="/fashionBlog"><a class="nav-link text-uppercase text-dark">My blogs</a></router-link>
+                    </li>
                     <li class="nav-item dropdown px-2 py-2">
     <a class="nav-link text-uppercase text-dark" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         account
@@ -59,10 +62,6 @@
         </li>
 
         <li>
-            <router-link to="/signUp" class="dropdown-item">Sign Up</router-link>
-        </li>
-        
-        <li>
             <router-link to="/loginShop" class="dropdown-item">Shop</router-link>
         </li>
 
@@ -72,9 +71,7 @@
         <!-- Bạn có thể thêm các mục khác ở đây nếu cần -->
     </ul>
 </li>
-<li class="nav-item px-2 py-2 border-0">
-    <router-link to="/clientProfile" class="nav-link text-uppercase text-dark" href="#popular">Profile</router-link>
-</li>
+
                 </ul>
             </div>
         </div>

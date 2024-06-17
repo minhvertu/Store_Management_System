@@ -21,7 +21,7 @@
                 :placeholder="
                 this.$store.state.isRTL ? 'أكتب هنا...' : 'Type here...'
               "
-              /> 
+              />
               -->
           </div>
         </div>

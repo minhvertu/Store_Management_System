@@ -18,6 +18,10 @@ class UserPermission extends Model
 
     protected $table = 'users_permissions';
 
+    protected $primaryKey = null;
+    public $incrementing = false;
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -9,7 +9,6 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
@@ -18,37 +17,46 @@ class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     public function headings(): array
     {
         return [
-            '#',
             'Name',
-            'Product_code',
-            'Amount',
+            'Product Code',
             'Import Price',
             'Sell Price',
-            'Gender Item Code',
-            'Brands',
+            'Gender',
+            'Brand',
             'Category',
-            'Size',
-            'Created_at',
-            'Updated_at'
+            'Day Create',
+            'Day Update'
         ];
     }
 
     public function collection()
     {
-        return Product::all();
+        return Product::all()->map(function ($product) {
+            return [
+                'name' => $product->name,
+                'product_code' => $product->product_code,
+                'import_price' => $product->import_price,
+                'sell_price' => $product->sell_price,
+                'gender' => $product->gender->name ?? '',
+                'brand' => $product->brand->name ?? '', // Assuming brand is a relationship
+                'category' => $product->category->name ?? '',
+                'created_at' => $product->created_at ? $product->created_at->format('Y-m-d') : '',
+                'updated_at' => $product->updated_at ? $product->updated_at->format('Y-m-d') : ''
+            ];
+        });
     }
 
     public function registerEvents(): array
     {
-        $color = 'CCEEFF'; // Màu xanh nhạt
+        $color = 'CCEEFF'; // Light blue color
         return [
             AfterSheet::class => function(AfterSheet $event) use ($color) {
-                // Lấy range của bảng dữ liệu
+                // Get the range of the data table
                 $highestRow = $event->sheet->getHighestRow();
                 $highestColumn = $event->sheet->getHighestColumn();
                 $range = 'A1:' . $highestColumn . $highestRow;
 
-                // Thiết lập border cho bảng
+                // Set the border for the table
                 $event->sheet->getStyle($range)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -58,7 +66,7 @@ class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                     ],
                 ]);
 
-                // Thiết lập màu cho từng dòng
+                // Set the color for each row
                 for ($row = 2; $row <= $highestRow; $row++) {
                     $event->sheet->getStyle('A' . $row . ':' . $highestColumn . $row)->applyFromArray([
                         'fill' => [
@@ -66,11 +74,11 @@ class ProductExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                             'color' => ['rgb' => $color],
                         ],
                     ]);
-                    // Đảo màu để xen kẽ
+                    // Alternate color for rows
                     $color = ($color == 'CCEEFF') ? 'FFFFCC' : 'CCEEFF';
                 }
 
-                // Canh trái nội dung trong bảng
+                // Align the content to the left
                 $event->sheet->getStyle('A1:' . $highestColumn . $highestRow)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             },
         ];

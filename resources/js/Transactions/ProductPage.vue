@@ -20,19 +20,21 @@
                 </div>
             </div>
         </div>
-        <section style="background-color: #eee;">
+        <section style="background-color: rgb(228 217 217 / 7%) !important">
             <div class="text-center container py-5">
                 <div class="row">
                     <template v-for="(storage, storageIndex) in filteredShops" :key="storage.id">
                         <div class="col-lg-3 col-md-4 mb-4">
                             <div class="card">
+                                <router-link :to="`/products/productDetailOffline/${storage.product.id}`">
                                 <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                                     data-mdb-ripple-color="light">
-                                    <img :src="'/storage/' + storage.product.image" class="w-100" alt="Product image"   />
+                                    <img :src="'/storage/' + storage.product.image" class="w-100" alt="Product image"  style="margin-top: 10px;" />
                                 </div>
+                                </router-link>
                                 <div class="card-body">
                                     <a href="" class="text-reset">
-                                        <h5 class="card-title mb-3">{{ storage.product.name }}</h5>
+                                        <h5 class="card-title mb-3 card-custom">{{ storage.product.name }}</h5>
                                     </a>
                                     <!-- <a href="" class="text-reset">
                                             <p>{{ storage.product.category_id }}</p>
@@ -40,19 +42,20 @@
                                     <h6 class="mb-1">${{ storage.product.sell_price }}</h6>
 
                                     <div class="">
-                                        <select class="form-select form-select-sm mx-auto"
+                                        <!-- <select class="form-select form-select-sm mx-auto"
                                             aria-label=".form-select-lg example" v-model="storage.product.size_id"
                                             style="width: 70px;">
                                             <option disabled value="">Select Sizes</option>
                                             <option v-for="size in sizes" :key="size.id" :value="size.id">
                                                 {{ size.name }}
                                             </option>
-                                        </select>
+                                        </select> -->
+
                                     </div>
                                 </div>
                             </div>
-                            <button @click="addToCart(storage)" type="button" class="btn btn-info "
-                                data-mdb-ripple-init> <i class="fa fa-shopping-cart"></i></button>
+                            <!-- <button @click="addToCart(storage)" type="button" class="btn btn-info "
+                                data-mdb-ripple-init> <i class="fa fa-shopping-cart"></i></button> -->
                         </div>
                     </template>
                 </div>
@@ -250,6 +253,7 @@ export default {
     },
 
     computed: {
+
         filteredShops() {
         const keyword = this.searchKeyword.toLowerCase();
         const startIndex = (this.currentPage - 1) * this.pageSize;
@@ -294,3 +298,13 @@ export default {
 }
 
 </script>
+
+<style>
+.card-custom {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    height: 60px
+}
+
+</style>

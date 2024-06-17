@@ -60,7 +60,7 @@
                                         <option disabled value="">Select Category</option>
                                         <option v-for="category in categories" :key="category.id" :value="category.id">
                                             {{ category.name }}</option>
-                                    </select> 
+                                    </select>
 
                                 </div>
                                 <div class="modal-footer">
@@ -222,10 +222,10 @@
             <table class="table " style="border: 1px ; border-radius: 5px;">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center  text-uppercase" @click="sortBy('name')">
+                        <!-- <th scope="col" class="text-center  text-uppercase" @click="sortBy('name')">
                             ID
                             <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
+                        </th> -->
                         <th scope="col" class="text-center  text-uppercase" @click="sortBy('address')">
                             Date
                             <span class="arrow" :class="sortOrders['address'] > 0 ? 'asc' : 'dsc'"></span>
@@ -242,41 +242,41 @@
                         :key="'product_size_amount-' + product_size_amountIndex">
                         <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + product_size_amountIndex"
                             aria-expanded="false" aria-controls="collapseExample">
-                            <td class="center-text">{{ product_size_amount.id }}</td>
-                            <td class="center-text">{{ formatDate(product_size_amount.created_at) }}</td>
-                            <td class="center-text">{{ product_size_amount.import_code }}</td>
-                            <td class="center-text">
+                            <!-- <td class="center-text">{{ product_size_amount.id }}</td> -->
+                            <td class="center-text align-middle">{{ formatDate(product_size_amount.created_at) }}</td>
+                            <td class="center-text align-middle">{{ product_size_amount.import_code }}</td>
+                            <td class="center-text align-middle">
                                 <span class="material-symbols-outlined me-2">
                                     <button @click="deleteShop(product_size_amount, product_size_amountIndex)"
-                                        type="button" class="btn btn-danger"
+                                        type="button" class="btn btn-danger m-1"
                                         data-mdb-ripple-init>delete_forever</button>
                                 </span>
                                 <span class="material-symbols-outlined me-2">
-                                    <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                    <button type="button" class="btn btn-warning m-1" data-mdb-ripple-init
                                         data-bs-toggle="modal" data-bs-target="'#productCollapse-' + shopIndex"
                                         data-bs-whatever="@mdo" @click="openUpdateModal(shop)">edit</button>
                                 </span>
-                                <span class="material-symbols-outlined">
-                                    <button type="button" class="btn btn-info" data-mdb-ripple-init
+                                <!-- <span class="material-symbols-outlined">
+                                    <button type="button" class="btn btn-info m-1 " data-mdb-ripple-init
                                         data-bs-toggle="modal"
                                         :data-bs-target="'#productCollapse-' + product_size_amountIndex"
                                         data-bs-whatever="@mdo">visibility</button>
-                                </span>
+                                </span> -->
                             </td>
                         </tr>
-                        <td colspan="12">
+                        <td colspan="12" class="center-text align-middle">
                             <div class="collapse" :id="'collapseorder-' + product_size_amountIndex">
-                                <div class="card card-body">
+                                <div class="card card-body  ">
 
                                     <div class="d-flex">
-                                        <div class="product-info d-flex flex-wrap">
-                                            <div class="col me-6">
+                                        <div class="product-info d-flex flex-wrap " style="width: 100%">
+                                            <div class="col-3 ">
                                                     <p class="me-3"><strong>Amount: </strong> {{ product_size_amount.amount }}</p>
                                             </div>
-                                            <div class="col me-6">
+                                            <div class="col-6">
                                                 <p class="me-3"><strong>Total Cost: </strong> {{ product_size_amount.import_cost }}</p>
                                             </div>
-                                            <div class="col me-6">
+                                            <div class="col-3">
                                                 <p class="me-3"><strong>Product: </strong> {{ getProductName(product_size_amount.storage.product_id) }}</p>
                                             </div>
                                         </div>
@@ -434,7 +434,7 @@ export default {
         },
 
         getProductSizeAmounts() {
-            axios.get('api/product_size_amounts')
+            axios.get('api/product_size_amounts_by_shop')
                 .then(response => {
                     this.product_size_amounts = response.data;
                     console.log(this.product_size_amounts);

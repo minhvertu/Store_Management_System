@@ -20,10 +20,10 @@
           <!-- <button class="btn btn-outline-info me-2" data-mdb-ripple-init data-mdb-ripple-color="dark" data-bs-toggle="modal"
             data-bs-target="#addEmployeeModal" data-bs-whatever="@mdo" v-if="addPermission">Add
             Employees</button> -->
-          <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
+          <!-- <button class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark"
             @click="exportEmployees">
             Export Data
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -76,10 +76,10 @@
             <th scope="col" class="center-text">
 
             </th>
-            <th scope="col" class="center-text  text-uppercase" @click="sortBy('id')">
+            <!-- <th scope="col" class="center-text  text-uppercase" @click="sortBy('id')">
               ID
               <span class="arrow" :class="sortOrders['id'] > 0 ? 'asc' : 'dsc'"></span>
-            </th>
+            </th> -->
             <th scope="col" class="center-text  text-uppercase" @click="sortBy('name')">
               Name
               <span class="arrow" :class="sortOrders['name'] > 0 ? 'asc' : 'dsc'"></span>
@@ -96,10 +96,6 @@
               Email
               <span class="arrow" :class="sortOrders['salary_code'] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-            <th scope="col" class="center-text text-uppercase" @click="sortBy('card_id')">
-              CCCD
-              <span class="arrow" :class="sortOrders['card_id'] > 0 ? 'asc' : 'dsc'"></span>
-            </th>
             <th scope="col" class="center-text  text-uppercase">Actions</th>
           </tr>
         </thead>
@@ -108,40 +104,68 @@
             <tr data-bs-toggle="collapse" :data-bs-target="'#collapseorder-' + index" aria-expanded="false"
               aria-controls="collapseExample">
               <td> <input type="checkbox" v-model="selectedEmployees[index]"></td>
-              <td class="center-text">{{ employee.id }} </td>
+              <!-- <td class="center-text">{{ employee.id }} </td> -->
               <td class="center-text">{{ employee.name }}</td>
               <td class="center-text">{{ employee.employee_code }}</td>
               <td class="center-text">{{ employee.phone_number }}</td>
               <td class="center-text">{{ employee.email }}</td>
-              <td class="center-text">{{ employee.card_id }}</td>
               <td class="center-text">
                 <span class="material-symbols-outlined me-2">
                   <button @click="deleteEmployee(employee, index)" type="button" class="btn btn-danger "
                     data-mdb-ripple-init>delete_forever
                   </button>
                 </span>
-                <span class="material-symbols-outlined">
+                <!-- <span class="material-symbols-outlined">
                   <button type="button" class="btn btn-info" data-mdb-ripple-init data-bs-toggle="modal"
                     data-bs-target="#updateModal" data-bs-whatever="@mdo"
                     @click="openUpdateModal(product)">edit</button>
-                </span>
-                <!-- <span class="material-symbols-outlined">2
-                  <router-link :to="`/employees/${employee.id}/edit`"
-                    class="mx-2 p-2 col border btn ">edit
-                  </router-link>
                 </span> -->
               </td>
             </tr>
             <td colspan="12">
-              <div class="collapse" :id="'collapseorder-' + index">
+            <div class="collapse" :id="'collapseorder-' + index">
                 <div class="card card-body">
-                  <span class="text-wrap">
-                    What is Lorem Ipsum?
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                  </span>
+                <div class="border p-3 rounded"> <!-- Bọc bên ngoài trong một vùng có viền và làm tròn góc -->
+                    <h4 class="text-center mb-4">Employee Information</h4> <!-- Title ở giữa -->
+                    <div class="row">
+                    <!-- Cột đầu tiên -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                        <label for="shopName" class="form-label">Shop:</label>
+                        <input type="text" class="form-control form-control-sm" id="shopName" v-model="employee.shop.name" readonly>
+                        </div>
+                    </div>
+                    <!-- Cột thứ hai -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                        <label for="roleName" class="form-label">Role:</label>
+                        <input type="text" class="form-control form-control-sm" id="roleName" v-model="employee.role.name" readonly>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Dòng tiếp theo -->
+                    <div class="row">
+                    <!-- Cột đầu tiên -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth:</label>
+                        <input type="text" class="form-control form-control-sm" id="dob" v-model="employee.birth_day" readonly>
+                        </div>
+                    </div>
+                    <!-- Cột thứ hai -->
+                    <div class="col-md-6">
+                        <!-- Thêm các trường thông tin khác nếu cần -->
+                        <div class="mb-3">
+                        <label for="dob" class="form-label">Employee Code:</label>
+                        <input type="text" class="form-control form-control-sm" id="dob" v-model="employee.employee_code" readonly>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-              </div>
+                </div>
+            </div>
             </td>
+
           </template>
         </tbody>
       </table>
@@ -160,6 +184,31 @@
       </div>
     </div>
   </div>
+
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+                    <div
+                        id="exportToast"
+                        class="toast"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="toast-header">
+                            <strong class="me-auto">Vertu Phan Boutique</strong>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="toast-body">
+                            Export Data Successfully
+                        </div>
+                    </div>
+                </div>
 </template>
 
 <script>
@@ -171,13 +220,17 @@ export default {
     return {
       user_permissions: {},
       employees: [],
+      roles: [],
+      role: {
+        id: '',
+        name: '',
+      },
       employee: {
           id: '',
           name: '',
-          card_id: '',
-          phone_number: '',
+            phone_number: '',
           employee_code: '',
-          salary_code: '',
+          shop_id: '',
         },
       searchKeyword: '',
       addPermission: true,
@@ -195,11 +248,18 @@ export default {
 
   mounted() {
     this.getEmployees();
+    this.getRoles();
   },
   created() {
     this.blockAddPermission();
   },
   methods: {
+    showExportToast() {
+            var myToast = new bootstrap.Toast(
+                document.getElementById("exportToast")
+            ); // Tạo một thể hiện của toast
+            myToast.show(); // Hiển thị toast
+        },
     async submitForm() {
             try {
                 const formData = new FormData();
@@ -222,6 +282,18 @@ export default {
             }
         },
 
+    getRoles() {
+      axios.get('api/roles')
+        .then(response => {
+          this.roles = response.data;
+          console.log(this.roles);
+
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     getEmployees() {
       axios.get('api/users/total-employees')
         .then(response => {
@@ -233,7 +305,7 @@ export default {
         });
     },
     deleteEmployee(employee, index) {
-      axios.delete('api/employees/' + employee.id)
+      axios.delete('api/users/' + employee.id)
         .then(response => {
           if (response.data.status === false) {
             this.error.message = response.data.message;
@@ -290,15 +362,15 @@ export default {
     },
 
     exportEmployees() {
-      axios.get('/api/employees_export', { responseType: 'arraybuffer' })
+      axios.get('/api/users_export', { responseType: 'arraybuffer' })
         .then(response => {
           var fileURL = window.URL.createObjectURL(new Blob([response.data]));
           var fileLink = document.createElement('a');
           fileLink.href = fileURL;
-          fileLink.setAttribute('download', 'employees.xlsx');
+          fileLink.setAttribute('download', 'users.xlsx');
           document.body.appendChild(fileLink);
           fileLink.click();
-          alert('Data exported successfully!');
+            this.showExportToast();
         })
         .catch(error => {
           console.error('Export failed:', error);

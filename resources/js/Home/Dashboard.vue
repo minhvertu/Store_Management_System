@@ -51,7 +51,7 @@
                         ></card>
                     </div>
                     <div class="row" >
-                        <p class="h3">Doanh thu</p>
+                        <p class="h3">Monthly Revenue</p>
                     </div>
                     <div class="col">
                         <Bar v-if="load"
@@ -113,7 +113,7 @@ export default {
                         label: "Revenue By Month",
                         backgroundColor: "#70e6de",
                         data: [],
-                        
+
                     },
                 ],
             },
@@ -125,35 +125,35 @@ export default {
                 money: {
                     title: "Total Revenue",
                     value: "$53,000",
-                    percentage: "+55%",
-                    iconClass: "fa-solid fa-arrow-trend-up fa-bounce", 
-                    detail: "since yesterday",
+                    percentage: "+12%",
+                    iconClass: "fa-solid fa-arrow-trend-up ",
+                    detail: "since last month",
                     iconBackground: "bg-gradient-primary",
                 },
                 users: {
                     title: "Total Orders",
                     value:  "2300",
                     percentage: "+3%",
-                    iconClass: "fa-solid fa-cart-shopping fa-bounce",
+                    iconClass: "fa-solid fa-cart-shopping ",
                     iconBackground: "bg-gradient-danger",
-                    detail: "since last week",
+                    detail: "since last month",
                 },
                 clients: {
                     title: "Total Customers",
                     value: "+3,462",
-                    percentage: "-2%",
+                    percentage: "+7%",
                     iconClass: "fa-regular fa-user",
                     percentageColor: "text-danger",
                     iconBackground: "bg-gradient-success",
-                    detail: "since last quarter",
+                    detail: "since last month",
                 },
                 sales: {
                     title: "Import Cost",
                     value: "$103,430",
-                    percentage: "+5%",
+                    percentage: "+15%",
                     iconClass: "fa-regular fa-money-bill-1",
                     iconBackground: "bg-gradient-warning",
-                    detail: "than last month",
+                    detail: "since last month",
                 },
             },
         };
@@ -176,26 +176,26 @@ export default {
 
         async getMonthShopRevenue() {
     try {
-        
+
         const revenueResponse = await axios.get('/api/orders/monthly-revenue-shop');
 
-        
+
         const importCostResponse = await axios.get('/api/storages/monthly-import-cost');
 
-      
+
         const monthlyShopRevenue = revenueResponse.data.monthlyShopRevenue;
         const monthlyShopImportCost = importCostResponse.data.monthlyShopImportCost;
 
-        
+
         const monthlyNetRevenue = [];
 
-        
+
         for (let i = 0; i < monthlyShopRevenue.length; i++) {
             const netRevenue = monthlyShopRevenue[i] - monthlyShopImportCost[i];
             monthlyNetRevenue.push(netRevenue);
         }
 
-       
+
         this.chartData.datasets[0].data = monthlyNetRevenue;
 
         this.load = true;
@@ -211,7 +211,7 @@ export default {
 
         //         // this.datasets.data = response.data.monthlyShopImportCost;
         //         this.chartData.datasets[0].data = response.data.monthlyShopRevenue;
-                
+
         //         this.load = true;
         //     } catch (error) {
         //         console.error(error);
@@ -224,13 +224,13 @@ export default {
 
         //         // this.datasets.data = response.data.monthlyShopImportCost;
         //         this.chartData.datasets[0].data = response.data.monthlyShopImportCost;
-                
+
         //         this.load = true;
         //     } catch (error) {
         //         console.error(error);
         //     }
         // },
-        
+
         async getShopImportCost() {
             try {
                 const response = await axios.get('/api/storages/total-import_cost-shop');
